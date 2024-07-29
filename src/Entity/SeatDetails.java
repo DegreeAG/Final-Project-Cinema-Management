@@ -4,23 +4,23 @@ import Constant.Status;
 
 public class SeatDetails {
 
-    private int row;
+    private String row;
     private int seatNumber;
     private Status status;
     private Theater theater;
 
-    public SeatDetails(int row, int seatNumber, Status status, Theater theater) {
+    public SeatDetails(String row, int seatNumber, Status status, Theater theater) {
         this.row = row;
         this.seatNumber = seatNumber;
         this.status = status;
         this.theater = theater;
     }
 
-    public int getRow() {
+    public String getRow() {
         return row;
     }
 
-    public void setRow(int row) {
+    public void setRow(String row) {
         this.row = row;
     }
 

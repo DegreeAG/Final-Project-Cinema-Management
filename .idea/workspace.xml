@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11473e72-b633-459f-ada1-22295822e058" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Constant/Status.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Entity/SeatDetails.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Ticket.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/TicketDetails.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Constant/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Constant/UserRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Theater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Theater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/SeatDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/SeatDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/ShowTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/ShowTime.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
