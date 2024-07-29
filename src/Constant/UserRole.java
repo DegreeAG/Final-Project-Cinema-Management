@@ -1,6 +1,6 @@
 package Constant;
 
-public class UserRole {
+public enum UserRole {
     ADMIN("Admin"),
     USER("User");
 
