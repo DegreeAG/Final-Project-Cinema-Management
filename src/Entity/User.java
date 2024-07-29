@@ -29,9 +29,6 @@ public class User {
         return AUTO_ID;
     }
 
-    public static void setAutoId(int autoId) {
-        AUTO_ID = autoId;
-    }
 
     public int getId() {
         return id;
@@ -95,5 +92,19 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", phone='" + phone + '\'' +
+                ", address='" + address + '\'' +
+                ", balance=" + balance +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
