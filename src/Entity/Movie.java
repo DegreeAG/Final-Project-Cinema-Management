@@ -7,13 +7,13 @@ public class Movie {
 
     private int movieID;
     private String movieName;
+    private LocalDate publishedYear;
     private int movieTime;
     private String actors;
     private String category;
     private String rated;
     private String format;
     private String language;
-    private LocalDate publishedYear;
 
     public Movie() {
         this.movieID = AUTO_ID;

@@ -1,5 +1,6 @@
 package Entity;
 
+import Constant.Status;
 import Constant.UserRole;
 
 public class User {
@@ -13,8 +14,9 @@ public class User {
     private String address;
     private double balance;
     private String name;
+    private Status status;
 
-    public User(int id, String email, String password, UserRole role, String phone, String address, double balance, String name) {
+    public User(int id, String email, String password, UserRole role, String phone, String address, double balance, String name, Status status) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -23,6 +25,7 @@ public class User {
         this.address = address;
         this.balance = balance;
         this.name = name;
+        this.status = status;
     }
 
     public static int getAutoId() {
@@ -94,6 +97,14 @@ public class User {
         this.name = name;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -105,6 +116,7 @@ public class User {
                 ", address='" + address + '\'' +
                 ", balance=" + balance +
                 ", name='" + name + '\'' +
+                ", status=" + status +
                 '}';
     }
 }
