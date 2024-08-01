@@ -1,7 +1,10 @@
-package Entity;
+package entity;
 
-import Constant.Status;
-import Constant.UserRole;
+import constant.Status;
+import constant.UserRole;
+import service.UserService;
+
+import java.util.Scanner;
 
 public class User {
     private static int AUTO_ID = 1;
@@ -27,6 +30,16 @@ public class User {
         this.name = name;
         this.status = status;
     }
+
+    public User(String email, String password, UserRole role, String phone, String address) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.phone = phone;
+        this.address = address;
+    }
+
+
 
     public static int getAutoId() {
         return AUTO_ID;
@@ -119,4 +132,5 @@ public class User {
                 ", status=" + status +
                 '}';
     }
+
 }

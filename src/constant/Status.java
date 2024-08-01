@@ -1,9 +1,9 @@
-package Constant;
+package constant;
 
 public enum Status {
-    ACT("Active"),
-    INA("Inactive"),
-    MAIN("Maintaining");
+    ACTIVE("Active"),
+    INACTIVE("Inactive"),
+    MAINTAINING("Maintaining");
 
     private final String value;
 

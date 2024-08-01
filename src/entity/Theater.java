@@ -1,6 +1,6 @@
-package Entity;
+package entity;
 
-import Constant.Status;
+import constant.Status;
 
 import java.time.LocalDate;
 
@@ -10,6 +10,6 @@ public class Theater {
     private String theaterName;
     private LocalDate createdDate;
     private Status status;
-
+    private Seat[] seat;
 
 }

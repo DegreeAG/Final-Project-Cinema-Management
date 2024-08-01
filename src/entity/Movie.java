@@ -1,11 +1,11 @@
-package Entity;
+package entity;
 
 import java.time.LocalDate;
 
 public class Movie {
     private static int AUTO_ID = 1;
 
-    private int movieID;
+    private int id;
     private String movieName;
     private LocalDate publishedYear;
     private int movieTime;
@@ -16,7 +16,7 @@ public class Movie {
     private String language;
 
     public Movie() {
-        this.movieID = AUTO_ID;
+        this.id = AUTO_ID;
         AUTO_ID++;
     }
 
@@ -92,7 +92,7 @@ public class Movie {
     @Override
     public String toString() {
         return "Movie{" +
-                "movieID=" + movieID +
+                "movieID=" + id +
                 ", movieName='" + movieName + '\'' +
                 ", movieTime=" + movieTime +
                 ", actors='" + actors + '\'' +

@@ -1,4 +1,4 @@
-package Constant;
+package constant;
 
 public enum UserRole {
     ADMIN("Admin"),
