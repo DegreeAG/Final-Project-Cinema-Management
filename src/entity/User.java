@@ -38,8 +38,16 @@ public class User {
         this.phone = phone;
         this.address = address;
     }
+    public User(String email, String password, UserRole role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
-
+    public User() {
+        this.id = AUTO_ID;
+        AUTO_ID++;
+    }
 
     public static int getAutoId() {
         return AUTO_ID;

@@ -3,22 +3,25 @@ package view;
 import constant.UserRole;
 import entity.User;
 import main.Main;
+import service.TheaterService;
+import service.MovieCategoryService;
 import service.MovieService;
 import service.UserService;
 import util.InputUtil;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenu {
 
-        private final UserService userService = new UserService();
-        private final MovieService movieService = new MovieService();
+    private final UserService userService = new UserService();
+    private final MovieCategoryService movieCategoryService =new MovieCategoryService();
+    private final MovieService movieService = new MovieService(movieCategoryService);
+    private final List<User> users = new ArrayList<>();
+    private final TheaterService cinemaService = new TheaterService();
 
-
-        private final UserMenu userMenu = new UserMenu(userService);
-        private final AdminMenu adminMenu = new AdminMenu(userService, movieService);
-
+    private final UserMenu userMenu = new UserMenu(userService);
+    private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, cinemaService );
 
 
     public void menu() {
@@ -59,5 +62,27 @@ public class MainMenu {
             }
         }
     }
+
+    public void initializeData() {
+        userService.setUsers();
+        userService.createDefaultAdminUser(); // haàm này sẽ tự động tạo admin user nếu chua có, neu co rồi thì không
+        // tạo nua . Hàm này hình như chưa được dùng .
+        userService.findCurrentAutoId();
+        // ví du
+        movieService.setMovies();
+        movieService.findCurrentAutoId();
+
+//        voteHistoryService.setVoteHistories();
+//
+//        transactionService.setTransactionHistories();
+//
+//        bookCategoryService.setBookCategories();
+//        bookCategoryService.findCurrentAutoId();
+//
+//        bookBorrowService.setBookBorrows();
+//        bookBorrowService.findCurrentAutoId();
+
+    }
+
 
 }

@@ -1,15 +1,34 @@
 package util;
 
+import com.google.gson.*;
+import constant.DateTimeConstant;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileUtil {
+public class FileUtil<T> implements DataWritable<T>, DataReadable<T> {
 
-
+    private static final Gson gson = new GsonBuilder()
+            .serializeNulls()
+            .registerTypeAdapter(LocalDate.class, new JsonSerializer<LocalDate>() {
+                @Override
+                public JsonElement serialize(LocalDate date, Type type, JsonSerializationContext jsonSerializationContext) {
+                    return new JsonPrimitive(date.format(DateTimeConstant.DATE_FORMATTER));
+                }
+            })
+            .registerTypeAdapter(LocalDate.class, new JsonDeserializer<LocalDate>() {
+                @Override
+                public LocalDate deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+                    return LocalDate.parse(jsonElement.getAsJsonPrimitive().getAsString(), DateTimeConstant.DATE_FORMATTER);
+                }
+            })
+            .create();
 
     @Override
     public void writeDataToFile(List<T> data, String fileName) {

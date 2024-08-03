@@ -1,5 +1,7 @@
 package entity;
 
+import constant.Status;
+
 import java.time.LocalDate;
 
 public class Movie {
@@ -7,20 +9,46 @@ public class Movie {
 
     private int id;
     private String movieName;
-    private LocalDate publishedYear;
-    private int movieTime;
     private String actors;
-    private String category;
-    private String rated;
+    private MovieCategory category;
+    private LocalDate publishedYear;
     private String format;
+    private int movieTime;
+    private double voteStar;
     private String language;
+    private Status status;
+
+    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, String format, int movieTime, double voteStar, String language, Status status) {
+        this.id = id;
+        this.movieName = movieName;
+        this.actors = actors;
+        this.category = category;
+        this.publishedYear = publishedYear;
+        this.format = format;
+        this.movieTime = movieTime;
+        this.voteStar = voteStar;
+        this.language = language;
+        this.status = status;
+    }
+
+    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, String format, int movieTime, double voteStar, String language) {
+        this.id = id;
+        this.movieName = movieName;
+        this.actors = actors;
+        this.category = category;
+        this.publishedYear = publishedYear;
+        this.format = format;
+        this.movieTime = movieTime;
+        this.voteStar = voteStar;
+        this.language = language;
+    }
 
     public Movie() {
         this.id = AUTO_ID;
         AUTO_ID++;
     }
 
-    public static int getAutoId() {
+    public int getAutoId() {
         return AUTO_ID;
     }
 
@@ -49,20 +77,20 @@ public class Movie {
         this.actors = actors;
     }
 
-    public String getCategory() {
+    public MovieCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(MovieCategory category) {
         this.category = category;
     }
 
-    public String getRated() {
-        return rated;
+    public double getVoteStar() {
+        return voteStar;
     }
 
-    public void setRated(String rated) {
-        this.rated = rated;
+    public void setVoteStar(double voteStar) {
+        this.voteStar = voteStar;
     }
 
     public String getFormat() {
@@ -89,18 +117,27 @@ public class Movie {
         this.publishedYear = publishedYear;
     }
 
+    public Status getStatus(Status active) {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
-                "movieID=" + id +
+                "id=" + id +
                 ", movieName='" + movieName + '\'' +
-                ", movieTime=" + movieTime +
                 ", actors='" + actors + '\'' +
-                ", category='" + category + '\'' +
-                ", rated='" + rated + '\'' +
-                ", format='" + format + '\'' +
-                ", language='" + language + '\'' +
+                ", category=" + category +
                 ", publishedYear=" + publishedYear +
+                ", format='" + format + '\'' +
+                ", movieTime=" + movieTime +
+                ", voteStar=" + voteStar +
+                ", language='" + language + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

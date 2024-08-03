@@ -6,15 +6,19 @@ import entity.User;
 import util.FileUtil;
 import util.InputUtil;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class UserService {
 
-    private final List<User> users = new ArrayList<>();
+    private List<User> users;
+    private final List<String> lockedUserMail = new ArrayList<>();
+    private static final HashSet<String> lockUserByEmails = new HashSet<>();
+    private static final String USER_DATA_FILE = "users.json";
+    private static final String ADMIN_EMAIL = "admin@gmail.com";
+    private static final String ADMIN_PASSWORD = "admin";
+    private final FileUtil<User> fileUtil = new FileUtil<>();
+    private static int AUTO_ID;
 
 
     private static final int MAX_LOGIN_TIMES = 5;
@@ -32,7 +36,11 @@ public class UserService {
                 System.out.println("Email không hợp lệ, vui lòng nhập lại đúng định dạng mail: ");
                 continue;
             }
+            for (int i = 0; i < users.size(); i++) {
+                ;//TODO code this
 
+
+            }
             System.out.println("Nhập mật khẩu (nhập 'exit' để thoát): ");
             String password = new Scanner(System.in).nextLine();
             if (InputUtil.exitInput(password)) {
@@ -122,7 +130,7 @@ public class UserService {
             if (InputUtil.exitInput(password)) {
                 return null;
             }
-            if (!password.matches(Regex.PASSWORD_REGEX)){
+            if (!password.matches(Regex.PASSWORD_REGEX)) {
                 System.out.println("Password không đúng định dạng vui lòng nhập lại ");
                 continue;
             }
@@ -175,16 +183,17 @@ public class UserService {
             showUserDetail(user);
         }
     }
+
     public void printHeader() {
         System.out.printf("%-5s%-30s%-30s%-20s%-20s%-10s%-10s%n", "Id", "Name", "Email", "Phone", "Address", "Role", "Balance");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
     }
+
     public void showUserDetail(User user) {
         System.out.printf("%-5s%-30s%-30s%-20s%-20s%-10s%-10s%n", user.getId(), user.getName(), user.getEmail(), user.getPhone(), user.getAddress(), user.getRole(), user.getBalance());
     }
 
     public void updateUserInformation(int idUserUpdate) {
-
         User user = findUserById(idUserUpdate);
         System.out.println("Mời bạn chọn phần thông tin muốn chỉnh sửa: ");
         System.out.println("1. Email");
@@ -193,19 +202,8 @@ public class UserService {
         System.out.println("4. Số điện thoại");
         System.out.println("5. Địa chỉ");
         System.out.println("6. Thoát");
-        int featureChoice;
-        while (true) {
-            try {
-                featureChoice = new Scanner(System.in).nextInt();
-                if (featureChoice < 1 || featureChoice > 6) {
-                    System.out.println("Chức năng là số từ 1 tới 6, vui lòng nhập lại: ");
-                    continue;
-                }
-                break;
-            } catch (InputMismatchException ex) {
-                System.out.print("Lựa chọn phải là một số nguyên, vui lòng nhập lại: ");
-            }
-        }
+        int featureChoice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
+                "Chức năng là số dương từ 1 tới 6, vui lòng nhập lại: ", 1,6);
         switch (featureChoice) {
             case 1:
                 String newEmail;
@@ -270,31 +268,84 @@ public class UserService {
                 return;
         }
         showUser(user);
-        saveUserData(user);// FILE - khi có thay đổi về list user, can luu vao file
+        saveUserData();// FILE - khi có thay đổi về list user, can luu vao file
     }
 
     public void showUser(User user) {
         printHeader();
         showUserDetail(user);
     }
-    public void saveUserData(User user) {
-        for (int j = 0; j < users.size(); j++) {
-            if (users.get(j) == null) {
-                users.set(j, user);
-                break;
-            }
-        }
+
+    public void saveUserData() {
+        fileUtil.writeDataToFile(users, USER_DATA_FILE);
     }
 
-    public void lockUser() {
-        System.out.println("Mời bạn nhập ID của người dùng cần khóa: ");
-        int idUser =new Scanner(System.in).nextInt();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getId() == idUser);
-            
+    public void lockUserByEmail() {
+        System.out.println("Nhập email của tài khoản cần khóa: ");
+        String emailLock = new Scanner(System.in).nextLine();
+        for (User user : users) {
+            if (user.getEmail().equals(emailLock)) {
+                if (!lockUserByEmails.contains(emailLock)) {
+                    lockUserByEmails.add(emailLock);
+                    System.out.println("User có mail là " +emailLock + " đã được khóa.");
+                    saveUserData();
+                } else {
+                    System.out.println("Email vừa nhập đã bị khóa");
+                }
+                return;
+            }
         }
+        System.out.println("Người dùng không tồn tại!");
+    }
+
+    public boolean isUserLocked(String mailUser){
+        return lockedUserMail.contains(mailUser);
+    }
+
+    public void transactionHistory() {
+//TODO Code lịch sử mua vé của khách hàng
+    }
+
+    public void setUsers() {
+
+            List<User> userList = fileUtil.readDataFromFile(USER_DATA_FILE, User[].class);
+            users = userList != null ? userList : new ArrayList<>();
+        }
+
+    public void createDefaultAdminUser() {
+        if (users == null || users.isEmpty()) {
+            createAdmin();
+            return;
+        }
+        for (User user : users) {
+            if (user.getEmail().equalsIgnoreCase(ADMIN_EMAIL)
+                    && user.getPassword().equalsIgnoreCase(ADMIN_PASSWORD)) {
+                return;
+            }
+        }
+        createAdmin();
+    }
+
+    private void createAdmin() {
+        User user = new User(ADMIN_EMAIL, ADMIN_PASSWORD, UserRole.ADMIN);
+        user.setId(0);
+        users.add(user);
+        saveUserData();
+    }
+
+    public void findCurrentAutoId() {
+        int maxId = -1;
+        for (User user : users) {
+            if (user.getId() > maxId) {
+                maxId = user.getId();
+            }
+        }
+        AUTO_ID = maxId + 1;
     }
 }
+
+
+            
 
 
 

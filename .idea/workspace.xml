@@ -5,35 +5,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11473e72-b633-459f-ada1-22295822e058" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/constant/CommonConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/constant/Regex.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/constant/SeatClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/entity/ServiceOrder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/entity/VoteHistory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/MovieService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/util/DataReadable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/util/DataUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/util/DataWriteable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/util/FileUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/util/InputUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/util/StringUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/AdminMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/MainMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/view/UserMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constant/DateTimeConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/entity/MovieCategory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/CinemaService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/service/MovieCategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Constant/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Constant/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/UserRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Movie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Seat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Seat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/SeatDetails.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/ShowTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/ShowTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Snack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Snack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Theater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Theater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Ticket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/TicketDetails.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Final-Project-Cinema-Management.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Final-Project-Cinema-Management.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Movie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Theater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Theater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/MovieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/MovieService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/DataWriteable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/DataWritable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/FileUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/FileUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/AdminMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/AdminMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +31,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -56,22 +44,26 @@
   &quot;associatedIndex&quot;: 4
 }</component>
   <component name="ProjectId" id="2jv06kBVMhIgJvr1OJj5Niv8qLm" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Java-27/Final-Project-Cinema-Management/gson-2.10.1.jar",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Constant" />
@@ -107,5 +99,8 @@
       <updated>1722252070101</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
 </project>
