@@ -3,6 +3,7 @@ package service;
 import constant.Regex;
 import constant.UserRole;
 import entity.User;
+import main.Main;
 import util.FileUtil;
 import util.InputUtil;
 
@@ -148,7 +149,7 @@ public class UserService {
         while (true) {
             System.out.print("Mời bạn nhập tên: ");
             name = new Scanner(System.in).nextLine();
-            if (!name.matches(".*\\d.*") && !name.isEmpty()) { // Kiểm tra nếu tên không chứa ký tự số và không rỗng
+            if (!name.matches(".*\\d.*") && !name.isEmpty()) {
                 break;
             } else {
                 System.out.println("Tên không hợp lệ. Vui lòng nhập lại.");
@@ -341,6 +342,15 @@ public class UserService {
             }
         }
         AUTO_ID = maxId + 1;
+    }
+
+    public User getLoggedInUser() {
+        for (User userTemp : users) {
+            if (userTemp.getId() == Main.LOGGED_IN_USER.getId()) {
+                return userTemp;
+            }
+        }
+        return null;
     }
 }
 

@@ -2,10 +2,7 @@ package view;
 
 import entity.Movie;
 import main.Main;
-import service.TheaterService;
-import service.MovieCategoryService;
-import service.MovieService;
-import service.UserService;
+import service.*;
 import util.InputUtil;
 
 import java.util.List;
@@ -16,12 +13,14 @@ public class AdminMenu {
     private final MovieService movieService;
     private final MovieCategoryService movieCategoryService;
     private final TheaterService theaterService;
+    private final ShowTimeService showTimeService;
 
-    public AdminMenu(UserService userService, MovieService movieService, MovieCategoryService movieCategoryService, TheaterService cinemaService) {
+    public AdminMenu(UserService userService, MovieService movieService, MovieCategoryService movieCategoryService, TheaterService cinemaService, ShowTimeService showTimeService) {
         this.userService = userService;
         this.movieService = movieService;
         this.movieCategoryService = movieCategoryService;
         this.theaterService = cinemaService;
+        this.showTimeService = showTimeService;
     }
 
     public void menu() {
@@ -66,7 +65,34 @@ public class AdminMenu {
     }
 
     private void showtimeMenu() {
+        while (true) {
+            System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
+            System.out.println("------------------ QUẢN LÝ GIỜ CHIẾU PHIM ------------------");
+            System.out.println("1. Thêm lịch chiếu mới");
+            System.out.println("2. Câp nhật, sửa dổi thông tin lịch chiếu");
+            System.out.println("3. In danh sách suất chiếu theo phim: ");
+            System.out.println("4. In danh sách suất chiếu hôm nay:");
+            System.out.println("5. In danh sách suất chiếu ngày mai:");
+            System.out.println("6. Thoát: ");
+            int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
+                    "Chức năng là số dương từ 1 tới 4, vui lòng nhập lại: ", 1, 4);
+            switch (choice) {
+                case 1:
+                    showTimeService.inputInfo();
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
 
+            }
+        }
     }
 
     private void ticketPriceMenu() {
@@ -87,22 +113,32 @@ public class AdminMenu {
             System.out.println("------------------ QUẢN LÝ PHÒNG CHIẾU PHIM ------------------");
             System.out.println("1. Thêm phòng chiếu mới");
             System.out.println("2. Câp nhật thông tin phòng chiếu");
-            System.out.println("3. Cập nhật thông tin ghế ngồi trong phòng chiếu");
-            System.out.println("4. In thông tin phòng chiếu");
-            System.out.println("5. Thoát");
+            System.out.println("3. In thông tin phòng chiếu theo ID: ");
+            System.out.println("4. In thông tin phòng chiếu đang hoạt động:");
+            System.out.println("5. In thông tin phòng chiếu đã ngưng hoạt động:");
+            System.out.println("6. In thông tin phòng chiếu đang bảo trì:");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
-                    "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
+                    "Chức năng là số dương từ 1 tới 4, vui lòng nhập lại: ", 1, 4);
             switch (choice) {
                 case 1:
                     theaterService.createTheater();
                     break;
                 case 2:
+                    theaterService.updateTheater();
                     break;
                 case 3:
+                    theaterService.showingTheaterbyID();
                     break;
                 case 4:
+                    theaterService.showingTheaterActive();
                     break;
                 case 5:
+                    theaterService.showingTheaterInActive();
+                    break;
+                case 6:
+                    theaterService.showingTheaterMaintaining();
+                    break;
+                case 7:
                     return;
             }
         }
@@ -112,31 +148,37 @@ public class AdminMenu {
         while (true) {
             System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
             System.out.println("------------------ QUẢN LÝ DANH SÁCH PHIM ------------------");
-            System.out.println("1. Tìm kiếm phim theo tên");
-            System.out.println("2. Quản lý danh mục phim");
-            System.out.println("3. Thêm mới phim");
-            System.out.println("4. Cập nhật thông tin phim");
-            System.out.println("5. Danh sách các phim đang chiếu");
-            System.out.println("6. Thoát");
+            System.out.println("1. Tìm kiếm phim theo ID");
+            System.out.println("2. Tìm kiếm phim theo tên");
+            System.out.println("3. Quản lý danh mục phim");
+            System.out.println("4. Thêm mới phim");
+            System.out.println("5. Cập nhật thông tin phim");
+            System.out.println("6. Danh sách các phim đang chiếu");
+            System.out.println("7. Thoát");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 6);
+                    "Chức năng là số dương từ 1 tới 7, vui lòng nhập lại: ", 1, 7);
             switch (choice) {
                 case 1:
-                    movieService.search();
+                    System.out.println("Mời bạn nhập ID của phim: ");
+                    int movieID = new Scanner(System.in).nextInt();
+                    movieService.findMovieById(movieID);
                     break;
                 case 2:
-                    showCategoryManagementMenu();
+                    movieService.search();
                     break;
                 case 3:
-                    movieService.inputMovie();
+                    showCategoryManagementMenu();
                     break;
                 case 4:
-                    movieService.updateMovie();
+                    movieService.inputMovie();
                     break;
                 case 5:
-                    movieService.showingMovieList();
+                    movieService.updateMovie();
                     break;
                 case 6:
+                    movieService.showingMovieList();
+                    break;
+                case 7:
                     return;
             }
         }
@@ -165,7 +207,7 @@ public class AdminMenu {
                     userService.updateUserInformation(Main.LOGGED_IN_USER.getId());
                     break;
                 case 4:
-                    userService.lockUserByEmail();
+                    userService.lockUserByEmail(); //TODO đổi về chức năng của người dùng
                     break;
                 case 5:
                     userService.transactionHistory();
@@ -176,8 +218,9 @@ public class AdminMenu {
             }
         }
     }
+
     public void showCategoryManagementMenu() {
-        while (true){
+        while (true) {
             System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
             System.out.println("------------------ QUẢN LÝ DANH MỤC (THỂ LOẠI) PHIM ------------------");
             System.out.println("1. Thêm danh mục mới");
@@ -187,7 +230,7 @@ public class AdminMenu {
             System.out.println("5. Thoát");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
                     " Chức năng là số dương từ 1 tới 5, vui lòng nhập lai: ",
-                    1,5);
+                    1, 5);
             switch (choice) {
                 case 1:
                     movieCategoryService.create();
@@ -206,7 +249,7 @@ public class AdminMenu {
                     System.out.println("Không được xóa thể loại này do đã gán vào phim");
                     break;
                 case 4:
-                        movieCategoryService.showCategories();
+                    movieCategoryService.showCategories();
                     break;
                 case 5:
                     return;

@@ -3,10 +3,7 @@ package view;
 import constant.UserRole;
 import entity.User;
 import main.Main;
-import service.TheaterService;
-import service.MovieCategoryService;
-import service.MovieService;
-import service.UserService;
+import service.*;
 import util.InputUtil;
 
 import java.util.ArrayList;
@@ -19,9 +16,11 @@ public class MainMenu {
     private final MovieService movieService = new MovieService(movieCategoryService);
     private final List<User> users = new ArrayList<>();
     private final TheaterService cinemaService = new TheaterService();
+    private final VoteHistoryService voteHistoryService = new VoteHistoryService(userService, movieService);
+    private final ShowTimeService showTimeService= new ShowTimeService(movieService, userService);
 
-    private final UserMenu userMenu = new UserMenu(userService);
-    private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, cinemaService );
+    private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService);
+    private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, cinemaService, showTimeService );
 
 
     public void menu() {
@@ -72,12 +71,12 @@ public class MainMenu {
         movieService.setMovies();
         movieService.findCurrentAutoId();
 
-//        voteHistoryService.setVoteHistories();
-//
+        voteHistoryService.setVoteHistories();
+
 //        transactionService.setTransactionHistories();
-//
-//        bookCategoryService.setBookCategories();
-//        bookCategoryService.findCurrentAutoId();
+
+//        movieCategoryService.setBookCategories();
+//        movieCategoryService.findCurrentAutoId();
 //
 //        bookBorrowService.setBookBorrows();
 //        bookBorrowService.findCurrentAutoId();

@@ -17,6 +17,8 @@ public class Seat {
         this.seatClass = seatClass;
     }
 
+    public Seat() {
+    }
 
     public int getSeatNumber() {
         return seatNumber;

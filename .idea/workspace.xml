@@ -5,23 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11473e72-b633-459f-ada1-22295822e058" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/constant/DateTimeConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/entity/MovieCategory.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/CinemaService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/service/MovieCategoryService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Final-Project-Cinema-Management.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Final-Project-Cinema-Management.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Movie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Seat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Seat.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entity/Theater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Theater.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/MovieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/MovieService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/DataWriteable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/DataWritable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/FileUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/FileUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/TheaterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/TheaterService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/view/AdminMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/AdminMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +55,9 @@
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Constant" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Java-27\Final-Project-Cinema-Management\Final-Project-Cinema-Management" />
     </key>
   </component>
   <component name="RunManager">

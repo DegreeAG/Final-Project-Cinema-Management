@@ -1,7 +1,9 @@
 package entity;
 
+import constant.FormatMovie;
 import constant.Status;
 
+import java.text.Format;
 import java.time.LocalDate;
 
 public class Movie {
@@ -12,13 +14,14 @@ public class Movie {
     private String actors;
     private MovieCategory category;
     private LocalDate publishedYear;
-    private String format;
+    private FormatMovie format;
     private int movieTime;
     private double voteStar;
     private String language;
     private Status status;
+    private int voteCount;
 
-    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, String format, int movieTime, double voteStar, String language, Status status) {
+    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, FormatMovie format, int movieTime, double voteStar, String language, Status status) {
         this.id = id;
         this.movieName = movieName;
         this.actors = actors;
@@ -31,7 +34,7 @@ public class Movie {
         this.status = status;
     }
 
-    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, String format, int movieTime, double voteStar, String language) {
+    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, FormatMovie format, int movieTime, double voteStar, String language) {
         this.id = id;
         this.movieName = movieName;
         this.actors = actors;
@@ -43,15 +46,27 @@ public class Movie {
         this.language = language;
     }
 
+
+
     public Movie() {
         this.id = AUTO_ID;
         AUTO_ID++;
+    }
+
+    public Movie (int id, String name, String actor, MovieCategory category, LocalDate publishedYear, String format, int movieTime, String language, Status movieStatus) {
     }
 
     public int getAutoId() {
         return AUTO_ID;
     }
 
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
 
     public String getMovieName() {
         return movieName;
@@ -93,11 +108,11 @@ public class Movie {
         this.voteStar = voteStar;
     }
 
-    public String getFormat() {
+    public FormatMovie getFormat() {
         return format;
     }
 
-    public void setFormat(String format) {
+    public void setFormat(FormatMovie format) {
         this.format = format;
     }
 
@@ -125,6 +140,10 @@ public class Movie {
         this.status = status;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +
@@ -138,6 +157,7 @@ public class Movie {
                 ", voteStar=" + voteStar +
                 ", language='" + language + '\'' +
                 ", status=" + status +
+                ", voteCount=" + voteCount +
                 '}';
     }
 }
