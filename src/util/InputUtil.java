@@ -52,6 +52,8 @@ public class InputUtil {
         return input == null || input.equalsIgnoreCase(CommonConstant.EXIT_SIGNAL);
     }
 
-
+    public static boolean exitInput2(Integer input) {
+        return input == null || input.equals(CommonConstant.EXIT_SIGNAL2);
+    }
 
 }

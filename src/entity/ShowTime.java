@@ -17,6 +17,8 @@ public class ShowTime {
         this.movieTime = movieTime;
     }
 
+
+
     public Movie getMovie() {
         return movie;
     }

@@ -81,6 +81,7 @@ public class AdminMenu {
                     showTimeService.inputInfo();
                     break;
                 case 2:
+                    showTimeService.updateInfo();
                     break;
                 case 3:
                     break;

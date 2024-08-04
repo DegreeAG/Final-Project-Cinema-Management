@@ -5,6 +5,7 @@ import constant.FormatMovie;
 import entity.Movie;
 import entity.Seat;
 import entity.ShowTime;
+import entity.Theater;
 import util.FileUtil;
 import util.InputUtil;
 
@@ -13,6 +14,8 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -21,44 +24,46 @@ import java.util.Scanner;
 public class ShowTimeService {
 
     private List<ShowTime> showTimes = new ArrayList<>();
+    private List<Movie> movies = new ArrayList<>();
     private final FileUtil<Seat> fileUtil = new FileUtil<>();
     private static final String SHOWTIME_DATA_FILE = "showtimes.json";
     private final MovieService movieService;
     private final UserService userService;
+    private final TheaterService theaterService;
 
-    public ShowTimeService(MovieService movieService, UserService userService) {
+    public ShowTimeService(MovieService movieService, UserService userService, TheaterService theaterService) {
         this.movieService = movieService;
         this.userService = userService;
+        this.theaterService = theaterService;
     }
 
 
     public void inputInfo() {
-        System.out.println("Mời bạn nhập thông tin lịch chiếu");
-        LocalDate dayStart;
+        System.out.println("Mời bạn nhập ngày chiếu phim theo định dạng HH:mm:ss yyyy/MM/dd: ");
+        String timeStart = new Scanner(System.in).nextLine();
+        LocalDateTime movieShowTime;
         while (true) {
-            System.out.println("Mời bạn nhập ngày chiếu phim theo định dạng dd/MM/yyyy: ");
             try {
-                dayStart = LocalDate.parse(new Scanner(System.in).nextLine(), DateTimeConstant.DATE_FORMATTER);
+                movieShowTime = LocalDateTime.parse(timeStart, DateTimeFormatter.ofPattern("HH:mm:ss yyyy/MM/dd"));
                 break;
-            } catch (DateTimeException e) {
-                System.out.println("Định dạng không hợp lệ vui lòng nhập lại ");
-            }
-        }
-        String timeStart;
-        while (true) {
-            System.out.println("Mời bạn nhập giờ chiếu phim theo định dạng HH:mm :");
-            try {
-                timeStart = new Scanner(System.in).next();
-                break;
-            } catch (InputMismatchException e) {
+            } catch (DateTimeParseException e) {
                 System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
             }
         }
         System.out.println("Mời bạn nhập tên phim: ");
         String movieName = new Scanner(System.in).nextLine();
-        System.out.println("Mời bạn nhập phòng chiếu: ");
-        String theater = new Scanner(System.in).next();
-        Movie movie = new Movie();
+        Movie movie = movieService.getMovieActive(movieName);
+        System.out.println("Mời bạn nhập ID phòng chiếu (nhập 'exit' để thoát): ");
+        int theaterID;
+        while (true) {
+            try {
+                theaterID = new Scanner(System.in).nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.print("Lựa chọn phải là một số nguyên, vui lòng nhập lại: ");
+            }
+        }
+        Theater theater = theaterService.getTheaterActive(theaterID);
         while (true) {
             System.out.println("Mời bạn lựa chọn định dạng của phim chiếu");
             System.out.println("1. 2D");
@@ -83,9 +88,14 @@ public class ShowTimeService {
                     break;
                 case 5:
                     return;
-            ShowTime showTime = new ShowTime(movieName, theater, )
+            }
         }
+            ShowTime showTime = new ShowTime(movie, theater, movieShowTime);
+            showTimes.add(showTime);
+            return showTime;
+    }
 
+    public void updateInfo() {
     }
 }
 

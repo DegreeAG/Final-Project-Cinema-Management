@@ -15,12 +15,12 @@ public class MainMenu {
     private final MovieCategoryService movieCategoryService =new MovieCategoryService();
     private final MovieService movieService = new MovieService(movieCategoryService);
     private final List<User> users = new ArrayList<>();
-    private final TheaterService cinemaService = new TheaterService();
+    private final TheaterService theaterService = new TheaterService();
     private final VoteHistoryService voteHistoryService = new VoteHistoryService(userService, movieService);
-    private final ShowTimeService showTimeService= new ShowTimeService(movieService, userService);
+    private final ShowTimeService showTimeService= new ShowTimeService(movieService, userService, theaterService );
 
     private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService);
-    private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, cinemaService, showTimeService );
+    private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, theaterService, showTimeService );
 
 
     public void menu() {
@@ -64,8 +64,8 @@ public class MainMenu {
 
     public void initializeData() {
         userService.setUsers();
-        userService.createDefaultAdminUser(); // haàm này sẽ tự động tạo admin user nếu chua có, neu co rồi thì không
-        // tạo nua . Hàm này hình như chưa được dùng .
+        userService.createDefaultAdminUser(); // haàm này sẽ tự động tạo admin user nếu chua có, neu co rồi thì không tạo nữa
+
         userService.findCurrentAutoId();
         // ví du
         movieService.setMovies();

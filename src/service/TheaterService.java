@@ -176,6 +176,16 @@ public class TheaterService {
         System.out.println("Mời bạn nhập ID của rạp phim: ");
         int theaterID = new Scanner(System.in).nextInt();
         this.findTheaterById(theaterID);
+
+    }
+
+    public Theater getTheaterActive(int i) {
+        for (Theater theater : theaters) {
+            if (theater.getTheaterID() == i && theater.getStatus() == Status.ACTIVE) {
+                    return theater;
+                }
+            }
+        return null; //Trả về null nếu không tìm thấy phim hoặc Inactive
     }
 
 
@@ -214,6 +224,9 @@ public class TheaterService {
             return;
         }
     }
+
+
+
 }
 
 

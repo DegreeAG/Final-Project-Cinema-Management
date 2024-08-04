@@ -42,6 +42,25 @@ public class MovieService {
     }
 
 
+
+    public Movie findMovieByName (String string) {
+        for (Movie movie : movies) {
+            if (movie.getMovieName().toLowerCase().contains(string.toLowerCase())) {
+                return movie;
+            }
+        }
+        return null; //Trả về null nếu không tìm thấy phim
+    }
+
+    public Movie getMovieActive(String string) {
+        for (Movie movie : movies) {
+            if (movie.getMovieName().equalsIgnoreCase(string) && movie.getStatus() == Status.ACTIVE) {
+                return movie;
+            }
+        }
+        return null; //Trả về null nếu không tìm thấy phim hoặc Inactive
+    }
+
     public Movie findMovieById(int movieID) {
         for (Movie movie : movies) {
             if (movie.getAutoId() == movieID) {
@@ -128,10 +147,33 @@ public class MovieService {
                     movie.setPublishedYear(newPublishedYear);
                     break;
                 case 5:
-                    System.out.println("Mời bạn nhập định dạng phim mới: ");
-                    String newFormat = new Scanner(System.in).next();
-                    movie.setFormat();
+                    while (true) {
+                        System.out.println("Mời bạn lựa chọn định dạng của phim chiếu");
+                        System.out.println("1. 2D");
+                        System.out.println("2. 3D");
+                        System.out.println("3. 4DX");
+                        System.out.println("4. IMAX");
+                        System.out.println("5. Thoát");
+                        int formatChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
+                                "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
+                        switch (formatChoice) {
+                            case 1:
+                                movie.setFormat(FormatMovie.TWO_DIMENSION);
+                                break;
+                            case 2:
+                                movie.setFormat(FormatMovie.THREE_DIMENSION);
+                                break;
+                            case 3:
+                                movie.setFormat(FormatMovie.FOUR_DIMENSION_X);
+                                break;
+                            case 4:
+                                movie.setFormat(FormatMovie.IMAX);
+                                break;
+                            case 5:
+                                return;
+                        }
                     break;
+                    }
                 case 6:
                     int newMovieTime = 0;
                     System.out.println("Mời bạn nhập thời lượng chiếu phim mới: ");
@@ -356,6 +398,9 @@ public class MovieService {
             return;
         }
     }
+
+
+
 
     public void findMoviesByCategoryName() {
         System.out.println("Mời bạn nhập tên của thể loại : ");
