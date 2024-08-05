@@ -14,47 +14,30 @@ public class Movie {
     private String actors;
     private MovieCategory category;
     private LocalDate publishedYear;
-    private FormatMovie format;
     private int movieTime;
     private double voteStar;
     private String language;
     private Status status;
     private int voteCount;
 
-    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, FormatMovie format, int movieTime, double voteStar, String language, Status status) {
+    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, int movieTime,  String language, Status status) {
         this.id = id;
         this.movieName = movieName;
         this.actors = actors;
         this.category = category;
         this.publishedYear = publishedYear;
-        this.format = format;
         this.movieTime = movieTime;
-        this.voteStar = voteStar;
         this.language = language;
         this.status = status;
+
     }
-
-    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, FormatMovie format, int movieTime, double voteStar, String language) {
-        this.id = id;
-        this.movieName = movieName;
-        this.actors = actors;
-        this.category = category;
-        this.publishedYear = publishedYear;
-        this.format = format;
-        this.movieTime = movieTime;
-        this.voteStar = voteStar;
-        this.language = language;
-    }
-
-
 
     public Movie() {
         this.id = AUTO_ID;
         AUTO_ID++;
     }
 
-    public Movie (int id, String name, String actor, MovieCategory category, LocalDate publishedYear, String format, int movieTime, String language, Status movieStatus) {
-    }
+
 
     public int getAutoId() {
         return AUTO_ID;
@@ -108,13 +91,6 @@ public class Movie {
         this.voteStar = voteStar;
     }
 
-    public FormatMovie getFormat() {
-        return format;
-    }
-
-    public void setFormat(FormatMovie format) {
-        this.format = format;
-    }
 
     public String getLanguage() {
         return language;

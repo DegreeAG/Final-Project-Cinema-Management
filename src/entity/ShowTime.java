@@ -1,14 +1,28 @@
 package entity;
 
+import constant.FormatMovie;
+
 import java.time.LocalDateTime;
 
 public class ShowTime {
 
+    private static int AUTO_ID = 1;
+
+    private int showtimeId;
+    private FormatMovie formatMovie;
     private Movie movie;
     private Theater theater;
     private LocalDateTime movieTime;
 
     public ShowTime() {
+    }
+
+    public ShowTime(int showtimeId, Movie movie, Theater theater,FormatMovie formatMovie, LocalDateTime movieTime) {
+        this.showtimeId = showtimeId;
+        this.movie = movie;
+        this.theater = theater;
+        this.movieTime = movieTime;
+        this.formatMovie = formatMovie;
     }
 
     public ShowTime(Movie movie, Theater theater, LocalDateTime movieTime) {
@@ -17,7 +31,21 @@ public class ShowTime {
         this.movieTime = movieTime;
     }
 
+    public FormatMovie getFormatMovie() {
+        return formatMovie;
+    }
 
+    public void setFormatMovie(FormatMovie formatMovie) {
+        this.formatMovie = formatMovie;
+    }
+
+    public int getShowtimeId() {
+        return showtimeId;
+    }
+
+    public void setShowtimeId(int showtimeId) {
+        this.showtimeId = showtimeId;
+    }
 
     public Movie getMovie() {
         return movie;
@@ -51,4 +79,6 @@ public class ShowTime {
                 ", movieTime=" + movieTime +
                 '}';
     }
+
+
 }

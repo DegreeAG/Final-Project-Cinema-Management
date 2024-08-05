@@ -352,6 +352,92 @@ public class UserService {
         }
         return null;
     }
+
+    public void updateUserInformationByAdmin() {
+        System.out.println("Mời bạn nhập email tài khoản cần chỉnh sửa thông tin: ");
+        String email = new Scanner(System.in).nextLine();
+        User user = findUserByEmail(email);
+        System.out.println("Mời bạn chọn phần thông tin muốn chỉnh sửa: ");
+        System.out.println("1. Email");
+        System.out.println("2. Password");
+        System.out.println("3. Tên");
+        System.out.println("4. Số điện thoại");
+        System.out.println("5. Địa chỉ");
+        System.out.println("6. Thoát");
+        int featureChoice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
+                "Chức năng là số dương từ 1 tới 6, vui lòng nhập lại: ", 1,6);
+        switch (featureChoice) {
+            case 1:
+                String newEmail;
+                while (true) {
+                    System.out.println("Mời bạn nhập email mới: ");
+                    newEmail = new Scanner(System.in).nextLine();
+                    if (!newEmail.matches(Regex.EMAIL_REGEX)) {
+                        System.out.println("Email không đúng định dạng vui lòng nhập lại");
+                        continue;
+                    }
+                    boolean coTrungEmailKhong = false;
+                    for (User user1 : users) {
+                        if (newEmail.equalsIgnoreCase(user1.getEmail()) && user1.getId() != user.getId()) {
+                            System.out.println("Email đã tồn tại vui lòng nhập lại");
+                            coTrungEmailKhong = true;
+                            break;
+                        }
+                    }
+                    if (coTrungEmailKhong == false) {
+                        break;
+                    }
+                }
+                user.setEmail(newEmail);
+                break;
+            case 2:
+                String newPassword;
+                while (true) {
+                    System.out.println("Mới bạn nhập password (8 -> 16 ký tự cả chữ thường, chữ hoa và cả số)");
+                    newPassword = new Scanner(System.in).nextLine();
+                    if (!newPassword.matches(Regex.PASSWORD_REGEX)) {
+                        System.out.println("Password không đúng định dạng vui lòng nhập lại ");
+                        continue;
+                    }
+                    break;
+                }
+                user.setPassword(newPassword);
+                break;
+            case 3:
+                System.out.println("Mời bạn nhập tên mới: ");
+                String newName = new Scanner(System.in).nextLine();
+                user.setName(newName);
+                break;
+            case 4:
+                String newPhone;
+                while (true) {
+                    System.out.println("Mời bạn nhập SĐT (đầu 0 và có 9 so tiep theo): ");
+                    newPhone = new Scanner(System.in).nextLine();
+                    if (!newPhone.matches(Regex.VN_PHONE_REGEX)) {
+                        System.out.println("Số điện thoại không đúng định dạng , vui lòng nhập lại ");
+                        continue;
+                    }
+                    break;
+                }
+                user.setPhone(newPhone);
+                break;
+            case 5:
+                System.out.println("Mời bạn nhập địa chỉ mới : ");
+                String newAddress = new Scanner(System.in).nextLine();
+                user.setAddress(newAddress);
+                break;
+            case 6:
+                return;
+        }
+        showUser(user);
+        saveUserData();
+
+    }
+
+    public void showBalance() {
+        User user = getLoggedInUser();
+        System.out.println("Số dư tài khoản của khách hàng là " + user.getBalance());
+    }
 }
 
 

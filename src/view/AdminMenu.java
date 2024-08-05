@@ -84,8 +84,10 @@ public class AdminMenu {
                     showTimeService.updateInfo();
                     break;
                 case 3:
+                    showTimeService.showShowTimeByMovie();
                     break;
                 case 4:
+                    showTimeService.showShowTimeAvailable();
                     break;
                 case 5:
                     break;
@@ -205,7 +207,7 @@ public class AdminMenu {
                     userService.createUserCommonInfo();
                     break;
                 case 3:
-                    userService.updateUserInformation(Main.LOGGED_IN_USER.getId());
+                    userService.updateUserInformationByAdmin();
                     break;
                 case 4:
                     userService.lockUserByEmail(); //TODO đổi về chức năng của người dùng

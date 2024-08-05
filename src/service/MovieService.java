@@ -252,16 +252,7 @@ public class MovieService {
                 System.out.println("Định dạng không hợp lệ vui lòng nhập lại ");
             }
         }
-        String format;
-        while (true) {
-            try {
-                format = new Scanner(System.in).next();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Giá trị bạn vừa nhập không phải là một miêu tả định dạng của phim. Vui lòng nhập lại bằng chữ.");
-            }
-        }
-        System.out.println("Mời bạn nhập thời lượng phim chiếu: ");
+        System.out.println("Mời bạn nhập thời lượng phim chiếu (số phút): ");
         int movieTime;
         while (true) {
             try {
@@ -308,7 +299,7 @@ public class MovieService {
             case 3:
                 return;
         }
-        Movie movie = new Movie(AUTO_ID++, name, actor, category, publishedYear, format, movieTime, language, movieStatus);
+        Movie movie = new Movie(AUTO_ID++, name, actor, category, publishedYear, movieTime, language, movieStatus);
         movies.add(movie);
         showMovie(movie);
         saveMovieData();

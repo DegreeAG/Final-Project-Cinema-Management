@@ -5,14 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11473e72-b633-459f-ada1-22295822e058" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/constant/CommonConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/CommonConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entity/ShowTime.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/ShowTime.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/MovieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/MovieService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/ShowTimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/ShowTimeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/TheaterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/TheaterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/InputUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/InputUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/AdminMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/AdminMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/MainMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

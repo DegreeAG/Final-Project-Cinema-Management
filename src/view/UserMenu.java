@@ -1,5 +1,6 @@
 package view;
 
+import main.Main;
 import service.MovieService;
 import service.UserService;
 import service.VoteHistoryService;
@@ -21,6 +22,7 @@ public class UserMenu {
     public void menu() {
         while (true) {
             System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
+            System.out.println("1. Quản lý thông tin tài khoản: ");
             System.out.println("1. Danh sách phim mới");
             System.out.println("2. Tìm kiếm phim");
             System.out.println("3. Đặt vé xem phim");
@@ -32,25 +34,58 @@ public class UserMenu {
                     "Chức năng là số dương từ 1 tới 7, vui lòng nhập lại: ", 1, 7);
             switch (choice) {
                 case 1:
-                    movieService.showMoviesIfActive();
+                    showAccountManagementMenu();
                     break;
                 case 2:
-                    showSearchMovieMenu();
+                    movieService.showMoviesIfActive();
                     break;
                 case 3:
-                    transactionTicketMenu();
+                    showSearchMovieMenu();
                     break;
                 case 4:
-                    showBookVotingMenu();
+                    transactionTicketMenu();
                     break;
                 case 5:
-                    changeTicketMenu();
+                    showBookVotingMenu();
                     break;
                 case 6:
-                    showTicketTransactionHistoryMenu();
+                    changeTicketMenu();
                     break;
                 case 7:
+                    showTicketTransactionHistoryMenu();
+                    break;
+                case 8:
                     return;
+            }
+        }
+    }
+
+    private void showAccountManagementMenu() {
+        while (true) {
+            System.out.println("------------ Quản lý thông tin tài khoản ------------");
+            System.out.println("1. Cập nhật thông tin tài khoản");
+            System.out.println("2. Nạp tiền");
+            System.out.println("3. Xem lịch sử giao dịch");
+            System.out.println("4. Xem số dư tài khoản");
+            System.out.println("5. Thoát");
+            int featureChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
+                    "Chức năng là số dương từ 1 tới 7, vui lòng nhập lại: ", 1, 5);
+            switch (featureChoice) {
+                case 1:
+                    userService.updateUserInformation(Main.LOGGED_IN_USER.getId());
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+                    userService.showBalance();
+                    break;
             }
         }
     }
