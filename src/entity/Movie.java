@@ -128,7 +128,6 @@ public class Movie {
                 ", actors='" + actors + '\'' +
                 ", category=" + category +
                 ", publishedYear=" + publishedYear +
-                ", format='" + format + '\'' +
                 ", movieTime=" + movieTime +
                 ", voteStar=" + voteStar +
                 ", language='" + language + '\'' +

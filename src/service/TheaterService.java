@@ -1,15 +1,13 @@
 package service;
 
 import constant.DateTimeConstant;
+import constant.SeatClass;
 import constant.Status;
-import entity.Movie;
 import entity.Seat;
 import entity.Theater;
-import entity.User;
 import util.FileUtil;
 import util.InputUtil;
 
-import java.net.SecureCacheResponse;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.*;
@@ -18,14 +16,21 @@ public class TheaterService {
 
     private final FileUtil<Theater> fileUtil = new FileUtil<>();
     private static final String THEATER_DATA_FILE = "theaters.json";
+    private final FileUtil<Seat> fileUtil2 = new FileUtil<>();
+    private static final String SEAT_DATA_FILE = "seats.json";
     private static int AUTO_ID;
+    private static int AUTO_ID2;
     private List<Theater> theaters;
     private List<Seat> seats;
 
 
-    public void setTheaters() {
-        List<Theater> theatersList = fileUtil.readDataFromFile(THEATER_DATA_FILE, Theater[].class);
-        theaters = theatersList != null ? theatersList : new ArrayList<>();
+
+    private void saveSeatData() {
+        fileUtil2.writeDataToFile(seats, SEAT_DATA_FILE);
+    }
+
+    public void saveTheaterData() {
+        fileUtil.writeDataToFile(theaters, THEATER_DATA_FILE);
     }
 
 
@@ -42,21 +47,36 @@ public class TheaterService {
                 System.out.println("Định dạng không hợp lệ vui lòng nhập lại ");
             }
         }
-        System.out.println("Phòng chiếu này có bao nhiêu ghế: ");
-        int seatNumber = new Scanner(System.in).nextInt();
-        List<Seat> seats = new ArrayList<>();
-        for (int i = 0; i < seatNumber; i++) {
-            Seat seat = new Seat();
-            seat.setSeatNumber(seatNumber);
-            System.out.println("Nhập hàng ghế: ");
-            seat.setRow(new Scanner(System.in).nextLine());
-            System.out.println("Nhập số ghế: ");
-            seat.setSeatNumber(new Scanner(System.in).nextInt());
+        SeatClass seatClass;
+        Seat seat = new Seat();
+        System.out.print("Nhập số lượng hàng ghế: ");
+        int totalRows = new Scanner(System.in).nextInt();
+        for (int i = 0; i < totalRows; i++) {
+            System.out.println("Nhập tên hàng ghế thứ " + (i + 1) + ":");
+            String rowName = new Scanner(System.in).nextLine();
+            System.out.println("Nhập số lượng ghế của hàng này: ");
+            int seatQuantity = new Scanner(System.in).nextInt();
+            for (int j = 0; j < seatQuantity; j++) {
+                if (i < 2) {
+                    seatClass = SeatClass.STANDARD;
+                } else if (i < totalRows -1) {
+                    seatClass = SeatClass.VIP;
+                } else {
+                    seatClass = SeatClass.SWEETBOX;
+                }
+                seat = new Seat(AUTO_ID2++, rowName, j, Status.ACTIVE, seatClass);
+            }
         }
+        seats.add(seat);
         Theater theater = new Theater(AUTO_ID++, theaterName, createdDate, Status.ACTIVE, seats);
         theaters.add(theater);
+        saveTheaterData();
+        saveSeatData();
     }
-    public void updateTheater () {
+
+
+
+    public void updateTheater() {
         while (true) {
             System.out.println("Mời bạn nhập ID của phòng chiếu : ");
             int theaterID;
@@ -77,26 +97,26 @@ public class TheaterService {
             System.out.println("1. Tên phòng chiếu: ");
             System.out.println("2. Ngày khai trương phòng chiếu: ");
             System.out.println("3. Trạng thái phòng chiếu: ");
-            System.out.println("4. Số ghế phòng chiếu: ");
+            System.out.println("4. Thay đổi trạng thái ghế ngồi trong phòng chiếu: ");
             System.out.println("5. Thoát");
             int functionChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
                     "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại",
                     1, 5);
-            switch (functionChoice){
+            switch (functionChoice) {
                 case 1:
                     System.out.println("Mời bạn nhập tên mới cho phòng chiếu: ");
                     theater.setTheaterName(new Scanner(System.in).nextLine());
                     break;
                 case 2:
                     while (true) {
-                    System.out.println("Mời bạn nhập lại ngày khai trương phòng chiếu: ");
-                    try {
-                    theater.setCreatedDate(LocalDate.parse(new Scanner(System.in).nextLine(), DateTimeConstant.DATE_FORMATTER));
-                        break;
-                    } catch (DateTimeException e) {
-                        System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
+                        System.out.println("Mời bạn nhập lại ngày khai trương phòng chiếu: ");
+                        try {
+                            theater.setCreatedDate(LocalDate.parse(new Scanner(System.in).nextLine(), DateTimeConstant.DATE_FORMATTER));
+                            break;
+                        } catch (DateTimeException e) {
+                            System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
+                        }
                     }
-                }
                     break;
                 case 3:
                     System.out.println("Mời bạn lựa chọn trạng thái mới của phòng chiếu: ");
@@ -121,22 +141,36 @@ public class TheaterService {
                             return;
                     }
                 case 4:
-                    System.out.println("Mời bạn nhập số lượng ghế mới bên trong phòng chiếu: ");
-                    int seatNumber = new Scanner(System.in).nextInt();
-                    List<Seat> seats = new ArrayList<>();
-                    for (int i = 0; i < seatNumber; i++) {
-                        Seat seat = new Seat();
-                        seat.setSeatNumber(seatNumber);
-                        System.out.println("Nhập hàng ghế: ");
-                        seat.setRow(new Scanner(System.in).nextLine());
-                        System.out.println("Nhập số ghế: ");
-                        seat.setSeatNumber(new Scanner(System.in).nextInt());
+                    System.out.println("Mời bạn nhập hàng ghế cần chỉnh sửa:");
+                    String rowName = new Scanner(System.in).nextLine();
+                    findRowName(rowName);
+                    System.out.println(" Nhập các ghế ở trạng thái không sử dụng (INACTIVE)" +
+                            " theo định dạng các số cách nhau bởi dấu phẩy, ví dụ: 1, 8, 12,...");
+                    String inactiveSeatStr = new Scanner(System.in).nextLine();
+                    List<String> inactiveSeats = Arrays.asList(inactiveSeatStr.split(","));
+                    for (int j = 0; j < seats.size(); j++) {
+                        for (Seat value : seats) {
+                            if (value.getRow().equals(rowName) &&
+                                    value.getId() == Integer.parseInt(inactiveSeats.get(j))) {
+                                value.setStatus(Status.INACTIVE);
+                            }
+                        }
                     }
                     theater.setSeats(seats);
                 case 5:
                     return;
             }
+            saveTheaterData();
+            showTheater(theater);
         }
+    }
+
+    private void findRowName(String rowName) {
+            for (Seat seat : seats) {
+                if (Objects.equals(seat.getRow(), rowName)) {
+                    return;
+                }
+            }
     }
 
 
@@ -149,17 +183,16 @@ public class TheaterService {
         return null;
     }
 
+    public void showTheater(Theater theater) {
+        printHeader();
+        showTheaterDetail(theater);
+    }
+
     public void printHeader() {
-        System.out.printf("%-5s%-30s%-30s%-20s%-20s%-10s%-10s%n", "Id", "Name", "Created Date","Status", "Seat Number");
+        System.out.printf("%-5s%-30s%-30s%-20s%-20s%-10s%-10s%n", "Id", "Name", "Created Date", "Status", "Seat Number");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
     }
 
-    public void printTheater(List<Theater> theaters1) {
-        printHeader();
-        for (Theater theater : theaters1) {
-            showTheaterDetail(theater);
-        }
-    }
 
     private void showTheaterDetail(Theater theater) {
         System.out.printf("%-5s%-30s%-30s%-20s%-20s%-10s%-10s%n", theater.getTheaterID(), theater.getTheaterName(), theater.getCreatedDate(), theater.getStatus(), theater.getSeats());
@@ -182,9 +215,9 @@ public class TheaterService {
     public Theater getTheaterActive(int i) {
         for (Theater theater : theaters) {
             if (theater.getTheaterID() == i && theater.getStatus() == Status.ACTIVE) {
-                    return theater;
-                }
+                return theater;
             }
+        }
         return null; //Trả về null nếu không tìm thấy phim hoặc Inactive
     }
 
@@ -224,7 +257,6 @@ public class TheaterService {
             return;
         }
     }
-
 
 
 }

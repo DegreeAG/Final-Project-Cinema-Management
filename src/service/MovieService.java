@@ -95,13 +95,12 @@ public class MovieService {
             System.out.println("2. Đạo diễn");
             System.out.println("3. Thể loại");
             System.out.println("4. Ngày công chiếu");
-            System.out.println("5. Định dạng bộ phim");
-            System.out.println("6. Thời lượng bộ phim");
-            System.out.println("7. Ngôn ngữ phụ đề");
-            System.out.println("8. Trạng thái phim");
-            System.out.println("9. Thoát");
+            System.out.println("5. Thời lượng bộ phim");
+            System.out.println("6. Ngôn ngữ phụ đề");
+            System.out.println("7. Trạng thái phim");
+            System.out.println("8. Thoát");
             int functionChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 9, vui lòng nhập lại", 1, 9);
+                    "Chức năng là số dương từ 1 tới 8, vui lòng nhập lại", 1, 8);
             switch (functionChoice) {
                 case 1:
                     System.out.println("Mời bạn nhập tên phim mới: ");
@@ -147,34 +146,6 @@ public class MovieService {
                     movie.setPublishedYear(newPublishedYear);
                     break;
                 case 5:
-                    while (true) {
-                        System.out.println("Mời bạn lựa chọn định dạng của phim chiếu");
-                        System.out.println("1. 2D");
-                        System.out.println("2. 3D");
-                        System.out.println("3. 4DX");
-                        System.out.println("4. IMAX");
-                        System.out.println("5. Thoát");
-                        int formatChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                                "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
-                        switch (formatChoice) {
-                            case 1:
-                                movie.setFormat(FormatMovie.TWO_DIMENSION);
-                                break;
-                            case 2:
-                                movie.setFormat(FormatMovie.THREE_DIMENSION);
-                                break;
-                            case 3:
-                                movie.setFormat(FormatMovie.FOUR_DIMENSION_X);
-                                break;
-                            case 4:
-                                movie.setFormat(FormatMovie.IMAX);
-                                break;
-                            case 5:
-                                return;
-                        }
-                    break;
-                    }
-                case 6:
                     int newMovieTime = 0;
                     System.out.println("Mời bạn nhập thời lượng chiếu phim mới: ");
                     try {
@@ -184,12 +155,12 @@ public class MovieService {
                     }
                     movie.setMovieTime(newMovieTime);
                     break;
-                case 7:
+                case 6:
                     System.out.println("Mời bạn nhập ngôn ngữ phụ đề mới cho phim: ");
                     String newLanguage = new Scanner(System.in).next();
                     movie.setLanguage(newLanguage);
                     break;
-                case 8:
+                case 7:
                     System.out.println("Mời bạn cập nhật trạng thái mới của phim:");
                     System.out.println("1. Phim đang công chiếu");
                     System.out.println("2. Phim không công chiếu");
@@ -213,9 +184,11 @@ public class MovieService {
                             return;
                     }
                     break;
-                case 9:
+                case 8:
                     return;
             }
+            showMovie(movie);
+            saveMovieData();
         }
     }
 
@@ -414,6 +387,8 @@ public class MovieService {
         }
         showMovies(movies1);
     }
+
+
 
 //    public void getMovieFormat() {
 //        Movie movie = new Movie();

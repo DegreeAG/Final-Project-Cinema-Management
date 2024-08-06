@@ -78,6 +78,7 @@ public class UserService {
         User user = createUserCommonInfo();
         user.setRole(UserRole.USER);
         users.add(user);
+        saveUserData();
         return user;
     }
 
@@ -160,6 +161,7 @@ public class UserService {
 
         User user = new User(email, password, UserRole.USER, phone, address);
         users.add(user);
+        saveUserData();
         return user;
 
     }

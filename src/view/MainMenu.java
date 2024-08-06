@@ -1,6 +1,7 @@
 package view;
 
 import constant.UserRole;
+import entity.Ticket;
 import entity.User;
 import main.Main;
 import service.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 public class MainMenu {
 
+    private final SeatService seatService = new SeatService();
     private final UserService userService = new UserService();
     private final MovieCategoryService movieCategoryService =new MovieCategoryService();
     private final MovieService movieService = new MovieService(movieCategoryService);
@@ -18,8 +20,9 @@ public class MainMenu {
     private final TheaterService theaterService = new TheaterService();
     private final VoteHistoryService voteHistoryService = new VoteHistoryService(userService, movieService);
     private final ShowTimeService showTimeService= new ShowTimeService(movieService, userService, theaterService );
+    private final TicketService ticketService = new TicketService(userService, showTimeService, seatService);
 
-    private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService);
+    private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService, ticketService);
     private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, theaterService, showTimeService );
 
 

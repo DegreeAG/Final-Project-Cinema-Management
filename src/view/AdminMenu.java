@@ -70,10 +70,8 @@ public class AdminMenu {
             System.out.println("------------------ QUẢN LÝ GIỜ CHIẾU PHIM ------------------");
             System.out.println("1. Thêm lịch chiếu mới");
             System.out.println("2. Câp nhật, sửa dổi thông tin lịch chiếu");
-            System.out.println("3. In danh sách suất chiếu theo phim: ");
-            System.out.println("4. In danh sách suất chiếu hôm nay:");
-            System.out.println("5. In danh sách suất chiếu ngày mai:");
-            System.out.println("6. Thoát: ");
+            System.out.println("3. In danh sách suất chiếu: ");
+            System.out.println("4. Thoát: ");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
                     "Chức năng là số dương từ 1 tới 4, vui lòng nhập lại: ", 1, 4);
             switch (choice) {
@@ -84,15 +82,10 @@ public class AdminMenu {
                     showTimeService.updateInfo();
                     break;
                 case 3:
-                    showTimeService.showShowTimeByMovie();
+                    showTimeService.showShowTimeAvailableDetail();
                     break;
                 case 4:
-                    showTimeService.showShowTimeAvailable();
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
+                    return;
 
             }
         }

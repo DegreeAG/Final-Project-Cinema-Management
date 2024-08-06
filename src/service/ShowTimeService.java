@@ -63,9 +63,9 @@ public class ShowTimeService {
             }
         }
         Theater theater = theaterService.getTheaterActive(theaterID);
-
-        while (true) {
-            System.out.println("Mời bạn lựa chọn định dạng của phim chiếu");
+        FormatMovie formatMovie = null;
+        do {
+            System.out.println("Mời bạn chọn định dạng của phim chiếu");
             System.out.println("1. 2D");
             System.out.println("2. 3D");
             System.out.println("3. 4DX");
@@ -75,62 +75,32 @@ public class ShowTimeService {
                     "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
             switch (formatChoice) {
                 case 1:
-                    showTime.setFormatMovie(FormatMovie.TWO_DIMENSION);
+                    formatMovie = FormatMovie.TWO_DIMENSION;
                     break;
                 case 2:
-                    movie.setFormat(FormatMovie.THREE_DIMENSION);
+                    formatMovie = FormatMovie.THREE_DIMENSION;
                     break;
                 case 3:
-                    movie.setFormat(FormatMovie.FOUR_DIMENSION_X);
+                    formatMovie = FormatMovie.FOUR_DIMENSION_X;
                     break;
                 case 4:
-                    movie.setFormat(FormatMovie.IMAX);
+                    formatMovie = FormatMovie.IMAX;
                     break;
                 case 5:
                     return;
             }
-            break;
-        }
-            ShowTime showTime = new ShowTime(AUTO_ID++ ,movie, theater, movieShowTime);
+        } while (formatMovie == null);
+            ShowTime showTime = new ShowTime(AUTO_ID++, movie, theater, formatMovie, movieShowTime);
             showTimes.add(showTime);
             showShowTime(showTime);
             saveShowTimeData();
     }
 
+
     private void saveShowTimeData() {
         fileUtil.writeDataToFile(showTimes, SHOWTIME_DATA_FILE);
     }
-
-    private FormatMovie setFormat(int Number) {
-        ShowTime showTime = new
-        while (true) {
-            System.out.println("Mời bạn lựa chọn định dạng của phim chiếu");
-            System.out.println("1. 2D");
-            System.out.println("2. 3D");
-            System.out.println("3. 4DX");
-            System.out.println("4. IMAX");
-            System.out.println("5. Thoát");
-            int formatChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
-            switch (formatChoice) {
-                case 1:
-                    showTime.setFormatMovie(FormatMovie.TWO_DIMENSION);
-                    break;
-                case 2:
-                    showTime.setFormatMovie(FormatMovie.THREE_DIMENSION);
-                    break;
-                case 3:
-                    showTime.setFormatMovie(FormatMovie.FOUR_DIMENSION_X);
-                    break;
-                case 4:
-                    showTime.setFormatMovie(FormatMovie.IMAX);
-                    break;
-                case 5:
-                    break;
-            }
-            break;
-        }
-    }
+    
 
     private void showShowTime(ShowTime showTime) {
         printHeader();
@@ -138,34 +108,104 @@ public class ShowTimeService {
     }
 
     private void showShowTimeDetail(ShowTime showTime) {
-        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%-10s%-30s%-20s%-10s%-10s%n", showTime.getShowtimeId(), showTime.getMovie(), showTime.getTheater(), showTime.getMovieTime());
+        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%-10s%-30s%-20s%-10s%-10s%n", showTime.getShowtimeId(), showTime.getMovie(),showTime.getFormatMovie() ,showTime.getTheater(), showTime.getMovieTime());
 
     }
 
     private void printHeader() {
-        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%-10s%-30s%-20s%-10s%-10s%n", "Id", "Movie", "Theater", "MovieTime");
+        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%-10s%-30s%-20s%-10s%-10s%n", "Id", "Movie", "FormatMovie" , "Theater", "MovieTime");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     public void updateInfo() {
         showShowTimeAvailableDetail();
-        System.out.println("Nhập ID của suất chiếu bạn muốn chỉnh sửa: ");
-        int id = new Scanner(System.in).nextInt();
-        ShowTime showTime = findShowTimeAvailableById(id);
-        System.out.println("Mời bạn chọn phần thông tin muốn chỉnh sửa: ");
-        System.out.println("1. Chỉnh sửa phim: ");
-        System.out.println("2. Chỉnh sửa phòng chiếu");
-        System.out.println("3. Chỉnh sửa thời lượng phim: ");
-        System.out.println("4. Thoát");
-       int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
-               "Chức năng là số dương từ 1 tới 4, vui lòng nhập lại: ", 1,4);
-        switch (choice) {
-            case 1:
-                break;
+        while (true) {
+            System.out.println("Nhập ID của suất chiếu bạn muốn chỉnh sửa: ");
+            int id = new Scanner(System.in).nextInt();
+            ShowTime showTime = findShowTimeAvailableById(id);
+            if (showTime == null) {
+                System.out.println("Thông tin không chính xác , vui lòng nhập lại : ");
+                continue;
+            }
+            System.out.println("Mời bạn chọn phần thông tin muốn chỉnh sửa: ");
+            System.out.println("1. Chỉnh sửa phim: ");
+            System.out.println("2. Chỉnh sửa phòng chiếu");
+            System.out.println("3. Chỉnh sửa thời gian chiếu phim: ");
+            System.out.println("4. Chỉnh sửa định dạng phim: ");
+            System.out.println("5. Thoát");
+            int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
+                    "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
+            switch (choice) {
+                case 1:
+                    System.out.println("Mời bạn nhập tên phim mới sau khi chỉnh sửa: ");
+                    String name = new Scanner(System.in).nextLine();
+                    showTime.getMovie().setMovieName(name);
+                    break;
+                case 2:
+                    System.out.println("Mời bạn nhập phòng chiếu mới sau khi chỉnh sửa: ");
+                    int theaterID;
+                    while (true) {
+                        try {
+                            theaterID = new Scanner(System.in).nextInt();
+                            break;
+                        } catch (InputMismatchException e) {
+                            System.out.print("Lựa chọn phải là một số nguyên, vui lòng nhập lại: ");
+                        }
+                    }
+                    showTime.getTheater().setTheaterID(theaterID);
+                case 3:
+                    System.out.println("Mời bạn nhập thời gian chiếu phim mới sau khi chỉnh sửa: ");
+                    String timeStart = new Scanner(System.in).nextLine();
+                    LocalDateTime movieShowTime;
+                    while (true) {
+                        try {
+                            movieShowTime = LocalDateTime.parse(timeStart, DateTimeFormatter.ofPattern("HH:mm:ss yyyy/MM/dd"));
+                            break;
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
+                        }
+                    }
+                    showTime.setMovieTime(movieShowTime);
+                case 4:
+                    FormatMovie formatMovie = null;
+                    do {
+                        System.out.println("Mời bạn chọn định dạng của phim chiếu");
+                        System.out.println("1. 2D");
+                        System.out.println("2. 3D");
+                        System.out.println("3. 4DX");
+                        System.out.println("4. IMAX");
+                        System.out.println("5. Thoát");
+                        int formatChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
+                                "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
+                        switch (formatChoice) {
+                            case 1:
+                                formatMovie = FormatMovie.TWO_DIMENSION;
+                                break;
+                            case 2:
+                                formatMovie = FormatMovie.THREE_DIMENSION;
+                                break;
+                            case 3:
+                                formatMovie = FormatMovie.FOUR_DIMENSION_X;
+                                break;
+                            case 4:
+                                formatMovie = FormatMovie.IMAX;
+                                break;
+                            case 5:
+                                return;
+                        }
+                    } while (formatMovie == null);
+                    showTime.setFormatMovie(formatMovie);
+                case 5:
+                    return;
+            }
+            showShowTime(showTime);
+            saveShowTimeData();
         }
     }
 
-    private ShowTime findShowTimeAvailableById(int id) {
+
+
+    public ShowTime findShowTimeAvailableById(int id) {
         LocalTime now = LocalTime.now();
         for (ShowTime showTime : showTimes) {
             if (showTime.getShowtimeId() == id && showTime.getMovieTime().isAfter(ChronoLocalDateTime.from(now)) ) {
@@ -175,7 +215,7 @@ public class ShowTimeService {
         return null;
     }
 
-    private void showShowTimeAvailableDetail() {
+    public void showShowTimeAvailableDetail() {
         List<ShowTime> showtimeAvailable = new ArrayList<>();
         LocalTime now = LocalTime.now();
         printHeader();
@@ -185,7 +225,7 @@ public class ShowTimeService {
             }
         }
         if (showtimeAvailable.isEmpty()) {
-            System.out.println("Không có suất chiếu khả dụng để chỉnh sửa");
+            System.out.println("Không có suất chiếu khả dụng");
         } else {
             System.out.println("------------------ CÁC SUẤT CHIẾU ------------------");
             printHeader();
@@ -219,6 +259,11 @@ public class ShowTimeService {
                 System.out.println("Không có suất chiếu khả dụng cho phim " + movie.getMovieName() + ".");
             }
         }
+    }
+
+    public void checkIfShowTimeAvailable() {
+
+
     }
 }
 
