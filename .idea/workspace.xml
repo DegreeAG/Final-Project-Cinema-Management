@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11473e72-b633-459f-ada1-22295822e058" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/constant/MovieClass.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/constant/TimeOfDay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Movie.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Seat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Seat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Ticket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/MovieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/MovieService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/SeatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/SeatService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/ShowTimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/ShowTimeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/TicketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/TicketService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

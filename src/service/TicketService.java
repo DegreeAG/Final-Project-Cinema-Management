@@ -126,9 +126,10 @@ public class TicketService {
             assert false;
             seatClass = seat.getSeatClass();
 
-//            Ticket = Giá vé + giá phim + giá ghế + giá format + ngày cuối tuần hoặc ngày lễ (nếu có)
+//            Ticket = Giá vé + giá phim + giá ghế + giá format + ngày cuối tuần hoặc ngày lễ (nếu có) + bỏng nước
             double price = 20000;
             double ticketPrice = calculateTicketPrice(showTime.getMovie().getMovieClass(), seatClass, showTime.getFormatMovie(), showTime.getMovieTime());
+            double amount = ticketPrice; //+ snack
             Ticket ticket = new Ticket(seat, showTime, price, user, LocalDateTime.now(), ticketNumber, amount);
         }
 
