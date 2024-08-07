@@ -22,6 +22,8 @@ public class Ticket {
         this.totalAmount = totalAmount;
     }
 
+
+
     public Ticket() {
     }
 

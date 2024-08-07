@@ -22,6 +22,7 @@ import java.util.Scanner;
 public class ShowTimeService {
 
     private static int AUTO_ID;
+    private List<FormatMovie> formatMovies = new ArrayList<>();
     private List<ShowTime> showTimes = new ArrayList<>();
     private List<Movie> movies = new ArrayList<>();
     private final FileUtil<ShowTime> fileUtil = new FileUtil<>();
@@ -88,6 +89,11 @@ public class ShowTimeService {
                     break;
                 case 5:
                     return;
+            }
+            if (movie.getFormatMovie().equals(formatMovie)){
+                break;
+            } else {
+                System.out.println("Định dạng chiếu này không có cho phim đã chọn. Vui lòng chọn lại.");
             }
         } while (formatMovie == null);
             ShowTime showTime = new ShowTime(AUTO_ID++, movie, theater, formatMovie, movieShowTime);
@@ -192,6 +198,11 @@ public class ShowTimeService {
                                 break;
                             case 5:
                                 return;
+                        }
+                        if (showTime.getMovie().getFormatMovie().equals(formatMovie)){
+                            break;
+                        } else {
+                            System.out.println("Định dạng chiếu này không có cho phim đã chọn. Vui lòng chọn lại.");
                         }
                     } while (formatMovie == null);
                     showTime.setFormatMovie(formatMovie);

@@ -21,6 +21,14 @@ public class Seat {
         this.seatClass = seatClass;
     }
 
+    public Seat(String row, int seatNumber, int seatQuantity, Status status, SeatClass seatClass) {
+        this.row = row;
+        this.seatNumber = seatNumber;
+        this.seatQuantity = seatQuantity;
+        this.status = status;
+        this.seatClass = seatClass;
+    }
+
     public int getSeatNumber() {
         return seatNumber;
     }

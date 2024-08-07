@@ -2,6 +2,7 @@ package service;
 
 import constant.DateTimeConstant;
 import constant.FormatMovie;
+import constant.MovieClass;
 import constant.Status;
 import entity.Movie;
 import entity.MovieCategory;
@@ -17,6 +18,9 @@ import java.util.Scanner;
 
 public class MovieService {
 
+    private List<FormatMovie> formatMovies = new ArrayList<>();
+    private static final String FORMAT_DATA_FILE = "formats.json";
+    private final FileUtil<FormatMovie> fileUtil2 = new FileUtil<>();
     private List<Movie> movies = new ArrayList<>();
     private final MovieCategoryService movieCategoryService;
     private static final String MOVIE_DATA_FILE = "movies.json";
@@ -42,8 +46,7 @@ public class MovieService {
     }
 
 
-
-    public Movie findMovieByName (String string) {
+    public Movie findMovieByName(String string) {
         for (Movie movie : movies) {
             if (movie.getMovieName().toLowerCase().contains(string.toLowerCase())) {
                 return movie;
@@ -71,8 +74,6 @@ public class MovieService {
     }
 
 
-
-
     public void updateMovie() {
         while (true) {
             System.out.println("Mời bạn nhập ID của phim : ");
@@ -98,9 +99,10 @@ public class MovieService {
             System.out.println("5. Thời lượng bộ phim");
             System.out.println("6. Ngôn ngữ phụ đề");
             System.out.println("7. Trạng thái phim");
-            System.out.println("8. Thoát");
+            System.out.println("8. Định dạng phim");
+            System.out.println("9. Thoát");
             int functionChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 8, vui lòng nhập lại", 1, 8);
+                    "Chức năng là số dương từ 1 tới 9, vui lòng nhập lại", 1, 9);
             switch (functionChoice) {
                 case 1:
                     System.out.println("Mời bạn nhập tên phim mới: ");
@@ -185,6 +187,57 @@ public class MovieService {
                     }
                     break;
                 case 8:
+                    FormatMovie formatMovie = null;
+                    try {
+                        System.out.println("Nhập số định dạng chiếu của bộ phim");
+                        int formatNumber = new Scanner(System.in).nextInt();
+                        if (formatNumber > 4) {
+                            System.out.println("Một bộ phim tối đa chỉ có 4 định dạng chiếu, xin vui lòng chọn lại từ 1 tới 4: ");
+                        } else {
+                            for (int i = 0; i < formatNumber; i++) {
+                                boolean validFormat = false;
+                                while (!validFormat) {
+                                    System.out.println("Nhập định dạng chiếu thứ " + (i + 1) + ": ");
+                                    System.out.println("1. 2D");
+                                    System.out.println("2. 3D");
+                                    System.out.println("3. 4DX");
+                                    System.out.println("4. IMAX");
+                                    System.out.println("5. Thoát");
+                                    int formatClassChoice;
+                                    while (true) {
+                                        formatClassChoice = new Scanner(System.in).nextInt();
+                                        if (formatClassChoice >= 1 && formatClassChoice <= 5) {
+                                            break;
+                                        }
+                                        System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 5: ");
+                                    }
+                                    if (formatClassChoice == 5) {
+                                        System.out.println("Thoát.");
+                                        return;
+                                    }
+                                    formatMovie = switch (formatNumber) {
+                                        case 1 -> FormatMovie.TWO_DIMENSION;
+                                        case 2 -> FormatMovie.THREE_DIMENSION;
+                                        case 3 -> FormatMovie.FOUR_DIMENSION_X;
+                                        case 4 -> FormatMovie.IMAX;
+                                        default -> formatMovie;
+                                    };
+                                    if (formatMovie != null && !formatMovies.contains(formatMovie)) {
+                                        formatMovies.add(formatMovie);
+                                        saveFormatData();
+                                        validFormat = true;
+                                    } else {
+                                        System.out.println("Định dạng chiếu này đã tồn tại hoặc không hợp lệ. Vui lòng chọn lại.");
+                                    }
+                                }
+                            }
+                        }
+
+                    } catch (InputMismatchException e) {
+                        System.out.println("Giá trị bạn vừa nhập không phải là một số tự nhiên . Vui lòng nhập lại.");
+                    }
+                    break;
+                case 9:
                     return;
             }
             showMovie(movie);
@@ -272,7 +325,84 @@ public class MovieService {
             case 3:
                 return;
         }
-        Movie movie = new Movie(AUTO_ID++, name, actor, category, publishedYear, movieTime, language, movieStatus);
+        System.out.println("Mời bạn lựa chọn hạng phim: ");
+        System.out.println("1. Phim phổ thông");
+        System.out.println("2. Phim chất lượng cao");
+        System.out.println("3. Phim bom tấn");
+        System.out.println("4. Thoát");
+        int movieClassChoice;
+        while (true) {
+            movieClassChoice = new Scanner(System.in).nextInt();
+            if (movieClassChoice >= 1 && movieClassChoice <= 4) {
+                break;
+            }
+            System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 4: ");
+        }
+        MovieClass movieClass = null;
+        switch (movieClassChoice) {
+            case 1:
+                movieClass = MovieClass.MIDTIER;
+                break;
+            case 2:
+                movieClass = MovieClass.HIGHTIER;
+                break;
+            case 3:
+                movieClass = MovieClass.LUXYRYTIER;
+                break;
+            case 4:
+                return;
+        }
+        FormatMovie formatMovie = null;
+        try {
+            System.out.println("Nhập số định dạng chiếu của bộ phim");
+            int formatNumber = new Scanner(System.in).nextInt();
+            if (formatNumber > 4) {
+                System.out.println("Một bộ phim tối đa chỉ có 4 định dạng chiếu, xin vui lòng chọn lại từ 1 tới 4: ");
+            } else {
+                for (int i = 0; i < formatNumber; i++) {
+                    boolean validFormat = false;
+                    while (!validFormat) {
+                        System.out.println("Nhập định dạng chiếu thứ " + (i + 1) + ": ");
+                        System.out.println("1. 2D");
+                        System.out.println("2. 3D");
+                        System.out.println("3. 4DX");
+                        System.out.println("4. IMAX");
+                        System.out.println("5. Thoát");
+                        int formatClassChoice;
+                        while (true) {
+                            formatClassChoice = new Scanner(System.in).nextInt();
+                            if (formatClassChoice >= 1 && formatClassChoice <= 5) {
+                                break;
+                            }
+                            System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 5: ");
+                        }
+                        if (formatClassChoice == 5) {
+                            System.out.println("Thoát.");
+                            return;
+                        }
+                        formatMovie = switch (formatNumber) {
+                            case 1 -> FormatMovie.TWO_DIMENSION;
+                            case 2 -> FormatMovie.THREE_DIMENSION;
+                            case 3 -> FormatMovie.FOUR_DIMENSION_X;
+                            case 4 -> FormatMovie.IMAX;
+                            default -> formatMovie;
+                        };
+                        if (formatMovie != null && !formatMovies.contains(formatMovie)) {
+                            formatMovies.add(formatMovie);
+                            saveFormatData();
+                            validFormat = true;
+                        } else {
+                            System.out.println("Định dạng chiếu này đã tồn tại hoặc không hợp lệ. Vui lòng chọn lại.");
+                        }
+                    }
+                }
+            }
+
+        } catch (InputMismatchException e) {
+            System.out.println("Giá trị bạn vừa nhập không phải là một số tự nhiên . Vui lòng nhập lại.");
+        }
+
+        Movie movie = new Movie(AUTO_ID++, name, actor, category, publishedYear, movieTime, language, movieStatus, movieClass,formatMovie);
         movies.add(movie);
         showMovie(movie);
         saveMovieData();
@@ -281,6 +411,10 @@ public class MovieService {
     public void setMovies() {
         List<Movie> moviesList = fileUtil.readDataFromFile(MOVIE_DATA_FILE, Movie[].class);
         movies = moviesList != null ? moviesList : new ArrayList<>();
+    }
+
+    private void saveFormatData() {
+        fileUtil2.writeDataToFile(formatMovies, FORMAT_DATA_FILE);
     }
 
 
@@ -364,14 +498,12 @@ public class MovieService {
     }
 
 
-
-
     public void findMoviesByCategoryName() {
         System.out.println("Mời bạn nhập tên của thể loại : ");
         String name = new Scanner(System.in).nextLine();
         List<Movie> movies1 = new ArrayList<>();
-        for(Movie movie : movies){
-            if(movie.getCategory().getNameCategory().toLowerCase().contains(name.toLowerCase())){
+        for (Movie movie : movies) {
+            if (movie.getCategory().getNameCategory().toLowerCase().contains(name.toLowerCase())) {
                 movies1.add(movie);
             }
         }
@@ -380,45 +512,13 @@ public class MovieService {
 
     public void findMoviesByVotedStar() {
         ArrayList<Movie> movies1 = new ArrayList<>();
-        for(Movie movie : movies){
-            if(movie.getVoteStar()>=4 && movie.getVoteStar()<=5){
+        for (Movie movie : movies) {
+            if (movie.getVoteStar() >= 4 && movie.getVoteStar() <= 5) {
                 movies1.add(movie);
             }
         }
         showMovies(movies1);
     }
-
-
-
-//    public void getMovieFormat() {
-//        Movie movie = new Movie();
-//        while (true) {
-//            System.out.println("Mời bạn lựa chọn định dạng của phim chiếu");
-//            System.out.println("1. 2D");
-//            System.out.println("2. 3D");
-//            System.out.println("3. 4DX");
-//            System.out.println("4. IMAX");
-//            System.out.println("5. Thoát");
-//            int formatChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
-//                    "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
-//            switch (formatChoice) {
-//                case 1:
-//                    movie.setFormat(FormatMovie.TWO_DIMENSION);
-//                    break;
-//                case 2:
-//                    movie.setFormat(FormatMovie.THREE_DIMENSION);
-//                    break;
-//                case 3:
-//                    movie.setFormat(FormatMovie.FOUR_DIMENSION_X);
-//                    break;
-//                case 4:
-//                    movie.setFormat(FormatMovie.IMAX);
-//                    break;
-//                case 5:
-//                    return;
-//            }
-//        }
-//    }
 }
 
 

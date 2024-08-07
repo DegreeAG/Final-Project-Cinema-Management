@@ -1,10 +1,12 @@
 package entity;
 
 import constant.FormatMovie;
+import constant.MovieClass;
 import constant.Status;
 
 import java.text.Format;
 import java.time.LocalDate;
+import java.util.List;
 
 public class Movie {
     private static int AUTO_ID = 1;
@@ -19,8 +21,10 @@ public class Movie {
     private String language;
     private Status status;
     private int voteCount;
+    private MovieClass movieClass;
+    private FormatMovie formatMovie;
 
-    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, int movieTime,  String language, Status status) {
+    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, int movieTime,  String language, Status status, MovieClass movieClass, FormatMovie formatMovie) {
         this.id = id;
         this.movieName = movieName;
         this.actors = actors;
@@ -29,7 +33,18 @@ public class Movie {
         this.movieTime = movieTime;
         this.language = language;
         this.status = status;
+        this.movieClass = movieClass;
+        this.formatMovie =formatMovie;
+    }
 
+    public FormatMovie getFormatMovie() {
+        return formatMovie;
+    }
+
+
+
+    public void setFormatMovie(FormatMovie formatMovie) {
+        this.formatMovie = formatMovie;
     }
 
     public Movie() {
@@ -37,7 +52,13 @@ public class Movie {
         AUTO_ID++;
     }
 
+    public MovieClass getMovieClass() {
+        return movieClass;
+    }
 
+    public void setMovieClass(MovieClass movieClass) {
+        this.movieClass = movieClass;
+    }
 
     public int getAutoId() {
         return AUTO_ID;
@@ -133,6 +154,8 @@ public class Movie {
                 ", language='" + language + '\'' +
                 ", status=" + status +
                 ", voteCount=" + voteCount +
+                ", movieClass=" + movieClass +
+                ", formatMovie=" + formatMovie +
                 '}';
     }
 }

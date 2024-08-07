@@ -5,14 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11473e72-b633-459f-ada1-22295822e058" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/constant/MovieClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/constant/TimeOfDay.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constant/FormatMovie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/constant/FormatMovie.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entity/Movie.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Movie.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Seat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Seat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Ticket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/MovieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/MovieService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/SeatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/SeatService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/ShowTimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/ShowTimeService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/TheaterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/TheaterService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/AdminMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/AdminMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/TicketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/TicketService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,19 +45,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Java-27/Final-Project-Cinema-Management/gson-2.10.1.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Application.Main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Java-27/Final-Project-Cinema-Management/gson-2.10.1.jar",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Constant" />
