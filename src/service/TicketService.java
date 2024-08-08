@@ -24,13 +24,15 @@ public class TicketService {
     private final UserService userService;
     private final ShowTimeService showTimeService;
     private final SeatService seatService;
+    private final MovieService movieService;
     private static final double WEEKEND_SURCHARGE = 2.0;
     private static final double HOLIDAY_SURCHARGE = 4.0;
 
-    public TicketService(UserService userService, ShowTimeService showTimeService, SeatService seatService) {
+    public TicketService(UserService userService, ShowTimeService showTimeService, SeatService seatService, MovieService movieService) {
         this.userService = userService;
         this.showTimeService = showTimeService;
         this.seatService = seatService;
+        this.movieService = movieService;
     }
 
     public void saveTicket(Ticket ticket) {
@@ -78,60 +80,8 @@ public class TicketService {
 
 
     public void orderedTicket(User user) {
-        Seat seat = null;
-        ShowTime showTime = null;
-        Theater theater;
-        int idShowTime;
-        String rowName;
-        int seatNumber;
-        showTimeService.showShowTimeAvailableDetail();
-        do {
-            try {
-                System.out.println("Mời bạn lựa chọn ID của suất chiếu: ");
-                idShowTime = new Scanner(System.in).nextInt();
-                showTime = showTimeService.findShowTimeAvailableById(idShowTime);
-            } catch (InputMismatchException e) {
-                System.out.println("Giá trị bạn vừa nhập không phải là một số tự nhiên. Vui lòng nhập lại.");
-            }
-        } while (showTime == null);
-        showSeatsAvailable();
-        SeatClass seatClass = null;
-        while (true) {
-            System.out.println("Mời bạn nhập số lượng vé cần mua: ");
-            int ticketNumber = new Scanner(System.in).nextInt();
-            if (ticketNumber > getAvailableSeatsCount()) {
-                System.out.println("Số lượng vé bạn mua không được vượt quá số ghế trống còn trong rạp, xin vui lòng thử lại hoặc chọn suất chiếu khác");
-                System.out.println("Số ghế còn lại: " + getAvailableSeatsCount());
-                break;
-            } else {
-                List<Seat> bookedSeats = new ArrayList<>();
-                for (int i = 0; i < ticketNumber; i++) {
-                    do {
-                        System.out.println("Mời bạn nhập thông tin của vé" + (i + 1));
-                        System.out.println("Mời bạn chọn hàng ghế: ");
-                        rowName = new Scanner(System.in).nextLine();
-                        System.out.println("Mời bạn chọn ghế: ");
-                        seatNumber = new Scanner(System.in).nextInt();
-                        seat = bookSeat(rowName, seatNumber);
-                        if (seat == null) {
-                            System.out.println("Ghế không tồn tại hoặc đã được đặt. Vui lòng chọn ghế khác.");
-                        }
-                    } while (seat != null);
-                    bookedSeats.add(seat);
-                }
-                seats.addAll(bookedSeats);
-                seatService.saveSeatData();
-            }
+        movieService.showMoviesIfActive();
 
-            assert false;
-            seatClass = seat.getSeatClass();
-
-//            Ticket = Giá vé + giá phim + giá ghế + giá format + ngày cuối tuần hoặc ngày lễ (nếu có) + bỏng nước
-            double price = 20000;
-            double ticketPrice = calculateTicketPrice(showTime.getMovie().getMovieClass(), seatClass, showTime.getFormatMovie(), showTime.getMovieTime());
-            double amount = ticketPrice; //+ snack
-            Ticket ticket = new Ticket(seat, showTime, price, user, LocalDateTime.now(), ticketNumber, amount);
-        }
 
 
     }

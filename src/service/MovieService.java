@@ -308,11 +308,16 @@ public class MovieService {
         System.out.println("3. Thoát");
         int statusChoice;
         while (true) {
-            statusChoice = new Scanner(System.in).nextInt();
-            if (statusChoice >= 1 && statusChoice <= 3) {
-                break;
+            try {
+                statusChoice = new Scanner(System.in).nextInt();
+                if (statusChoice >= 1 && statusChoice <= 3) {
+                    break;
+                }
+                System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 3: ");
+
+            } catch (InputMismatchException e) {
+                System.out.println("Giá trị bạn vừa nhập không phải là một số tự nhiên . Vui lòng nhập lại.");
             }
-            System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 3: ");
         }
         Status movieStatus = null;
         switch (statusChoice) {
@@ -332,11 +337,16 @@ public class MovieService {
         System.out.println("4. Thoát");
         int movieClassChoice;
         while (true) {
-            movieClassChoice = new Scanner(System.in).nextInt();
-            if (movieClassChoice >= 1 && movieClassChoice <= 4) {
-                break;
+            try {
+
+                movieClassChoice = new Scanner(System.in).nextInt();
+                if (movieClassChoice >= 1 && movieClassChoice <= 4) {
+                    break;
+                }
+                System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 4: ");
+            } catch (InputMismatchException e) {
+                System.out.println("Giá trị bạn vừa nhập không phải là một số tự nhiên . Vui lòng nhập lại.");
             }
-            System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 4: ");
         }
         MovieClass movieClass = null;
         switch (movieClassChoice) {
@@ -352,61 +362,71 @@ public class MovieService {
             case 4:
                 return;
         }
-        FormatMovie formatMovie = null;
-        try {
-            System.out.println("Nhập số định dạng chiếu của bộ phim");
-            int formatNumber = new Scanner(System.in).nextInt();
-            if (formatNumber > 4) {
-                System.out.println("Một bộ phim tối đa chỉ có 4 định dạng chiếu, xin vui lòng chọn lại từ 1 tới 4: ");
-            } else {
-                for (int i = 0; i < formatNumber; i++) {
-                    boolean validFormat = false;
-                    while (!validFormat) {
-                        System.out.println("Nhập định dạng chiếu thứ " + (i + 1) + ": ");
-                        System.out.println("1. 2D");
-                        System.out.println("2. 3D");
-                        System.out.println("3. 4DX");
-                        System.out.println("4. IMAX");
-                        System.out.println("5. Thoát");
-                        int formatClassChoice;
-                        while (true) {
-                            formatClassChoice = new Scanner(System.in).nextInt();
-                            if (formatClassChoice >= 1 && formatClassChoice <= 5) {
-                                break;
-                            }
-                            System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 5: ");
-                        }
-                        if (formatClassChoice == 5) {
-                            System.out.println("Thoát.");
-                            return;
-                        }
-                        formatMovie = switch (formatNumber) {
-                            case 1 -> FormatMovie.TWO_DIMENSION;
-                            case 2 -> FormatMovie.THREE_DIMENSION;
-                            case 3 -> FormatMovie.FOUR_DIMENSION_X;
-                            case 4 -> FormatMovie.IMAX;
-                            default -> formatMovie;
-                        };
-                        if (formatMovie != null && !formatMovies.contains(formatMovie)) {
-                            formatMovies.add(formatMovie);
-                            saveFormatData();
-                            validFormat = true;
-                        } else {
-                            System.out.println("Định dạng chiếu này đã tồn tại hoặc không hợp lệ. Vui lòng chọn lại.");
-                        }
-                    }
+        System.out.println("Nhập số định dạng chiếu của bộ phim");
+        int formatNumber;
+        while (true) {
+            try {
+                formatNumber = new Scanner(System.in).nextInt();
+                if (formatNumber < 1 || formatNumber > 4) {
+                    System.out.println("Một bộ phim tối đa chỉ có 4 định dạng chiếu, xin vui lòng chọn lại từ 1 tới 4: ");
+                    continue;
+                }
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Giá trị bạn vừa nhập không phải là một số nguyên. Vui lòng nhập lại.");
+            }
+        }
+        for (int i = 0; i < formatNumber; i++) {
+            FormatMovie formatMovie;
+            int formatClassChoice;
+            while (true) {
+                System.out.println("Nhập định dạng chiếu thứ " + (i + 1) + ": ");
+                System.out.println("1. 2D");
+                System.out.println("2. 3D");
+                System.out.println("3. 4DX");
+                System.out.println("4. IMAX");
+                System.out.println("5. Thoát");
+                try {
+                    formatClassChoice = new Scanner(System.in).nextInt();
+                } catch (InputMismatchException e) {
+                    System.out.println("Giá trị bạn vừa nhập không phải là một số nguyên. Vui lòng nhập lại.");
+                    continue;
+                }
+                if (formatClassChoice < 1 || formatClassChoice > 5) {
+                    System.out.print("Lựa chọn không hợp lệ, vui lòng chọn lại số nguyên từ 1 tới 5: ");
+                    continue;
+                }
+                switch (formatClassChoice) {
+                    case 1:
+                        formatMovie = FormatMovie.TWO_DIMENSION;
+                        break;
+                    case 2:
+                        formatMovie = FormatMovie.THREE_DIMENSION;
+                        break;
+                    case 3:
+                        formatMovie = FormatMovie.FOUR_DIMENSION_X;
+                        break;
+                    case 4:
+                        formatMovie = FormatMovie.IMAX;
+                        break;
+                    case 5:
+                        System.out.println("Thoát");
+                        return;
+                }
+                if (formatMovie != null && !formatMovies.contains(formatMovie)) {
+                    formatMovies.add(formatMovie);
+                    saveFormatData();
+                } else {
+                    System.out.println("Định dạng chiếu này đã tồn tại hoặc không hợp lệ. Vui lòng chọn lại.");
                 }
             }
-
-        } catch (InputMismatchException e) {
-            System.out.println("Giá trị bạn vừa nhập không phải là một số tự nhiên . Vui lòng nhập lại.");
         }
-
-        Movie movie = new Movie(AUTO_ID++, name, actor, category, publishedYear, movieTime, language, movieStatus, movieClass,formatMovie);
+        Movie movie = new Movie(AUTO_ID++, name, actor, category, publishedYear, movieTime, language, movieStatus, movieClass, formatMovie);
         movies.add(movie);
         showMovie(movie);
         saveMovieData();
     }
+
 
     public void setMovies() {
         List<Movie> moviesList = fileUtil.readDataFromFile(MOVIE_DATA_FILE, Movie[].class);

@@ -95,6 +95,16 @@ public class MovieCategoryService {
         saveMovieCategoryData();// Lưu file
         showCategories();
     }
+
+    public void findCurrentAutoId() {
+        int maxId = -1;
+        for (MovieCategory movieCategory : movieCategories) {
+            if (movieCategory.getIdCategory() > maxId) {
+                maxId = movieCategory.getIdCategory();
+            }
+        }
+        AUTO_ID = maxId + 1;
+    }
 }
 
 

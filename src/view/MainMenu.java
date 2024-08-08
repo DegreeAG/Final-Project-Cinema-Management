@@ -20,7 +20,7 @@ public class MainMenu {
     private final TheaterService theaterService = new TheaterService();
     private final VoteHistoryService voteHistoryService = new VoteHistoryService(userService, movieService);
     private final ShowTimeService showTimeService= new ShowTimeService(movieService, userService, theaterService );
-    private final TicketService ticketService = new TicketService(userService, showTimeService, seatService);
+    private final TicketService ticketService = new TicketService(userService, showTimeService, seatService,movieService);
 
     private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService, ticketService);
     private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, theaterService, showTimeService );
@@ -78,8 +78,8 @@ public class MainMenu {
 
 //        transactionService.setTransactionHistories();
 
-//        movieCategoryService.setBookCategories();
-//        movieCategoryService.findCurrentAutoId();
+        movieCategoryService.setMovieCategories();
+        movieCategoryService.findCurrentAutoId();
 //
 //        bookBorrowService.setBookBorrows();
 //        bookBorrowService.findCurrentAutoId();
