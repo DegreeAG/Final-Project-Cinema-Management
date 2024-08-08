@@ -1,6 +1,7 @@
 package view;
 
 import entity.Movie;
+import entity.Theater;
 import main.Main;
 import service.*;
 import util.InputUtil;
@@ -110,11 +111,10 @@ public class AdminMenu {
             System.out.println("1. Thêm phòng chiếu mới");
             System.out.println("2. Câp nhật thông tin phòng chiếu");
             System.out.println("3. In thông tin phòng chiếu theo ID: ");
-            System.out.println("4. In thông tin phòng chiếu đang hoạt động:");
-            System.out.println("5. In thông tin phòng chiếu đã ngưng hoạt động:");
-            System.out.println("6. In thông tin phòng chiếu đang bảo trì:");
+            System.out.println("4. In thông tin các phòng chiếu:");
+            System.out.println("5. Thoát:");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
-                    "Chức năng là số dương từ 1 tới 4, vui lòng nhập lại: ", 1, 4);
+                    "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
             switch (choice) {
                 case 1:
                     theaterService.createTheater();
@@ -123,18 +123,12 @@ public class AdminMenu {
                     theaterService.updateTheater();
                     break;
                 case 3:
-                    theaterService.showingTheaterbyID();
+                    theaterService.showTheaterById();
                     break;
                 case 4:
-                    theaterService.showingTheaterActive();
+                    theaterService.showTheaters();
                     break;
                 case 5:
-                    theaterService.showingTheaterInActive();
-                    break;
-                case 6:
-                    theaterService.showingTheaterMaintaining();
-                    break;
-                case 7:
                     return;
             }
         }
@@ -144,8 +138,8 @@ public class AdminMenu {
         while (true) {
             System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
             System.out.println("------------------ QUẢN LÝ DANH SÁCH PHIM ------------------");
-            System.out.println("1. Tìm kiếm phim theo ID");
-            System.out.println("2. Tìm kiếm phim theo tên");
+            System.out.println("1. Tìm kiếm phim theo tên");
+            System.out.println("2. Tìm kiếm phim theo danh mục phim");
             System.out.println("3. Quản lý danh mục phim");
             System.out.println("4. Thêm mới phim");
             System.out.println("5. Cập nhật thông tin phim");
@@ -155,12 +149,10 @@ public class AdminMenu {
                     "Chức năng là số dương từ 1 tới 7, vui lòng nhập lại: ", 1, 7);
             switch (choice) {
                 case 1:
-                    System.out.println("Mời bạn nhập ID của phim: ");
-                    int movieID = new Scanner(System.in).nextInt();
-                    movieService.findMovieById(movieID);
+                    movieService.search();
                     break;
                 case 2:
-                    movieService.search();
+                    movieService.findMoviesByCategoryId();
                     break;
                 case 3:
                     showCategoryManagementMenu();

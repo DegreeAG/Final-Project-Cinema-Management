@@ -90,7 +90,7 @@ public class ShowTimeService {
                 case 5:
                     return;
             }
-            if (movie.getFormatMovie().equals(formatMovie)){
+            if (movie.getFormatMovie().contains(formatMovie)){
                 break;
             } else {
                 System.out.println("Định dạng chiếu này không có cho phim đã chọn. Vui lòng chọn lại.");
@@ -114,12 +114,12 @@ public class ShowTimeService {
     }
 
     private void showShowTimeDetail(ShowTime showTime) {
-        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%-10s%-30s%-20s%-10s%-10s%n", showTime.getShowtimeId(), showTime.getMovie(),showTime.getFormatMovie() ,showTime.getTheater(), showTime.getMovieTime());
+        System.out.printf("%-5s%-20s%-10s%-10s%-20s", showTime.getShowtimeId(), showTime.getMovie(),showTime.getFormatMovie() ,showTime.getTheater(), showTime.getMovieTime());
 
     }
 
     private void printHeader() {
-        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%-10s%-30s%-20s%-10s%-10s%n", "Id", "Movie", "FormatMovie" , "Theater", "MovieTime");
+        System.out.printf("%-5s%-20s%-10s%-10s%-20s", "Id", "Movie", "FormatMovie" , "Theater", "MovieTime");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
@@ -199,7 +199,7 @@ public class ShowTimeService {
                             case 5:
                                 return;
                         }
-                        if (showTime.getMovie().getFormatMovie().equals(formatMovie)){
+                        if (showTime.getMovie().getFormatMovie().contains(formatMovie)){
                             break;
                         } else {
                             System.out.println("Định dạng chiếu này không có cho phim đã chọn. Vui lòng chọn lại.");

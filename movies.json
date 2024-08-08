@@ -1,0 +1,40 @@
+[
+  {
+    "id": 0,
+    "movieName": "DEADPOOL AND WOLVERIN",
+    "actors": "Josh Brolin, Ryan Reynolds",
+    "category": { "idCategory": 0, "nameCategory": "Hành Động" },
+    "publishedYear": "08/08/2024",
+    "movieTime": 127,
+    "voteStar": 0.0,
+    "language": "Vietnamese",
+    "status": "ACTIVE",
+    "voteCount": 0,
+    "movieClass": "LUXYRYTIER",
+    "formatMovie": [
+      "TWO_DIMENSION",
+      "THREE_DIMENSION",
+      "FOUR_DIMENSION_X",
+      "IMAX"
+    ]
+  },
+  {
+    "id": 3,
+    "movieName": "Venom",
+    "actors": "Tom Hardy",
+    "category": { "idCategory": 0, "nameCategory": "Hành Động" },
+    "publishedYear": "08/08/2024",
+    "movieTime": 112,
+    "voteStar": 0.0,
+    "language": "Vietnamese",
+    "status": "ACTIVE",
+    "voteCount": 0,
+    "movieClass": "LUXYRYTIER",
+    "formatMovie": [
+      "TWO_DIMENSION",
+      "THREE_DIMENSION",
+      "FOUR_DIMENSION_X",
+      "IMAX"
+    ]
+  }
+]

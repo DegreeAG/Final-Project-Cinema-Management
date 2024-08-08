@@ -22,7 +22,7 @@ public class MainMenu {
     private final ShowTimeService showTimeService= new ShowTimeService(movieService, userService, theaterService );
     private final TicketService ticketService = new TicketService(userService, showTimeService, seatService,movieService);
 
-    private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService, ticketService);
+    private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService, ticketService,movieCategoryService);
     private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, theaterService, showTimeService );
 
 

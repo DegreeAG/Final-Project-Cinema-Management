@@ -1,0 +1,58 @@
+[
+  {
+    "theaterID": 0,
+    "theaterName": "Pc03",
+    "createdDate": "08/08/2024",
+    "status": "ACTIVE",
+    "seats": [
+      {
+        "id": 4,
+        "row": "A",
+        "seatNumber": 0,
+        "seatQuantity": 4,
+        "status": "ACTIVE",
+        "seatClass": "STANDARD"
+      },
+      {
+        "id": 9,
+        "row": "B",
+        "seatNumber": 0,
+        "seatQuantity": 4,
+        "status": "ACTIVE",
+        "seatClass": "STANDARD"
+      },
+      {
+        "id": 14,
+        "row": "C",
+        "seatNumber": 0,
+        "seatQuantity": 4,
+        "status": "ACTIVE",
+        "seatClass": "VIP"
+      },
+      {
+        "id": 19,
+        "row": "D",
+        "seatNumber": 0,
+        "seatQuantity": 4,
+        "status": "ACTIVE",
+        "seatClass": "VIP"
+      },
+      {
+        "id": 24,
+        "row": "E",
+        "seatNumber": 0,
+        "seatQuantity": 4,
+        "status": "ACTIVE",
+        "seatClass": "VIP"
+      },
+      {
+        "id": 29,
+        "row": "F",
+        "seatNumber": 0,
+        "seatQuantity": 4,
+        "status": "ACTIVE",
+        "seatClass": "SWEETBOX"
+      }
+    ]
+  }
+]

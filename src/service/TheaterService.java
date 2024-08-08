@@ -20,9 +20,8 @@ public class TheaterService {
     private static final String SEAT_DATA_FILE = "seats.json";
     private static int AUTO_ID;
     private static int AUTO_ID2;
-    private List<Theater> theaters;
-    private List<Seat> seats;
-
+    private List<Theater> theaters = new ArrayList<>();
+    private List<Seat> seats = new ArrayList<>();
 
 
     private void saveSeatData() {
@@ -49,6 +48,7 @@ public class TheaterService {
         }
         SeatClass seatClass;
         Seat seat = new Seat();
+        List<Seat> seatsInTheater = new ArrayList<>();
         System.out.print("Nhập số lượng hàng ghế: ");
         int totalRows = new Scanner(System.in).nextInt();
         for (int i = 0; i < totalRows; i++) {
@@ -59,21 +59,22 @@ public class TheaterService {
             for (int j = 0; j < seatQuantity; j++) {
                 if (i < 2) {
                     seatClass = SeatClass.STANDARD;
-                } else if (i < totalRows -1) {
+                } else if (i < totalRows - 1) {
                     seatClass = SeatClass.VIP;
                 } else {
                     seatClass = SeatClass.SWEETBOX;
                 }
                 seat = new Seat(AUTO_ID2++, rowName, j, Status.ACTIVE, seatClass);
             }
+            seatsInTheater.add(seat);
         }
-        seats.add(seat);
-        Theater theater = new Theater(AUTO_ID++, theaterName, createdDate, Status.ACTIVE, seats);
+        Theater theater = new Theater(AUTO_ID++, theaterName, createdDate, Status.ACTIVE, seatsInTheater);
         theaters.add(theater);
+        showTheater(theater);
         saveTheaterData();
+        seats.addAll(seatsInTheater);
         saveSeatData();
     }
-
 
 
     public void updateTheater() {
@@ -162,19 +163,20 @@ public class TheaterService {
             }
             saveTheaterData();
             showTheater(theater);
+            break;
         }
     }
 
     private void findRowName(String rowName) {
-            for (Seat seat : seats) {
-                if (Objects.equals(seat.getRow(), rowName)) {
-                    return;
-                }
+        for (Seat seat : seats) {
+            if (Objects.equals(seat.getRow(), rowName)) {
+                return;
             }
+        }
     }
 
 
-    private Theater findTheaterById(int theaterID) {
+    public Theater findTheaterById(int theaterID) {
         for (Theater theater : theaters) {
             if (theater.getTheaterID() == theaterID) {
                 return theater;
@@ -183,19 +185,20 @@ public class TheaterService {
         return null;
     }
 
+
     public void showTheater(Theater theater) {
         printHeader();
         showTheaterDetail(theater);
     }
 
     public void printHeader() {
-        System.out.printf("%-5s%-30s%-30s%-20s%-20s%-10s%-10s%n", "Id", "Name", "Created Date", "Status", "Seat Number");
+        System.out.printf("%-5s%-15s%-30s%-25s%n", "Id", "Name", "Created Date", "Status");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
     }
 
 
     private void showTheaterDetail(Theater theater) {
-        System.out.printf("%-5s%-30s%-30s%-20s%-20s%-10s%-10s%n", theater.getTheaterID(), theater.getTheaterName(), theater.getCreatedDate(), theater.getStatus(), theater.getSeats());
+        System.out.printf("%-5s%-15s%-30s%-25s%n", theater.getTheaterID(), theater.getTheaterName(), theater.getCreatedDate(), theater.getStatus());
     }
 
     public void showingTheaterList() {
@@ -205,11 +208,16 @@ public class TheaterService {
         }
     }
 
-    public void showingTheaterbyID() {
+    public void showingTheaterByID() {
         System.out.println("Mời bạn nhập ID của rạp phim: ");
         int theaterID = new Scanner(System.in).nextInt();
-        this.findTheaterById(theaterID);
-
+        for (Theater theater : theaters) {
+            if (theater.getTheaterID() == theaterID) {
+                System.out.println("------- THÔNG TIN PHÒNG CHIẾU --------");
+            }
+            printHeader();
+            showTheaterDetail(theater);
+        }
     }
 
     public Theater getTheaterActive(int i) {
@@ -222,15 +230,14 @@ public class TheaterService {
     }
 
 
-    public void showingTheaterActive() {
-        printHeader();
-        List<Theater> theaters1 = new ArrayList<>();
+    public void showTheaterById() {
+        System.out.println("Mời bạn nhập ID của phòng chiếu: ");
+        int theaterID = new Scanner(System.in).nextInt();
         for (Theater theater : theaters) {
-            if (theater.getStatus(Status.ACTIVE) == Status.ACTIVE) {
-                theaters1.add(theater);
-                System.out.println(theaters1);
+            if (theater.getTheaterID() == theaterID) {
+            printHeader();
+            showTheaterDetail(theater);
             }
-            return;
         }
     }
 
@@ -255,6 +262,13 @@ public class TheaterService {
                 System.out.println(theaters1);
             }
             return;
+        }
+    }
+
+    public void showTheaters() {
+        printHeader();
+        for (Theater theater : theaters) {
+            showTheaterDetail(theater);
         }
     }
 

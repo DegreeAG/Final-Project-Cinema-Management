@@ -79,11 +79,19 @@ public class TicketService {
     }
 
 
-    public void orderedTicket(User user) {
-        movieService.showMoviesIfActive();
-
-
-
+    public void pickMovie(User user) {
+        movieService.showingMovieList();
+        System.out.println("Mời bạn lựa chọn phim muốn đặt, thông tin điền vào là id của phim: ");
+        int movieId;
+        while (true) {
+            try {
+                movieId = new Scanner(System.in).nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Giá trị bạn vừa nhập không phải là một số nguyên. Vui lòng nhập lại.");
+            }
+        }
+        movieService.findMovieById(movieId);
     }
 
 //    public void orderedTicket(User user) {

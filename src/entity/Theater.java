@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Theater {
-
+    private static int AUTO_ID = 1;
     private int theaterID;
     private String theaterName;
     private LocalDate createdDate;
@@ -24,7 +24,8 @@ public class Theater {
     }
 
     public Theater() {
-
+        this.theaterID = AUTO_ID;
+        AUTO_ID++;
     }
 
 

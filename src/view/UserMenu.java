@@ -2,10 +2,7 @@ package view;
 
 import entity.User;
 import main.Main;
-import service.MovieService;
-import service.TicketService;
-import service.UserService;
-import service.VoteHistoryService;
+import service.*;
 import util.InputUtil;
 
 import java.util.Scanner;
@@ -15,12 +12,14 @@ public class UserMenu {
     private final MovieService movieService;
     private final VoteHistoryService voteHistoryService;
     private final TicketService ticketService;
+    private final MovieCategoryService movieCategoryService;
 
-    public UserMenu(UserService userService, MovieService movieService, VoteHistoryService voteHistoryService, TicketService ticketService) {
+    public UserMenu(UserService userService, MovieService movieService, VoteHistoryService voteHistoryService, TicketService ticketService, MovieCategoryService movieCategoryService) {
         this.userService = userService;
         this.movieService = movieService;
         this.voteHistoryService = voteHistoryService;
         this.ticketService = ticketService;
+        this.movieCategoryService = movieCategoryService;
     }
 
     public void menu() {
@@ -44,14 +43,13 @@ public class UserMenu {
                     movieService.showMoviesIfActive();
                     break;
                 case 3:
+                    showSearchMovieMenu();
+                case 4:
                     User user = Main.LOGGED_IN_USER;
                     ticketService.orderedTicket(user);
                     break;
-                case 4:
-                    transactionTicketMenu();
-                    break;
                 case 5:
-                    showBookVotingMenu();
+                    showMovieVotingMenu();
                     break;
                 case 6:
                     changeTicketMenu();
@@ -106,7 +104,7 @@ public class UserMenu {
     private void transactionTicketMenu() {
     }
 
-    private void showBookVotingMenu() {
+    private void showMovieVotingMenu() {
         while (true) {
             System.out.println("------------ Quản lý lượt đánh giá phim ------------");
             System.out.println("1. Thực hiện đánh giá phim"); // vote
@@ -135,29 +133,26 @@ public class UserMenu {
         while (true) {
             System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
             System.out.println("------------------ TÌM KIẾM PHIM ------------------");
-            System.out.println("1. Tìm kiếm phim theo ID: ");
-            System.out.println("2. Tìm kiếm phim theo tên: ");
-            System.out.println("3. Tìm kiếm phim theo tên thể loại: ");
-            System.out.println("4. Tìm kiếm phim theo lượt vote từ 4-5 sao: ");
-            System.out.println("5 Thoát: ");
+            System.out.println("1. Tìm kiếm phim theo tên: ");
+            System.out.println("2. Tìm kiếm phim theo tên thể loại: ");
+            System.out.println("3. Tìm kiếm phim theo lượt vote từ 4-5 sao: ");
+            System.out.println("4 Thoát: ");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
+                    "Chức năng là số dương từ 1 tới 4, vui lòng nhập lại: ", 1, 4);
             switch (choice) {
                 case 1:
-                    System.out.println("Mời bạn nhập ID của phim: ");
-                    int movieID = new Scanner(System.in).nextInt();
-                    movieService.findMovieById(movieID);
-                    break;
-                case 2:
                     movieService.search();
                     break;
-                case 3:
-                    movieService.findMoviesByCategoryName();
+                case 2:
+                    movieCategoryService.showCategories();
+                    System.out.println("Mời bạn nhập id của thể loại phim mà bạn muốn tìm: ");
+                    int idCategory = new Scanner(System.in).nextInt();
+                    movieService.findMoviesByCategoryId(idCategory);
                     break;
-                case 4:
+                case 3:
                     movieService.findMoviesByVotedStar();
                     break;
-                case 5:
+                case 4:
                     return;
             }
         }

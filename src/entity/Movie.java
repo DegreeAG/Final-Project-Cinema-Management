@@ -22,9 +22,9 @@ public class Movie {
     private Status status;
     private int voteCount;
     private MovieClass movieClass;
-    private FormatMovie formatMovie;
+    private List<FormatMovie> formatMovie;
 
-    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, int movieTime,  String language, Status status, MovieClass movieClass, FormatMovie formatMovie) {
+    public Movie(int id, String movieName, String actors, MovieCategory category, LocalDate publishedYear, int movieTime,  String language, Status status, MovieClass movieClass, List<FormatMovie> formatMovie) {
         this.id = id;
         this.movieName = movieName;
         this.actors = actors;
@@ -37,13 +37,11 @@ public class Movie {
         this.formatMovie =formatMovie;
     }
 
-    public FormatMovie getFormatMovie() {
+    public List<FormatMovie> getFormatMovie() {
         return formatMovie;
     }
 
-
-
-    public void setFormatMovie(FormatMovie formatMovie) {
+    public void setFormatMovie(List<FormatMovie> formatMovie) {
         this.formatMovie = formatMovie;
     }
 

@@ -170,15 +170,15 @@ public class UserService {
     public void findUserByName() {
         System.out.println("Mời bạn nhập tên của User : ");
         String name = new Scanner(System.in).nextLine();
-        List<User> users1 = new ArrayList<>();
-
         for (User user : users) {
             if (user.getName() != null && user.getName().toLowerCase().contains(name.toLowerCase())) {
-                users1.add(user);
+                System.out.println(user);
             }
+                showUser(user);
         }
-        showUsers(users1);
     }
+
+
 
     public void showUsers(List<User> users1) {
         printHeader();

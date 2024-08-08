@@ -1,1 +1,24 @@
-[{"id":0,"email":"admin@gmail.com","password":"admin","role":"ADMIN","phone":null,"address":null,"balance":0.0,"name":null,"status":null},{"id":0,"email":"huynghia@gmail.com","password":"huyNghia198","role":"USER","phone":"0123456789","address":"hà nội","balance":0.0,"name":null,"status":null},{"id":0,"email":"huynghia@gmail.com","password":"huyNghia198","role":"USER","phone":"0123456789","address":"hà nội","balance":0.0,"name":null,"status":null}]
+[
+  {
+    "id": 0,
+    "email": "admin@gmail.com",
+    "password": "admin",
+    "role": "ADMIN",
+    "phone": null,
+    "address": null,
+    "balance": 0.0,
+    "name": null,
+    "status": null
+  },
+  {
+    "id": 1,
+    "email": "huynghia@gmail.com",
+    "password": "huyNghia198",
+    "role": "USER",
+    "phone": "0123456789",
+    "address": "hà nội",
+    "balance": 0.0,
+    "name": null,
+    "status": null
+  }
+]
