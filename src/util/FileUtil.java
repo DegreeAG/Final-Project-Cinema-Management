@@ -8,11 +8,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class FileUtil<T> implements DataWritable<T>, DataReadable<T> {
+
+
 
     private static final Gson gson = new GsonBuilder()
             .serializeNulls()
@@ -28,7 +33,25 @@ public class FileUtil<T> implements DataWritable<T>, DataReadable<T> {
                     return LocalDate.parse(jsonElement.getAsJsonPrimitive().getAsString(), DateTimeConstant.DATE_FORMATTER);
                 }
             })
+            .registerTypeAdapter(LocalDateTime.class, new JsonSerializer<LocalDateTime>() {
+                private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss");
+
+                @Override
+                public JsonElement serialize(LocalDateTime localDateTime, Type srcType, JsonSerializationContext context) {
+                    return new JsonPrimitive(formatter.format(localDateTime));
+                }
+            })
+            .registerTypeAdapter(LocalDateTime.class, new JsonDeserializer<LocalDateTime>() {
+
+                @Override
+                public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+                        throws JsonParseException {
+                    return LocalDateTime.parse(json.getAsString(),
+                            DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss").withLocale(Locale.ENGLISH));
+                }
+            })
             .create();
+
 
     @Override
     public void writeDataToFile(List<T> data, String fileName) {

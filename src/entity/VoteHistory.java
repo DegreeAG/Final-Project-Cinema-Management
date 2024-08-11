@@ -11,6 +11,8 @@ public class VoteHistory {
     private LocalDate createdDate;
     private double voteStarHistory;
 
+
+
     public User getUser() {
         return user;
     }

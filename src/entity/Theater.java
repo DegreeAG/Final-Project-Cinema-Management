@@ -3,8 +3,6 @@ package entity;
 import constant.Status;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.List;
 
 public class Theater {
@@ -61,7 +59,7 @@ public class Theater {
         this.status = status;
     }
 
-    public List<Seat> getSeats() {
+    public List<Seat> getSeats(Status status) {
         return seats;
     }
 

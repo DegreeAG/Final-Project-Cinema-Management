@@ -19,7 +19,7 @@
     ]
   },
   {
-    "id": 3,
+    "id": 1,
     "movieName": "Venom",
     "actors": "Tom Hardy",
     "category": { "idCategory": 0, "nameCategory": "Hành Động" },
@@ -36,5 +36,33 @@
       "FOUR_DIMENSION_X",
       "IMAX"
     ]
+  },
+  {
+    "id": 2,
+    "movieName": "Twisters",
+    "actors": "Anthony Ramos",
+    "category": { "idCategory": 2, "nameCategory": "Khoa học viễn tưởng" },
+    "publishedYear": "12/08/2024",
+    "movieTime": 109,
+    "voteStar": 0.0,
+    "language": "Vietnamese",
+    "status": "ACTIVE",
+    "voteCount": 0,
+    "movieClass": "HIGHTIER",
+    "formatMovie": ["TWO_DIMENSION", "THREE_DIMENSION", "IMAX"]
+  },
+  {
+    "id": 3,
+    "movieName": "Harry Potter và 7 viên ngọc rồng",
+    "actors": "Daniel Radcliffe, Songoku",
+    "category": { "idCategory": 1, "nameCategory": "Tình cảm" },
+    "publishedYear": "07/08/2024",
+    "movieTime": 124,
+    "voteStar": 0.0,
+    "language": "Vietnamese",
+    "status": "INACTIVE",
+    "voteCount": 0,
+    "movieClass": "MIDTIER",
+    "formatMovie": ["TWO_DIMENSION"]
   }
 ]

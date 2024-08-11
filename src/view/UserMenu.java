@@ -1,10 +1,15 @@
 package view;
 
+import entity.Ticket;
+import entity.Transaction;
 import entity.User;
 import main.Main;
 import service.*;
 import util.InputUtil;
 
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class UserMenu {
@@ -13,13 +18,15 @@ public class UserMenu {
     private final VoteHistoryService voteHistoryService;
     private final TicketService ticketService;
     private final MovieCategoryService movieCategoryService;
+    private final TransactionService transactionService;
 
-    public UserMenu(UserService userService, MovieService movieService, VoteHistoryService voteHistoryService, TicketService ticketService, MovieCategoryService movieCategoryService) {
+    public UserMenu(UserService userService, MovieService movieService, VoteHistoryService voteHistoryService, TicketService ticketService, MovieCategoryService movieCategoryService, TransactionService transactionService) {
         this.userService = userService;
         this.movieService = movieService;
         this.voteHistoryService = voteHistoryService;
         this.ticketService = ticketService;
         this.movieCategoryService = movieCategoryService;
+        this.transactionService = transactionService;
     }
 
     public void menu() {
@@ -30,11 +37,10 @@ public class UserMenu {
             System.out.println("3. Tìm kiếm phim");
             System.out.println("4. Đặt vé xem phim");
             System.out.println("5. Review phim");
-            System.out.println("6. Đổi vé xem phim");
-            System.out.println("7. Xem lịch sử đặt vé");
-            System.out.println("8. Thoát");
+            System.out.println("6. Xem lịch sử đặt vé");
+            System.out.println("7. Thoát");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 8, vui lòng nhập lại: ", 1, 8);
+                    "Chức năng là số dương từ 1 tới 7, vui lòng nhập lại: ", 1, 7);
             switch (choice) {
                 case 1:
                     showAccountManagementMenu();
@@ -52,12 +58,10 @@ public class UserMenu {
                     showMovieVotingMenu();
                     break;
                 case 6:
-                    changeTicketMenu();
+                    List<Ticket> tickets = ticketService.findUserByName(Main.LOGGED_IN_USER);
+                    ticketService.showTicketsOrder(tickets);
                     break;
                 case 7:
-                    showTicketTransactionHistoryMenu();
-                    break;
-                case 8:
                     return;
             }
         }
@@ -72,37 +76,29 @@ public class UserMenu {
             System.out.println("4. Xem số dư tài khoản");
             System.out.println("5. Thoát");
             int featureChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 7, vui lòng nhập lại: ", 1, 5);
+                    "Chức năng là số dương từ 1 tới 5, vui lòng nhập lại: ", 1, 5);
             switch (featureChoice) {
                 case 1:
                     userService.updateUserInformation(Main.LOGGED_IN_USER.getId());
                     break;
                 case 2:
                     User user = Main.LOGGED_IN_USER;
-                    ticketService.deposit(user);
+                    transactionService.deposit(user);
                     break;
                 case 3:
-
+                    ArrayList<Transaction> transactions = transactionService.showTransactionHistories();
+                    transactionService.showTransactions(transactions);
                     break;
                 case 4:
-
-                    break;
-                case 5:
                     userService.showBalance();
                     break;
+                case 5:
+                    return;
             }
         }
     }
 
-    private void showTicketTransactionHistoryMenu() {
 
-    }
-
-    private void changeTicketMenu() {
-    }
-
-    private void transactionTicketMenu() {
-    }
 
     private void showMovieVotingMenu() {
         while (true) {

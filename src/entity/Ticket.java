@@ -3,7 +3,8 @@ package entity;
 import java.time.LocalDateTime;
 
 public class Ticket {
-
+    private static int AUTO_ID = 1;
+    private int id;
     private Seat seat;
     private ShowTime showTime;
     private double price;
@@ -22,9 +23,22 @@ public class Ticket {
         this.totalAmount = totalAmount;
     }
 
-
+    public Ticket(int id, Seat seat, ShowTime showTime, double price, User user, LocalDateTime createdDateTime) {
+        this.id = id;
+        this.seat = seat;
+        this.showTime = showTime;
+        this.price = price;
+        this.user = user;
+        this.createdDateTime = createdDateTime;
+    }
 
     public Ticket() {
+        this.id = AUTO_ID;
+        AUTO_ID++;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Seat getSeat() {

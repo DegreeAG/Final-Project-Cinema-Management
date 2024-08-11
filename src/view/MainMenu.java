@@ -12,18 +12,19 @@ import java.util.List;
 
 public class MainMenu {
 
-    private final SeatService seatService = new SeatService();
     private final UserService userService = new UserService();
+    private final TransactionService transactionService = new TransactionService(userService);
+    private final SeatService seatService = new SeatService();
     private final MovieCategoryService movieCategoryService =new MovieCategoryService();
     private final MovieService movieService = new MovieService(movieCategoryService);
     private final List<User> users = new ArrayList<>();
     private final TheaterService theaterService = new TheaterService();
     private final VoteHistoryService voteHistoryService = new VoteHistoryService(userService, movieService);
     private final ShowTimeService showTimeService= new ShowTimeService(movieService, userService, theaterService );
-    private final TicketService ticketService = new TicketService(userService, showTimeService, seatService,movieService);
+    private final TicketService ticketService = new TicketService(userService, showTimeService, seatService,movieService, theaterService,transactionService);
 
-    private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService, ticketService,movieCategoryService);
-    private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, theaterService, showTimeService );
+    private final UserMenu userMenu = new UserMenu(userService, movieService, voteHistoryService, ticketService,movieCategoryService, transactionService );
+    private final AdminMenu adminMenu = new AdminMenu(userService, movieService, movieCategoryService, theaterService, showTimeService,ticketService );
 
 
     public void menu() {
@@ -67,22 +68,25 @@ public class MainMenu {
 
     public void initializeData() {
         userService.setUsers();
-        userService.createDefaultAdminUser(); // haàm này sẽ tự động tạo admin user nếu chua có, neu co rồi thì không tạo nữa
-
+        userService.createDefaultAdminUser();
         userService.findCurrentAutoId();
-        // ví du
+
         movieService.setMovies();
         movieService.findCurrentAutoId();
 
         voteHistoryService.setVoteHistories();
 
-//        transactionService.setTransactionHistories();
+        transactionService.setTransactionHistories();
+
+        showTimeService.setShowTimes();
+        showTimeService.findCurrentAutoId();
+
+        theaterService.setTheater();
+        theaterService.findCurrenAutoId();
 
         movieCategoryService.setMovieCategories();
         movieCategoryService.findCurrentAutoId();
-//
-//        bookBorrowService.setBookBorrows();
-//        bookBorrowService.findCurrentAutoId();
+
 
     }
 

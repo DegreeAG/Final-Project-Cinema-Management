@@ -37,7 +37,7 @@ public class VoteHistoryService {
 
     public void inputVote() {
         User user = userService.getLoggedInUser();
-        System.out.println("Mời bạn nhập ID sách : ");
+        System.out.println("Mời bạn nhập ID phim : ");
         Movie movie;
         while (true) {
             int movieId;
@@ -78,10 +78,15 @@ public class VoteHistoryService {
         VoteHistory voteHistory = new VoteHistory(user, movie, comment, newVoteStar);
         voteHistories.add(voteHistory);
         saveVoteHistoriesData();
+
+        movie.setVoteCount(movie.getVoteCount()+1);
+        movie.setVoteStar((movie.getVoteStar()* (movie.getVoteCount() - 1) + newVoteStar) / movie.getVoteCount());
+        movieService.saveMovieData();
     }
 
 
     public void findHistoryVoteByMovieId() {
+        movieService.showingMovieList();
         System.out.println("Mời bạn nhập ID phim : ");
         Movie movie;
         int movieId;
@@ -102,14 +107,27 @@ public class VoteHistoryService {
 
         ArrayList<VoteHistory> votesFindHistory = new ArrayList<>();
         for (VoteHistory voteHistory : voteHistories) {
-            if (voteHistory.getMovie().getAutoId() == movieId) {
+            if (voteHistory.getMovie().getId() == movieId) {
                 votesFindHistory.add(voteHistory);
             }
         }
         showVoteHistories(votesFindHistory);
     }
 
-    private void showVoteHistories(ArrayList<VoteHistory> histories) {
+    public void findHistoryVoteByMovieName() {
+        System.out.println("Mời bạn nhập tên phim: ");
+        String movieName = new Scanner(System.in).nextLine();
+        ArrayList<VoteHistory> votesFindHistory = new ArrayList<>();
+        for (VoteHistory voteHistory : voteHistories) {
+            if (voteHistory.getMovie().getMovieName().toLowerCase().contains(movieName.toLowerCase())) {
+                votesFindHistory.add(voteHistory);
+            }
+        }
+        showVoteHistories(votesFindHistory);
+
+    }
+
+    private void showVoteHistories(List<VoteHistory> histories) {
         System.out.printf("%-20s%-20s%-20s%-20s%-20s%-20s%n", "User", "Movie", "ratedContent", "Time", "voteStarHistory", "averageVoteStar");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------");
         for (VoteHistory voteHistory : histories) {
@@ -126,17 +144,5 @@ public class VoteHistoryService {
                 voteHistory.getContent(), voteHistory.getCreatedDate(), voteHistory.getVoteStarHistory(), c);
     }
 
-    public void findHistoryVoteByMovieName() {
-        System.out.println("Mời bạn nhập tên phim: ");
-        String movieName = new Scanner(System.in).nextLine();
-        ArrayList<VoteHistory> votesFindHistory = new ArrayList<>();
-        for (VoteHistory voteHistory : voteHistories) {
-            if (voteHistory.getMovie().getMovieName().toLowerCase().contains(movieName.toLowerCase())) {
-                votesFindHistory.add(voteHistory);
-            }
-        }
-        showVoteHistories(votesFindHistory);
-
-    }
 }
 

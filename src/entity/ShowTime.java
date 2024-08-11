@@ -14,8 +14,6 @@ public class ShowTime {
     private Theater theater;
     private LocalDateTime movieTime;
 
-    public ShowTime() {
-    }
 
     public ShowTime(int showtimeId, Movie movie, Theater theater,FormatMovie formatMovie, LocalDateTime movieTime) {
         this.showtimeId = showtimeId;
@@ -29,6 +27,11 @@ public class ShowTime {
         this.movie = movie;
         this.theater = theater;
         this.movieTime = movieTime;
+    }
+
+    public ShowTime() {
+        this.showtimeId =AUTO_ID;
+        AUTO_ID++;
     }
 
     public FormatMovie getFormatMovie() {

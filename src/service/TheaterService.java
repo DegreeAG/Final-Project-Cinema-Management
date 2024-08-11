@@ -3,6 +3,7 @@ package service;
 import constant.DateTimeConstant;
 import constant.SeatClass;
 import constant.Status;
+import entity.Movie;
 import entity.Seat;
 import entity.Theater;
 import util.FileUtil;
@@ -141,23 +142,48 @@ public class TheaterService {
                         case 4:
                             return;
                     }
+                    break;
                 case 4:
                     System.out.println("Mời bạn nhập hàng ghế cần chỉnh sửa:");
                     String rowName = new Scanner(System.in).nextLine();
                     findRowName(rowName);
-                    System.out.println(" Nhập các ghế ở trạng thái không sử dụng (INACTIVE)" +
-                            " theo định dạng các số cách nhau bởi dấu phẩy, ví dụ: 1, 8, 12,...");
-                    String inactiveSeatStr = new Scanner(System.in).nextLine();
-                    List<String> inactiveSeats = Arrays.asList(inactiveSeatStr.split(","));
-                    for (int j = 0; j < seats.size(); j++) {
-                        for (Seat value : seats) {
-                            if (value.getRow().equals(rowName) &&
-                                    value.getId() == Integer.parseInt(inactiveSeats.get(j))) {
-                                value.setStatus(Status.INACTIVE);
+                    System.out.println("Mời bạn chọn tác vụ chỉnh sửa: ");
+                    System.out.println("1. ACTIVE seat");
+                    System.out.println("2. MAINTAINING seat");
+                    int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
+                            "Chức năng là số dương từ 1 tới 2, vui lòng nhập lại",
+                            1, 2);
+                    switch (choice) {
+                        case 1:
+                            System.out.println(" Nhập các ghế về trạng thái có thể sử dụng (ACTIVE)" +
+                                    " theo định dạng các số cách nhau bởi dấu phẩy, ví dụ: 1, 8, 12,...");
+                            String inactiveSeatStr = new Scanner(System.in).nextLine();
+                            List<String> inactiveSeats = Arrays.asList(inactiveSeatStr.split(","));
+                            for (int j = 0; j < seats.size(); j++) {
+                                for (Seat value : seats) {
+                                    if (value.getRow().equals(rowName) &&
+                                            value.getId() == Integer.parseInt(inactiveSeats.get(j))) {
+                                        value.setStatus(Status.ACTIVE);
+                                    }
+                                }
                             }
-                        }
+                            theater.setSeats(seats);
+                        case 2:
+                            System.out.println(" Nhập các ghế về trạng thái bảo trì (MAINTAINING)" +
+                                    " theo định dạng các số cách nhau bởi dấu phẩy, ví dụ: 1, 8, 12,...");
+                            String maintainSeatStr = new Scanner(System.in).next();
+                            List<String> maintainSeats = Arrays.asList(maintainSeatStr.split(","));
+                            for (int i = 0; i < seats.size(); i++) {
+                                for (Seat value : seats) {
+                                    if (value.getRow().equals(rowName) &&
+                                            value.getId() == Integer.parseInt(maintainSeats.get(i))) {
+                                        value.setStatus(Status.MAINTAINING);
+                                    }
+                                }
+                            }
+                            theater.setSeats(seats);
                     }
-                    theater.setSeats(seats);
+                    break;
                 case 5:
                     return;
             }
@@ -201,6 +227,14 @@ public class TheaterService {
         System.out.printf("%-5s%-15s%-30s%-25s%n", theater.getTheaterID(), theater.getTheaterName(), theater.getCreatedDate(), theater.getStatus());
     }
 
+    private void showTheatersDetails(List<Theater> theaters) {
+        printHeader();
+        for (Theater theater:theaters) {
+            showTheaterDetail(theater);
+        }
+    }
+
+
     public void showingTheaterList() {
         printHeader();
         for (Theater theater : theaters) {
@@ -220,9 +254,9 @@ public class TheaterService {
         }
     }
 
-    public Theater getTheaterActive(int i) {
+    public Theater getTheaterActive(int id) {
         for (Theater theater : theaters) {
-            if (theater.getTheaterID() == i && theater.getStatus() == Status.ACTIVE) {
+            if (theater.getTheaterID() == id && theater.getStatus() == Status.ACTIVE) {
                 return theater;
             }
         }
@@ -235,22 +269,20 @@ public class TheaterService {
         int theaterID = new Scanner(System.in).nextInt();
         for (Theater theater : theaters) {
             if (theater.getTheaterID() == theaterID) {
-            printHeader();
-            showTheaterDetail(theater);
+                printHeader();
+                showTheaterDetail(theater);
             }
         }
     }
 
-    public void showingTheaterInActive() {
-        printHeader();
+    public void showingTheaterActive() {
         List<Theater> theaters1 = new ArrayList<>();
         for (Theater theater : theaters) {
-            if (theater.getStatus(Status.INACTIVE) == Status.INACTIVE) {
+            if (theater.getStatus() == Status.ACTIVE) {
                 theaters1.add(theater);
-                System.out.println(theaters1);
             }
-            return;
         }
+                showTheatersDetails(theaters1);
     }
 
     public void showingTheaterMaintaining() {
@@ -270,6 +302,23 @@ public class TheaterService {
         for (Theater theater : theaters) {
             showTheaterDetail(theater);
         }
+    }
+
+
+    public void setTheater() {
+        List<Theater> theaterList = fileUtil.readDataFromFile(THEATER_DATA_FILE, Theater[].class);
+        theaters = theaterList != null ? theaterList : new ArrayList<>();
+
+    }
+
+    public void findCurrenAutoId() {
+        int maxId = -1;
+        for (Theater theater : theaters) {
+            if (theater.getTheaterID() > maxId) {
+                maxId = theater.getTheaterID();
+            }
+        }
+        AUTO_ID = maxId + 1;
     }
 
 

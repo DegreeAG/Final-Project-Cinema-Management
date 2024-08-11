@@ -38,6 +38,7 @@ public class User {
         this.phone = phone;
         this.address = address;
     }
+
     public User(String email, String password, UserRole role) {
         this.email = email;
         this.password = password;
@@ -47,6 +48,18 @@ public class User {
     public User() {
         this.id = AUTO_ID;
         AUTO_ID++;
+    }
+
+    public User(int id, String email, String password, String phone,UserRole userRole, String address, double balance, String name, Status status) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.role=userRole;
+        this.address = address;
+        this.balance = balance;
+        this.name = name;
+        this.status = status;
     }
 
     public static int getAutoId() {

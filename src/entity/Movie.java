@@ -37,6 +37,10 @@ public class Movie {
         this.formatMovie =formatMovie;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public List<FormatMovie> getFormatMovie() {
         return formatMovie;
     }

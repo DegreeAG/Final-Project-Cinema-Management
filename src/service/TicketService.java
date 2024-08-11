@@ -2,37 +2,39 @@ package service;
 
 import constant.*;
 import entity.*;
-import main.Main;
 import util.FileUtil;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDate;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.*;
 
 public class TicketService {
-    private List<User> users;
-    private List<ShowTime> showTimes;
-    private List<Ticket> tickets;
-    private List<Theater> theaters;
-    private List<Seat> seats;
+    private List<User> users = new ArrayList<>();
+    private List<ShowTime> showTimes = new ArrayList<>();
+    private List<Ticket> tickets = new ArrayList<>();
+    private List<Theater> theaters = new ArrayList<>();
+    private List<Seat> seats = new ArrayList<>();
+    private List<Movie> movies = new ArrayList<>();
     private final FileUtil<Ticket> fileUtil = new FileUtil<>();
     private static final String TICKET_DATA_FILE = "tickets.json";
     private final UserService userService;
     private final ShowTimeService showTimeService;
     private final SeatService seatService;
     private final MovieService movieService;
+    private final TheaterService theaterService;
+    private final TransactionService transactionService;
     private static final double WEEKEND_SURCHARGE = 2.0;
     private static final double HOLIDAY_SURCHARGE = 4.0;
+    private static int AUTO_ID;
 
-    public TicketService(UserService userService, ShowTimeService showTimeService, SeatService seatService, MovieService movieService) {
+    public TicketService(UserService userService, ShowTimeService showTimeService, SeatService seatService, MovieService movieService, TheaterService theaterService, TransactionService transactionService) {
         this.userService = userService;
         this.showTimeService = showTimeService;
         this.seatService = seatService;
         this.movieService = movieService;
+        this.theaterService = theaterService;
+        this.transactionService = transactionService;
     }
 
     public void saveTicket(Ticket ticket) {
@@ -45,54 +47,45 @@ public class TicketService {
     }
 
 
-    public void deposit(User user) {
-        double price;
-        while (true) {
-            try {
-                System.out.println("Mời bạn nhập số tiền muốn nạp : ");
-                price = new Scanner(System.in).nextDouble();
-                if (price < 0) {
-                    System.out.println("số tiền nạp vào bắt buộc phải > 0 , vui lòng nhập lại ");
-                    continue;
-                }
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Giá trị bạn vừa nhập không phải là một số tự nhiên . Vui lòng nhập lại.");
-            }
-        }
+//    public void orderedTicket(User user) {
+//        ShowTime selectedShowTime = null;
+//        movieService.showingMovieList();
+//        showTimeService.showShowTimeByMovie();
+//        System.out.println("Mời bạn nhập id của suất chiếu để đặt vé: ");
+//        int showTimeId;
+//        showTimeId = new Scanner(System.in).nextInt();
+//        for (ShowTime showTime : showTimes) {
+//            if (showTime.getShowtimeId() == showTimeId) {
+//                selectedShowTime = showTime;
+//                break;
+//            }
+//        }
+//        if (selectedShowTime == null) {
+//            System.out.println("Không tìm thấy suất chiếu với ID đã nhập. Vui lòng thử lại.");
+//            return;
+//        }
+//        showSeatsAvailable();
+//        System.out.println("Mời bạn lựa chọn ghế ngồi: ");
+//        System.out.println("Mời bạn nhập hàng ghế: ");
+//        String row = new Scanner(System.in).nextLine();
+//        System.out.println("Mời bạn nhập số ghế ngồi: ");
+//        int seatNumber = new Scanner(System.in).nextInt();
+//        Seat bookedSeat = bookSeat(row, seatNumber);
+//        SeatClass seatClass = bookedSeat.getSeatClass();
+//        double ticketPrice = calculateTicketPrice(selectedShowTime.getMovie().getMovieClass(), seatClass,
+//                selectedShowTime.getFormatMovie(), selectedShowTime.getMovieTime());
+//        Ticket ticket = new Ticket(AUTO_ID++, bookedSeat, selectedShowTime, ticketPrice, user, LocalDateTime.now());
+//        tickets.add(ticket);
+//        showTicket(ticket);
+//        saveTicketsData();
+//    }
 
-        updateBalance(user, price, TransactionType.DEPOSIT);
+
+    private void showTicket(Ticket ticket) {
+        printHeader();
+        showTicketDetail(ticket);
     }
 
-    private void updateBalance(User user, double price, TransactionType transactionType) {
-        String message = switch (transactionType) {
-            case DEPOSIT -> "Nạp tiền vào tài khoản";
-
-            case PUNISH -> "Tiền phạt mượn sách";
-
-            case WITHDRAW -> "Rút tiền khỏi tài khoản";
-        };
-        user.setBalance(user.getBalance() + price);
-        userService.saveUserData();
-        userService.printHeader();
-        userService.showUserDetail(user);
-    }
-
-
-    public void pickMovie(User user) {
-        movieService.showingMovieList();
-        System.out.println("Mời bạn lựa chọn phim muốn đặt, thông tin điền vào là id của phim: ");
-        int movieId;
-        while (true) {
-            try {
-                movieId = new Scanner(System.in).nextInt();
-                break;
-            } catch (InputMismatchException e) {
-                System.out.println("Giá trị bạn vừa nhập không phải là một số nguyên. Vui lòng nhập lại.");
-            }
-        }
-        movieService.findMovieById(movieId);
-    }
 
 //    public void orderedTicket(User user) {
 //        int showTimeID = inputShowTimeID();
@@ -150,7 +143,6 @@ public class TicketService {
 
     private double dateSurcharge(LocalDateTime showTimeDate) {
         double dateSurcharge = 0;
-        DayOfWeek dayOfWeek = showTimeDate.getDayOfWeek();
         if (isWeekend(showTimeDate) && isHolidays(showTimeDate)) {
             dateSurcharge = Math.max(WEEKEND_SURCHARGE, HOLIDAY_SURCHARGE);
         } else if (isWeekend(showTimeDate)) {
@@ -176,35 +168,6 @@ public class TicketService {
 
     private boolean isSeatNumberValid(int seatNumber) {
         return true;
-    }
-
-    private int inputShowTimeID() {
-        int showID;
-        do {
-            showTimeService.showShowTimeAvailableDetail();
-            System.out.println("Mời bạn lựa chọn ID suất chiếu: ");
-            showID = new Scanner(System.in).nextInt();
-        } while (!isShowIdValid(showID));
-        return showID;
-    }
-
-    private String inputRow() {
-        String row;
-        do {
-            showSeatsAvailable();
-            System.out.println("Mời bạn lựa chọn hàng ghế ngồi: ");
-            row = new Scanner(System.in).nextLine();
-        } while (!isRowValid(row));
-        return row;
-    }
-
-    private boolean isRowValid(String row) {
-        return true;
-    }
-
-
-    private boolean isShowIdValid(int showID) {
-        return showTimeService.findShowTimeAvailableById(showID) != null;
     }
 
 
@@ -279,25 +242,24 @@ public class TicketService {
 
     public void showSeatsAvailable() {
         printHeader();
-        List<Seat> seats1 = new ArrayList<>();
+        List<Seat> seatsAvailable = new ArrayList<>();
         for (Seat seat : seats) {
-            if (seat.getStatus(Status.ACTIVE) == Status.ACTIVE) {
-                seats1.add(seat);
-                printHeader();
-                showSeatDetail(seat);
+            if (seat.getStatus() == Status.ACTIVE) {
+                seatsAvailable.add(seat);
+                System.out.println(seatsAvailable);
             }
-            break;
         }
     }
 
-    private void showSeatDetail(Seat seat) {
-        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%-10s%-30s%-20s%-10s%-10s%n", seat.getRow(), seat.getSeatNumber());
+    private void showTicketDetail(Ticket ticket) {
+        System.out.printf("%-5s%-30s%-15s%-20s%-25s%-20s%-30s%n", ticket.getId(), ticket.getShowTime().getMovieTime(), ticket.getShowTime().getTheater(), ticket.getSeat(), ticket.getPrice(), ticket.getUser(), ticket.getCreatedDateTime());
     }
 
     public void printHeader() {
-        System.out.printf("%-5s%-20s%-20s%-20s%-20s%-20s%-10s%-30s%-20s%-10s%-10s%n", "Hàng ghế", "Số ghế");
+        System.out.printf("%-5s%-30s%-15s%-20s%-25s%-20s%-30s%n", "ticketID", "Giờ chiếu", "Phòng chiếu", "Ghế ngồi", "Giá vé", "Người mua", "Ngày mua vé");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
+
 
     public int getAvailableSeatsCount() {
         int count = 0;
@@ -309,4 +271,34 @@ public class TicketService {
         return count;
     }
 
+    public void showTicketsDetail() {
+        printHeader();
+        for (Ticket ticket : tickets) {
+            showTicketDetail(ticket);
+        }
+    }
+
+    public List<Ticket> findUserByName(User loggedInUser) {
+        List<Ticket> tickets1 = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            if (ticket.getUser().getName().toLowerCase().contains(loggedInUser.getName().toLowerCase())) {
+                tickets.add(ticket);
+                tickets1.addAll(tickets);
+            }
+        }
+        return tickets1;
+    }
+
+    public void showTicketsOrder(List<Ticket> tickets) {
+        printHeader();
+        for (Ticket ticket : tickets) {
+            showTicketDetail(ticket);
+        }
+    }
+
+
+    public void orderedTicket(User user) {
+        movieService.showingMovieList();
+        showTimeService.showShowTimeByMovie();
+    }
 }

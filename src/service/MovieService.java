@@ -37,6 +37,8 @@ public class MovieService {
         for (Movie movie : movies) {
             if (movie.getMovieName().toLowerCase().contains(name.toLowerCase())) {
                 movies1.add(movie);
+            }else {
+                System.out.println("Hệ thống không có phim bạn vừa nhập");
             }
         }
         showMovies(movies1);
@@ -52,18 +54,19 @@ public class MovieService {
         return null; //Trả về null nếu không tìm thấy phim
     }
 
-    public Movie getMovieActive(String string) {
+    public Movie getMovieActive(int id) {
         for (Movie movie : movies) {
-            if (movie.getMovieName().equalsIgnoreCase(string) && movie.getStatus() == Status.ACTIVE) {
+            if (movie.getId()==id && movie.getStatus() == Status.ACTIVE) {
                 return movie;
             }
         }
+        System.out.println("Không có tên phim mà bạn vừa lựa chọn, xin vui lòng chọn lại theo trên bảng.");
         return null; //Trả về null nếu không tìm thấy phim hoặc Inactive
     }
 
     public Movie findMovieById(int movieID) {
         for (Movie movie : movies) {
-            if (movie.getAutoId() == movieID) {
+            if (movie.getId() == movieID) {
                 return movie;
             }
         }
@@ -442,11 +445,11 @@ public class MovieService {
     }
 
 
-    private void saveMovieData() {
+    public void saveMovieData() {
         fileUtil.writeDataToFile(movies, MOVIE_DATA_FILE);
     }
 
-    private void showMovie(Movie movie) {
+    public void showMovie(Movie movie) {
         printHeader();
         showMovieDetail(movie);
     }
@@ -460,7 +463,7 @@ public class MovieService {
 
 
     private void showMovieDetail(Movie movie) {
-        System.out.printf("%-5s%-40s%-40s%-30s%-25s%-15s%-20s%-60s%n", movie.getAutoId(), movie.getMovieName(), movie.getActors(), movie.getCategory().getNameCategory()
+        System.out.printf("%-5s%-40s%-40s%-30s%-25s%-15s%-20s%-60s%n", movie.getId(), movie.getMovieName(), movie.getActors(), movie.getCategory().getNameCategory()
                 , movie.getPublishedYear(), movie.getVoteStar(), movie.getLanguage(), movie.getFormatMovie());
     }
 
@@ -505,6 +508,7 @@ public class MovieService {
         for (Movie movie : movies) {
             if (movie.getCategory().getIdCategory() == idCategory) {
                 movies1.add(movie);
+
             }
         }
         return movies1;
@@ -542,18 +546,19 @@ public class MovieService {
                 }
             }
             showMovies(movies1);
-
+            break;
         }
     }
-        public void findMoviesByVotedStar () {
-            ArrayList<Movie> movies1 = new ArrayList<>();
-            for (Movie movie : movies) {
-                if (movie.getVoteStar() >= 4 && movie.getVoteStar() <= 5) {
-                    movies1.add(movie);
-                }
+
+    public void findMoviesByVotedStar() {
+        ArrayList<Movie> movies1 = new ArrayList<>();
+        for (Movie movie : movies) {
+            if (movie.getVoteStar() >= 4 && movie.getVoteStar() <= 5) {
+                movies1.add(movie);
             }
-            showMovies(movies1);
         }
+        showMovies(movies1);
+    }
 
 }
 

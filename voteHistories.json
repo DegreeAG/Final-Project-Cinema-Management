@@ -1,0 +1,107 @@
+[
+  {
+    "user": {
+      "id": 1,
+      "email": "huynghia@gmail.com",
+      "password": "huyNghia198",
+      "role": "USER",
+      "phone": "0123456789",
+      "address": "hà nội",
+      "balance": 0.0,
+      "name": null,
+      "status": null
+    },
+    "movie": {
+      "id": 0,
+      "movieName": "DEADPOOL AND WOLVERIN",
+      "actors": "Josh Brolin, Ryan Reynolds",
+      "category": { "idCategory": 0, "nameCategory": "Hành Động" },
+      "publishedYear": "08/08/2024",
+      "movieTime": 127,
+      "voteStar": 0.0,
+      "language": "Vietnamese",
+      "status": "ACTIVE",
+      "voteCount": 0,
+      "movieClass": "LUXYRYTIER",
+      "formatMovie": [
+        "TWO_DIMENSION",
+        "THREE_DIMENSION",
+        "FOUR_DIMENSION_X",
+        "IMAX"
+      ]
+    },
+    "content": "Hay",
+    "createdDate": "09/08/2024",
+    "voteStarHistory": 5.0
+  },
+  {
+    "user": {
+      "id": 1,
+      "email": "huynghia@gmail.com",
+      "password": "huyNghia198",
+      "role": "USER",
+      "phone": "0123456789",
+      "address": "hà nội",
+      "balance": 4000000.0,
+      "name": "Huy Nghĩa",
+      "status": null
+    },
+    "movie": {
+      "id": 1,
+      "movieName": "Venom",
+      "actors": "Tom Hardy",
+      "category": { "idCategory": 0, "nameCategory": "Hành Động" },
+      "publishedYear": "08/08/2024",
+      "movieTime": 112,
+      "voteStar": 0.0,
+      "language": "Vietnamese",
+      "status": "ACTIVE",
+      "voteCount": 0,
+      "movieClass": "LUXYRYTIER",
+      "formatMovie": [
+        "TWO_DIMENSION",
+        "THREE_DIMENSION",
+        "FOUR_DIMENSION_X",
+        "IMAX"
+      ]
+    },
+    "content": "Phim hay",
+    "createdDate": "11/08/2024",
+    "voteStarHistory": 5.0
+  },
+  {
+    "user": {
+      "id": 1,
+      "email": "huynghia@gmail.com",
+      "password": "huyNghia198",
+      "role": "USER",
+      "phone": "0123456789",
+      "address": "hà nội",
+      "balance": 4000000.0,
+      "name": "Huy Nghĩa",
+      "status": null
+    },
+    "movie": {
+      "id": 1,
+      "movieName": "Venom",
+      "actors": "Tom Hardy",
+      "category": { "idCategory": 0, "nameCategory": "Hành Động" },
+      "publishedYear": "08/08/2024",
+      "movieTime": 112,
+      "voteStar": 0.0,
+      "language": "Vietnamese",
+      "status": "ACTIVE",
+      "voteCount": 0,
+      "movieClass": "LUXYRYTIER",
+      "formatMovie": [
+        "TWO_DIMENSION",
+        "THREE_DIMENSION",
+        "FOUR_DIMENSION_X",
+        "IMAX"
+      ]
+    },
+    "content": "Rất hay",
+    "createdDate": "11/08/2024",
+    "voteStarHistory": 4.8
+  }
+]

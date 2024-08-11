@@ -2,10 +2,13 @@ package view;
 
 import entity.Movie;
 import entity.Theater;
+import entity.Ticket;
+import entity.User;
 import main.Main;
 import service.*;
 import util.InputUtil;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,13 +18,15 @@ public class AdminMenu {
     private final MovieCategoryService movieCategoryService;
     private final TheaterService theaterService;
     private final ShowTimeService showTimeService;
+    private final TicketService ticketService;
 
-    public AdminMenu(UserService userService, MovieService movieService, MovieCategoryService movieCategoryService, TheaterService cinemaService, ShowTimeService showTimeService) {
+    public AdminMenu(UserService userService, MovieService movieService, MovieCategoryService movieCategoryService, TheaterService cinemaService, ShowTimeService showTimeService, TicketService ticketService) {
         this.userService = userService;
         this.movieService = movieService;
         this.movieCategoryService = movieCategoryService;
         this.theaterService = cinemaService;
         this.showTimeService = showTimeService;
+        this.ticketService = ticketService;
     }
 
     public void menu() {
@@ -31,12 +36,11 @@ public class AdminMenu {
             System.out.println("2. Quản lý phim");
             System.out.println("3. Quản lý phòng chiếu");
             System.out.println("4. Quản lý lịch chiếu");
-            System.out.println("5. Quản lý vé chiếu");
-            System.out.println("6. Quản lý mã giảm giá và voucher");
-            System.out.println("7. Thống kê doanh thu");
-            System.out.println("8. Thoát");
+            System.out.println("5. In thông tin vé chiếu đã đặt");
+            System.out.println("6. Thống kê doanh thu");
+            System.out.println("7. Thoát");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
-                    "Chức năng là số dương từ 1 tới 8, vui lòng nhập lại: ", 1, 8);
+                    "Chức năng là số dương từ 1 tới 7 vui lòng nhập lại: ", 1, 7);
             switch (choice) {
                 case 1:
                     userManagementMenu();
@@ -51,15 +55,11 @@ public class AdminMenu {
                     showtimeMenu();
                     break;
                 case 5:
-                    ticketPriceMenu();
+                    ticketService.showTicketsDetail();
                     break;
                 case 6:
-                    couponAndVoucherMenu();
                     break;
                 case 7:
-                    revenueStatisticsMenu();
-                    break;
-                case 8:
                     return;
             }
         }
@@ -92,17 +92,7 @@ public class AdminMenu {
         }
     }
 
-    private void ticketPriceMenu() {
 
-    }
-
-    private void couponAndVoucherMenu() {
-
-    }
-
-    private void revenueStatisticsMenu() {
-
-    }
 
     private void cinemaMenu() {
         while (true) {
@@ -172,30 +162,43 @@ public class AdminMenu {
         }
     }
 
+
     private void userManagementMenu() {
         while (true) {
             System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
             System.out.println("------------------ QUẢN LÝ DANH SÁCH NGƯỜI DÙNG ------------------");
-            System.out.println("1. Tìm kiếm người dùng theo tên:");
+            System.out.println("1. Tìm kiếm người dùng theo email:");
             System.out.println("2. Tạo mới tài khoản người dùng");
             System.out.println("3. Cập nhật thông tin người dùng");
-            System.out.println("4. Khóa hoạt động người dùng");
+            System.out.println("4. Quản lý hoạt động người dùng");
             System.out.println("5. Lịch sử đặt vé của người dùng");
             System.out.println("6. Thoát");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
                     "Chức năng là số dương từ 1 tới 6, vui lòng nhập lại: ", 1, 6);
             switch (choice) {
                 case 1:
-                    userService.findUserByName();
+                    userService.findUserByMail();
                     break;
                 case 2:
                     userService.createUserCommonInfo();
                     break;
                 case 3:
-                    userService.updateUserInformationByAdmin();
+                    int idUserUpdate;
+                    while (true) {
+                        try {
+                            System.out.println("Mời bạn nhập ID của User muốn update ");
+                            idUserUpdate = new Scanner(System.in).nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Giá trị bạn vừa nhập không phải là một số nguyên. Vui lòng nhập lại.");
+                            continue;
+                        }
+                        break;
+                    }
+                    userService.updateUserInformation(idUserUpdate);
                     break;
                 case 4:
-                    userService.lockUserByEmail(); //TODO đổi về chức năng của người dùng
+                    statusUserManagementMenu();
+
                     break;
                 case 5:
                     userService.transactionHistory();
@@ -203,6 +206,61 @@ public class AdminMenu {
                 case 6:
                     return;
 
+            }
+        }
+    }
+
+    private void statusUserManagementMenu() {
+        User user;
+        int idUserLock;
+        while (true) {
+            System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
+            System.out.println("------------------ QUẢN LÝ TRẠNG THÁI NGƯỜI DÙNG ------------------");
+            System.out.println("1. Khóa trạng thái hoạt động của người dùng");
+            System.out.println("2. Mở khóa trạng thái hoạt động của người dùng");
+            System.out.println("3. Thoát");
+            int functionChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
+                    " Chức năng là số dương từ 1 tới 3, vui lòng nhập lai: ",
+                    1, 3);
+            switch (functionChoice) {
+                case 1:
+                    while (true) {
+                        try {
+                            System.out.println("Mời bạn nhập ID của User muốn khóa ");
+                            idUserLock = new Scanner(System.in).nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Giá trị bạn vừa nhập không phải là một số nguyên. Vui lòng nhập lại.");
+                            continue;
+                        }
+                        user = userService.findUserById(idUserLock);
+                        if (user == null) {
+                            System.out.print("Thông tin không chính xác , vui lòng nhập lại : ");
+                            continue;
+                        }
+                        break;
+                    }
+                    userService.lockedUserById(idUserLock);
+                    break;
+                case 2:
+                    while (true) {
+                        try {
+                            System.out.println("Mời bạn nhập ID của User muốn khóa ");
+                            idUserLock = new Scanner(System.in).nextInt();
+                        } catch (InputMismatchException e) {
+                            System.out.println("Giá trị bạn vừa nhập không phải là một số nguyên. Vui lòng nhập lại.");
+                            continue;
+                        }
+                        user = userService.findUserById(idUserLock);
+                        if (user == null) {
+                            System.out.print("Thông tin không chính xác , vui lòng nhập lại : ");
+                            continue;
+                        }
+                        break;
+                    }
+                    userService.unlockedUserById(idUserLock);
+                    break;
+                case 3:
+                    return;
             }
         }
     }
