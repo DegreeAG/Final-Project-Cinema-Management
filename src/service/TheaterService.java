@@ -68,8 +68,8 @@ public class TheaterService {
                     seatClass = SeatClass.SWEETBOX;
                 }
                 seat = new Seat(AUTO_ID2++, rowName, seatNumber, Status.ACTIVE, seatClass);
-            }
             seatsInTheater.add(seat);
+            }
         }
         Theater theater = new Theater(AUTO_ID++, theaterName, createdDate, Status.ACTIVE, seatsInTheater);
         theaters.add(theater);

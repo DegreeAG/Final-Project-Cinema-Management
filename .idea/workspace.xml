@@ -8,12 +8,15 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/seats.json" beforeDir="false" afterPath="$PROJECT_DIR$/seats.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/showtimes.json" beforeDir="false" afterPath="$PROJECT_DIR$/showtimes.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entity/Seat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Seat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/MovieService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/MovieService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/service/ShowTimeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/ShowTimeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Theater.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Theater.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entity/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entity/Ticket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/TheaterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/TheaterService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/service/TicketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/TicketService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/UserMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/UserMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/theaters.json" beforeDir="false" afterPath="$PROJECT_DIR$/theaters.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tickets.json" beforeDir="false" afterPath="$PROJECT_DIR$/tickets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +49,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
@@ -101,15 +104,6 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/service/TheaterService.java</url>
-          <line>69</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="now" />

@@ -2,6 +2,7 @@ package service;
 
 import constant.*;
 import entity.*;
+import main.Main;
 import util.FileUtil;
 
 import java.time.DayOfWeek;
@@ -223,8 +224,8 @@ public class TicketService {
     }
 
 
-    public Seat bookSeat(String row, int seatNumber) {
-        for (Seat seat : seats) {
+    public Seat bookSeat(Theater theater, String row, int seatNumber) {
+        for (Seat seat : theater.getSeats()) {
             if (seat.getRow().equals(row) && seat.getSeatNumber() == seatNumber) {
                 if (seat.getStatus() == Status.ACTIVE) {
                     seat.setStatus(Status.INACTIVE);
@@ -240,31 +241,21 @@ public class TicketService {
         return null;
     }
 
-    public void showSeatsAvailable() {
-        printHeader();
-        List<Seat> seatsAvailable = new ArrayList<>();
-        for (Seat seat : seats) {
-            if (seat.getStatus() == Status.ACTIVE) {
-                seatsAvailable.add(seat);
-                System.out.println(seatsAvailable);
-            }
-        }
-    }
 
     private void showTicketDetail(Ticket ticket) {
-        System.out.printf("%-5s%-30s%-15s%-20s%-25s%-20s%-30s%n", ticket.getId(), ticket.getShowTime().getMovieTime(), ticket.getShowTime().getTheater(), ticket.getSeat(), ticket.getPrice(), ticket.getUser(), ticket.getCreatedDateTime());
+        System.out.printf("%-15s%-20s%-15s%-10s%-10s%-25s%-20s%-30s%n", ticket.getId(), ticket.getShowTime().getMovieTime(), ticket.getShowTime().getTheater().getTheaterName(), ticket.getSeat().getRow(), ticket.getSeat().getSeatNumber(), ticket.getPrice(), ticket.getUser().getName(), ticket.getCreatedDateTime());
     }
 
     public void printHeader() {
-        System.out.printf("%-5s%-30s%-15s%-20s%-25s%-20s%-30s%n", "ticketID", "Giờ chiếu", "Phòng chiếu", "Ghế ngồi", "Giá vé", "Người mua", "Ngày mua vé");
+        System.out.printf("%-15s%-20s%-15s%-10s%-10s%-25s%-20s%-30s%n", "ticketID", "Giờ chiếu", "Phòng chiếu", "Hàng ghế", "Ghế ngồi", "Giá vé", "Người mua", "Ngày mua vé");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
 
     public int getAvailableSeatsCount(Theater theater) {
         int count = 0;
-        for (Seat seat : seats) {
-            if (seat.getStatus(Status.ACTIVE) == Status.ACTIVE) {
+        for (Seat seat : theater.getSeats()) { // Lấy danh sách ghế từ theater
+            if (seat.getStatus() == Status.ACTIVE) { // Kiểm tra trạng thái ghế
                 count++;
             }
         }
@@ -278,15 +269,14 @@ public class TicketService {
         }
     }
 
-    public List<Ticket> findUserByName(User loggedInUser) {
-        List<Ticket> tickets1 = new ArrayList<>();
+    public List<Ticket> findByUserId(int userId) { // tìm tất cả các lượt mua vé  từ trước tới giờ của user theo id
+        List<Ticket> orderedTicket = new ArrayList<>();
         for (Ticket ticket : tickets) {
-            if (ticket.getUser().getName().toLowerCase().contains(loggedInUser.getName().toLowerCase())) {
-                tickets.add(ticket);
-                tickets1.addAll(tickets);
+            if (ticket.getUser().getId() == userId) {
+                orderedTicket.add(ticket);
             }
         }
-        return tickets1;
+        return orderedTicket;
     }
 
     public void showTicketsOrder(List<Ticket> tickets) {
@@ -300,7 +290,7 @@ public class TicketService {
     public void orderedTicket(User user) {
         movieService.showingMovieList();
         showTimeService.showShowTimeByMovie();
-
+        int userId =user.getId();
         System.out.println("Mời bạn nhập ID suất chiếu muốn chọn lựa: ");
         int showtimeId;
         while (true) {
@@ -311,34 +301,58 @@ public class TicketService {
                 System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
             }
         }
-        ShowTime showTime = showTimeService.findShowTimeAvailableById(showtimeId);
-        showTimeService.showShowTime(showTime);
+        ShowTime selectedShowTime = showTimeService.findShowTimeAvailableById(showtimeId);
+        showTimeService.showShowTime(selectedShowTime);
         System.out.println("Mời bạn nhập số lượng vé muốn mua: ");
         int ticketNumer;
         while (true) {
             try {
                 ticketNumer = new Scanner(System.in).nextInt();
-        if (ticketNumer > getAvailableSeatsCount(showTime.getTheater())) {
-            System.out.println("Số lượng vé bạn mua không được vượt quá số ghế trống còn trong rạp, xin vui lòng thử lại hoặc chọn suất chiếu khác");
-            System.out.println("Số ghế còn lại: " + getAvailableSeatsCount(showTime.getTheater()));
-            return;
-        }
-        break;
+                if (ticketNumer > getAvailableSeatsCount(selectedShowTime.getTheater())) {
+                    System.out.println("Số lượng vé bạn mua không được vượt quá số ghế trống còn trong rạp, xin vui lòng thử lại hoặc chọn suất chiếu khác");
+                    System.out.println("Số ghế còn lại: " + getAvailableSeatsCount(selectedShowTime.getTheater()));
+                    continue;
+                }
+                break;
             } catch (InputMismatchException e) {
                 System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
             }
 
         }
-        showSeatsAvailable();
+        double userBalance = user.getBalance();
+        Seat bookedSeat = null;
+        SeatClass seatClass = null;
+        Theater theater = selectedShowTime.getTheater();
         for (int i = 0; i < ticketNumer; i++) {
             System.out.println("Mời bạn nhập thông tin cho vé thứ" + (i + 1));
             System.out.println("Mời bạn nhập hàng ghế muốn đặt:");
             String row = new Scanner(System.in).nextLine();
             System.out.println("Mời bạn nhập số ghế ngồi: ");
             int seatNumber = new Scanner(System.in).nextInt();
-            Seat bookedSeat = bookSeat(row, seatNumber);
+            bookedSeat = bookSeat(theater, row, seatNumber);
+            if (bookedSeat == null) {
+                System.out.println("Ghế không khả dụng");
+                return;
+            }
+            seatClass = bookedSeat.getSeatClass();
+
+            double ticketPrice = calculateTicketPrice(selectedShowTime.getMovie().getMovieClass(), seatClass,
+                    selectedShowTime.getFormatMovie(), selectedShowTime.getMovieTime());
+
+            Ticket ticket = new Ticket(AUTO_ID++, bookedSeat, selectedShowTime, ticketPrice, Main.LOGGED_IN_USER, LocalDateTime.now());
+            printHeader();
+            showTicketDetail(ticket);
+            saveTicket(ticket);
+            if (ticket.getPrice() > userBalance) {
+                System.out.println("Số dư tài khoản không đủ đê đặt vé.");
+                break;
+            }
+            userBalance = user.getBalance() - ticket.getPrice();
+            userService.updateUserBalance(userId, -ticketPrice);
         }
 
-    }
-}
 
+    }
+
+
+}

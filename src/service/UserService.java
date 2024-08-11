@@ -509,6 +509,17 @@ public class UserService {
         }
     }
 
+    public void updateUserBalance(int idUser, double amount) {
+        for (User user : users) {
+            if (user.getId() == idUser) {
+                user.setBalance(user.getBalance() + amount);
+                System.out.println("Số dư tài khoản của quý khách là " + user.getBalance());
+                saveUserData();// FILE - khi có thay đổi về list user, can luu vao file
+                return;
+            }
+        }
+    }
+
 }
 
 

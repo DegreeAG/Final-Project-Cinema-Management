@@ -35,7 +35,7 @@ public class UserMenu {
             System.out.println("1. Quản lý thông tin tài khoản: ");
             System.out.println("2. Danh sách phim mới");
             System.out.println("3. Tìm kiếm phim");
-            System.out.println("4. Đặt vé xem phim");
+            System.out.println("4. Quản lý thông tin vé xem phim");
             System.out.println("5. Review phim");
             System.out.println("6. Xem lịch sử đặt vé");
             System.out.println("7. Thoát");
@@ -51,17 +51,35 @@ public class UserMenu {
                 case 3:
                     showSearchMovieMenu();
                 case 4:
-                    User user = Main.LOGGED_IN_USER;
-                    ticketService.orderedTicket(user);
+                    showTicketMenu();
                     break;
                 case 5:
                     showMovieVotingMenu();
                     break;
                 case 6:
-                    List<Ticket> tickets = ticketService.findUserByName(Main.LOGGED_IN_USER);
+                    return;
+            }
+        }
+    }
+
+    private void showTicketMenu() {
+        while (true) {
+            System.out.println("------------ Quản lý thông tin vé xem phim------------");
+            System.out.println("1. Đặt vé xem phim");
+            System.out.println("2. Xem lịch sử đặt vé");
+            System.out.println("3. Thoát");
+            int featureChoice = InputUtil.chooseOption("Xin mời chọn chức năng",
+                    "Chức năng là số dương từ 1 tới 3, vui lòng nhập lại: ", 1, 3);
+            switch (featureChoice) {
+                case 1:
+                    User user = Main.LOGGED_IN_USER;
+                    ticketService.orderedTicket(user);
+                    break;
+                case 2:
+                    List<Ticket> tickets = ticketService.findByUserId(Main.LOGGED_IN_USER.getId());
                     ticketService.showTicketsOrder(tickets);
                     break;
-                case 7:
+                case 3:
                     return;
             }
         }

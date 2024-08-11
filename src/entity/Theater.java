@@ -59,7 +59,7 @@ public class Theater {
         this.status = status;
     }
 
-    public List<Seat> getSeats(Status status) {
+    public List<Seat> getSeats() {
         return seats;
     }
 

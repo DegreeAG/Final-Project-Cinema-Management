@@ -23,6 +23,7 @@ public class Ticket {
         this.totalAmount = totalAmount;
     }
 
+
     public Ticket(int id, Seat seat, ShowTime showTime, double price, User user, LocalDateTime createdDateTime) {
         this.id = id;
         this.seat = seat;
