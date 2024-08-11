@@ -261,7 +261,7 @@ public class TicketService {
     }
 
 
-    public int getAvailableSeatsCount() {
+    public int getAvailableSeatsCount(Theater theater) {
         int count = 0;
         for (Seat seat : seats) {
             if (seat.getStatus(Status.ACTIVE) == Status.ACTIVE) {
@@ -300,5 +300,45 @@ public class TicketService {
     public void orderedTicket(User user) {
         movieService.showingMovieList();
         showTimeService.showShowTimeByMovie();
+
+        System.out.println("Mời bạn nhập ID suất chiếu muốn chọn lựa: ");
+        int showtimeId;
+        while (true) {
+            try {
+                showtimeId = new Scanner(System.in).nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
+            }
+        }
+        ShowTime showTime = showTimeService.findShowTimeAvailableById(showtimeId);
+        showTimeService.showShowTime(showTime);
+        System.out.println("Mời bạn nhập số lượng vé muốn mua: ");
+        int ticketNumer;
+        while (true) {
+            try {
+                ticketNumer = new Scanner(System.in).nextInt();
+        if (ticketNumer > getAvailableSeatsCount(showTime.getTheater())) {
+            System.out.println("Số lượng vé bạn mua không được vượt quá số ghế trống còn trong rạp, xin vui lòng thử lại hoặc chọn suất chiếu khác");
+            System.out.println("Số ghế còn lại: " + getAvailableSeatsCount(showTime.getTheater()));
+            return;
+        }
+        break;
+            } catch (InputMismatchException e) {
+                System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
+            }
+
+        }
+        showSeatsAvailable();
+        for (int i = 0; i < ticketNumer; i++) {
+            System.out.println("Mời bạn nhập thông tin cho vé thứ" + (i + 1));
+            System.out.println("Mời bạn nhập hàng ghế muốn đặt:");
+            String row = new Scanner(System.in).nextLine();
+            System.out.println("Mời bạn nhập số ghế ngồi: ");
+            int seatNumber = new Scanner(System.in).nextInt();
+            Seat bookedSeat = bookSeat(row, seatNumber);
+        }
+
     }
 }
+

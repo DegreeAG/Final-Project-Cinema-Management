@@ -21,7 +21,7 @@ public class ShowTimeService {
     private static int AUTO_ID;
     private List<FormatMovie> formatMovies = new ArrayList<>();
     private List<ShowTime> showTimes = new ArrayList<>();
-    private List<Movie> movies;
+    private List<Movie> movies = new ArrayList<>();
     private final FileUtil<ShowTime> fileUtil = new FileUtil<>();
     private static final String SHOWTIME_DATA_FILE = "showtimes.json";
     private final MovieService movieService;
@@ -38,8 +38,8 @@ public class ShowTimeService {
     public void inputInfo() {
         LocalDateTime movieShowTime;
         while (true) {
-        System.out.println("Mời bạn nhập ngày chiếu phim theo định dạng HH:mm:ss yyyy/MM/dd: ");
-        String timeStart = new Scanner(System.in).nextLine();
+            System.out.println("Mời bạn nhập ngày chiếu phim theo định dạng HH:mm:ss yyyy/MM/dd: ");
+            String timeStart = new Scanner(System.in).nextLine();
             try {
                 movieShowTime = LocalDateTime.parse(timeStart, DateTimeFormatter.ofPattern("HH:mm:ss yyyy/MM/dd"));
                 break;
@@ -93,36 +93,36 @@ public class ShowTimeService {
                 case 5:
                     return;
             }
-            if (movie.getFormatMovie().contains(formatMovie)){
+            if (movie.getFormatMovie().contains(formatMovie)) {
                 break;
             } else {
                 System.out.println("Định dạng chiếu này không có cho phim đã chọn. Vui lòng chọn lại.");
             }
         } while (formatMovie == null);
-            ShowTime showTime = new ShowTime(AUTO_ID++, movie, theater, formatMovie, movieShowTime);
-            showTimes.add(showTime);
-            showShowTime(showTime);
-            saveShowTimeData();
+        ShowTime showTime = new ShowTime(AUTO_ID++, movie, theater, formatMovie, movieShowTime);
+        showTimes.add(showTime);
+        showShowTime(showTime);
+        saveShowTimeData();
     }
 
 
     private void saveShowTimeData() {
         fileUtil.writeDataToFile(showTimes, SHOWTIME_DATA_FILE);
     }
-    
 
-    private void showShowTime(ShowTime showTime) {
+
+    public void showShowTime(ShowTime showTime) {
         printHeader();
         showShowTimeDetail(showTime);
     }
 
     private void showShowTimeDetail(ShowTime showTime) {
-        System.out.printf("%-5s%-40s%-40s%-30s%-30s%n", showTime.getShowtimeId(), showTime.getMovie().getMovieName(),showTime.getFormatMovie() ,showTime.getTheater().getTheaterName(), showTime.getMovieTime());
+        System.out.printf("%-5s%-40s%-40s%-30s%-30s%n", showTime.getShowtimeId(), showTime.getMovie().getMovieName(), showTime.getFormatMovie(), showTime.getTheater().getTheaterName(), showTime.getMovieTime());
 
     }
 
     private void printHeader() {
-        System.out.printf("%-5s%-40s%-40s%-30s%-30s%n", "Id", "Movie", "FormatMovie" , "Theater", "MovieTime");
+        System.out.printf("%-5s%-40s%-40s%-30s%-30s%n", "Id", "Movie", "FormatMovie", "Theater", "MovieTime");
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
@@ -202,7 +202,7 @@ public class ShowTimeService {
                             case 5:
                                 return;
                         }
-                        if (showTime.getMovie().getFormatMovie().contains(formatMovie)){
+                        if (showTime.getMovie().getFormatMovie().contains(formatMovie)) {
                             break;
                         } else {
                             System.out.println("Định dạng chiếu này không có cho phim đã chọn. Vui lòng chọn lại.");
@@ -218,11 +218,10 @@ public class ShowTimeService {
     }
 
 
-
     public ShowTime findShowTimeAvailableById(int id) {
-        LocalTime now = LocalTime.now();
+        LocalDateTime now = LocalDateTime.now();
         for (ShowTime showTime : showTimes) {
-            if (showTime.getShowtimeId() == id && showTime.getMovieTime().isAfter(ChronoLocalDateTime.from(now)) ) {
+            if (showTime.getShowtimeId() == id && showTime.getMovieTime().isAfter(now)) {
                 return showTime;
             }
         }
@@ -231,7 +230,7 @@ public class ShowTimeService {
 
     public void showShowTimeAvailableDetail() {
         List<ShowTime> showtimeAvailable = new ArrayList<>();
-        for (ShowTime showTime : showTimes){
+        for (ShowTime showTime : showTimes) {
             if (!Objects.equals(showTime.getMovieTime(), LocalDateTime.now())) {
                 showtimeAvailable.add(showTime);
             }
@@ -242,7 +241,7 @@ public class ShowTimeService {
             System.out.println("------------------ CÁC SUẤT CHIẾU ------------------");
             printHeader();
             for (ShowTime showTime : showtimeAvailable) {
-                showShowTimeDetail(showTime); //TODO CHECK LATER
+                showShowTimeDetail(showTime);
             }
         }
     }
@@ -251,42 +250,43 @@ public class ShowTimeService {
         System.out.println("Mời bạn nhập id của bộ phim: ");
         int movieId = new Scanner(System.in).nextInt();
         List<ShowTime> showtimeByMovieAvailable = new ArrayList<>();
-        LocalTime now = LocalTime.now();
+        LocalDateTime now = LocalDateTime.now();
         printHeader();
-        for (Movie movie : movies) {
-            for (ShowTime showTime : showTimes) {
-                if (movie.getId() == movieId &&
-                        showTime.getMovieTime().isAfter(ChronoLocalDateTime.from(now))) {
-                    showtimeByMovieAvailable.add(showTime);
-                }
-            }
-            if (!showtimeByMovieAvailable.isEmpty()) {
-                System.out.println("Suất chiếu khả dụng cho phim " + movie.getMovieName() + ":");
-                System.out.println("------------------ CÁC SUẤT CHIẾU ------------------");
-                printHeader();
-                for (ShowTime showTime:showtimeByMovieAvailable) {
-                    showShowTimeDetail(showTime);
-                }
-            }else{
-                System.out.println("Không có suất chiếu khả dụng cho phim " + movie.getMovieName() + ".");
-            }
-        }
-    }
-
-    public void setShowTimes() {
-        List<ShowTime> showTimeList = fileUtil.readDataFromFile(SHOWTIME_DATA_FILE, ShowTime[].class);
-        showTimes = showTimeList != null ? showTimeList : new ArrayList<>();
-
-    }
-
-    public void findCurrentAutoId() {
-        int maxId = -1;
+        Movie movie = movieService.findMovieById(movieId);
         for (ShowTime showTime : showTimes) {
-            if (showTime.getShowtimeId() > maxId) {
-                maxId = showTime.getShowtimeId();
+            if (movie != null && movie.getId() == showTime.getMovie().getId() && showTime.getMovieTime().isAfter(now)) {
+                showtimeByMovieAvailable.add(showTime);
             }
         }
-        AUTO_ID = maxId + 1;
+        if (!showtimeByMovieAvailable.isEmpty()) {
+            System.out.println("Suất chiếu khả dụng cho phim " + movie.getMovieName() + ":");
+            System.out.println("------------------ CÁC SUẤT CHIẾU ------------------");
+            for (ShowTime showTime : showtimeByMovieAvailable) {
+                showShowTimeDetail(showTime);
+            }
+        } else {
+            System.out.println("Không có suất chiếu khả dụng cho phim ban vừa chọn");
+        }
     }
+
+
+
+
+public void setShowTimes() {
+    List<ShowTime> showTimeList = fileUtil.readDataFromFile(SHOWTIME_DATA_FILE, ShowTime[].class);
+    showTimes = showTimeList != null ? showTimeList : new ArrayList<>();
+
 }
+
+public void findCurrentAutoId() {
+    int maxId = -1;
+    for (ShowTime showTime : showTimes) {
+        if (showTime.getShowtimeId() > maxId) {
+            maxId = showTime.getShowtimeId();
+        }
+    }
+    AUTO_ID = maxId + 1;
+}
+
+    }
 

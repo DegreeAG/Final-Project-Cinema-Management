@@ -13,10 +13,10 @@ public class Seat {
     private Status status;
     private SeatClass seatClass;
 
-    public Seat(int id, String row, int seatQuantity, Status status, SeatClass seatClass) {
+    public Seat(int id, String row, int seatNumber, Status status, SeatClass seatClass) {
         this.id = id;
         this.row = row;
-        this.seatQuantity = seatQuantity;
+        this.seatNumber = seatNumber;
         this.status = status;
         this.seatClass = seatClass;
     }

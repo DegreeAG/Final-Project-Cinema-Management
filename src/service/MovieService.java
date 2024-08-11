@@ -444,6 +444,9 @@ public class MovieService {
         fileUtil2.writeDataToFile(formatMovies, FORMAT_DATA_FILE);
     }
 
+    public List<Movie> getMovies () {
+        return movies;
+    }
 
     public void saveMovieData() {
         fileUtil.writeDataToFile(movies, MOVIE_DATA_FILE);

@@ -58,6 +58,8 @@ public class TheaterService {
             System.out.println("Nhập số lượng ghế của hàng này: ");
             int seatQuantity = new Scanner(System.in).nextInt();
             for (int j = 0; j < seatQuantity; j++) {
+                System.out.println("Đánh số cho ghế thứ " + (j+1) + ":");
+                int seatNumber = new Scanner(System.in).nextInt();
                 if (i < 2) {
                     seatClass = SeatClass.STANDARD;
                 } else if (i < totalRows - 1) {
@@ -65,7 +67,7 @@ public class TheaterService {
                 } else {
                     seatClass = SeatClass.SWEETBOX;
                 }
-                seat = new Seat(AUTO_ID2++, rowName, j, Status.ACTIVE, seatClass);
+                seat = new Seat(AUTO_ID2++, rowName, seatNumber, Status.ACTIVE, seatClass);
             }
             seatsInTheater.add(seat);
         }
