@@ -3,18 +3,20 @@ package service;
 import constant.Regex;
 import constant.Status;
 import constant.UserRole;
+import entity.Ticket;
 import entity.User;
 import main.Main;
 import util.FileUtil;
 import util.InputUtil;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 
 public class UserService {
 
     private List<User> users;
-    private List<String> lockedUser = new ArrayList<>();
     private static final HashSet<String> lockUserByEmails = new HashSet<>();
     private static final String USER_DATA_FILE = "users.json";
     private static final String ADMIN_EMAIL = "admin@gmail.com";
@@ -240,16 +242,9 @@ public class UserService {
                 System.out.println(user);
             }
         }
-//                showUser(user);
     }
 
 
-    public void showUsers(List<User> users1) {
-        printHeader();
-        for (User user : users1) {
-            showUserDetail(user);
-        }
-    }
 
     public void printHeader() {
         System.out.printf("%-5s%-30s%-30s%-20s%-20s%-10s%-10s%-10s%n", "Id", "Name", "Email", "Phone", "Address", "Role", "Balance","Status");
@@ -348,7 +343,6 @@ public class UserService {
     }
 
     public void setUsers() {
-
         List<User> userList = fileUtil.readDataFromFile(USER_DATA_FILE, User[].class);
         users = userList != null ? userList : new ArrayList<>();
     }
@@ -393,94 +387,13 @@ public class UserService {
         return null;
     }
 
-//    public void updateUserInformationByAdmin() {
-//        System.out.println("Mời bạn nhập email tài khoản cần chỉnh sửa thông tin: ");
-//        String email = new Scanner(System.in).nextLine();
-//        User user = findUserByEmail(email);
-//        System.out.println("Mời bạn chọn phần thông tin muốn chỉnh sửa: ");
-//        System.out.println("1. Email");
-//        System.out.println("2. Password");
-//        System.out.println("3. Tên");
-//        System.out.println("4. Số điện thoại");
-//        System.out.println("5. Địa chỉ");
-//        System.out.println("6. Thoát");
-//        int featureChoice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
-//                "Chức năng là số dương từ 1 tới 6, vui lòng nhập lại: ", 1,6);
-//        switch (featureChoice) {
-//            case 1:
-//                String newEmail;
-//                while (true) {
-//                    System.out.println("Mời bạn nhập email mới: ");
-//                    newEmail = new Scanner(System.in).nextLine();
-//                    if (!newEmail.matches(Regex.EMAIL_REGEX)) {
-//                        System.out.println("Email không đúng định dạng vui lòng nhập lại");
-//                        continue;
-//                    }
-//                    boolean coTrungEmailKhong = false;
-//                    for (User user1 : users) {
-//                        if (newEmail.equalsIgnoreCase(user1.getEmail()) && user1.getId() != user.getId()) {
-//                            System.out.println("Email đã tồn tại vui lòng nhập lại");
-//                            coTrungEmailKhong = true;
-//                            break;
-//                        }
-//                    }
-//                    if (coTrungEmailKhong == false) {
-//                        break;
-//                    }
-//                }
-//                user.setEmail(newEmail);
-//                break;
-//            case 2:
-//                String newPassword;
-//                while (true) {
-//                    System.out.println("Mới bạn nhập password (8 -> 16 ký tự cả chữ thường, chữ hoa và cả số)");
-//                    newPassword = new Scanner(System.in).nextLine();
-//                    if (!newPassword.matches(Regex.PASSWORD_REGEX)) {
-//                        System.out.println("Password không đúng định dạng vui lòng nhập lại ");
-//                        continue;
-//                    }
-//                    break;
-//                }
-//                user.setPassword(newPassword);
-//                break;
-//            case 3:
-//                System.out.println("Mời bạn nhập tên mới: ");
-//                String newName = new Scanner(System.in).nextLine();
-//                user.setName(newName);
-//                break;
-//            case 4:
-//                String newPhone;
-//                while (true) {
-//                    System.out.println("Mời bạn nhập SĐT (đầu 0 và có 9 so tiep theo): ");
-//                    newPhone = new Scanner(System.in).nextLine();
-//                    if (!newPhone.matches(Regex.VN_PHONE_REGEX)) {
-//                        System.out.println("Số điện thoại không đúng định dạng , vui lòng nhập lại ");
-//                        continue;
-//                    }
-//                    break;
-//                }
-//                user.setPhone(newPhone);
-//                break;
-//            case 5:
-//                System.out.println("Mời bạn nhập địa chỉ mới : ");
-//                String newAddress = new Scanner(System.in).nextLine();
-//                user.setAddress(newAddress);
-//                break;
-//            case 6:
-//                return;
-//        }
-//        showUser(user);
-//        saveUserData();
-//
-//    }
 
     public void showBalance() {
         User user = getLoggedInUser();
         System.out.println("Số dư tài khoản của khách hàng là " + user.getBalance());
     }
 
-    public void transactionHistory() {
-    }
+
 
     public void lockedUserById(int idUserLock) {
 

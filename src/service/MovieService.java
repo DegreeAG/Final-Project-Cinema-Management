@@ -37,7 +37,7 @@ public class MovieService {
         for (Movie movie : movies) {
             if (movie.getMovieName().toLowerCase().contains(name.toLowerCase())) {
                 movies1.add(movie);
-            }else {
+            } else {
                 System.out.println("Hệ thống không có phim bạn vừa nhập");
             }
         }
@@ -56,7 +56,7 @@ public class MovieService {
 
     public Movie getMovieActive(int id) {
         for (Movie movie : movies) {
-            if (movie.getId()==id && movie.getStatus() == Status.ACTIVE) {
+            if (movie.getId() == id && movie.getStatus() == Status.ACTIVE) {
                 return movie;
             }
         }
@@ -444,7 +444,7 @@ public class MovieService {
         fileUtil2.writeDataToFile(formatMovies, FORMAT_DATA_FILE);
     }
 
-    public List<Movie> getMovies () {
+    public List<Movie> getMovies() {
         return movies;
     }
 
@@ -470,6 +470,7 @@ public class MovieService {
                 , movie.getPublishedYear(), movie.getVoteStar(), movie.getLanguage(), movie.getFormatMovie());
     }
 
+
     public void printHeader() {
         System.out.printf("%-5s%-40s%-40s%-30s%-25s%-15s%-20s%-60s%n", "Id", "Name", "Actor", "CateGory", "PublishedYear", "VoteStar", "Language", "Formats");
         System.out.println("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -483,6 +484,13 @@ public class MovieService {
                 continue;
             }
             break;
+        }
+    }
+
+    public void showAllMovieList() {
+        printHeader();
+        for (Movie movie : movies) {
+            showMovieDetail(movie);
         }
     }
 
@@ -511,21 +519,21 @@ public class MovieService {
         for (Movie movie : movies) {
             if (movie.getCategory().getIdCategory() == idCategory) {
                 movies1.add(movie);
-
             }
+        }
+            printHeader();
+        for ( Movie movie : movies1) {
+            showMovieDetail(movie);
         }
         return movies1;
     }
 
     public void showMoviesIfActive() {
         printHeader();
-        List<Movie> movies1 = new ArrayList<>();
         for (Movie movie : movies) {
             if (movie.getStatus(Status.ACTIVE) == Status.ACTIVE) {
-                movies1.add(movie);
-                System.out.println(movies1);
+                showMovieDetail(movie);
             }
-            return;
         }
     }
 
@@ -560,7 +568,10 @@ public class MovieService {
                 movies1.add(movie);
             }
         }
-        showMovies(movies1);
+        printHeader();
+        for (Movie movie : movies1) {
+            showMovieDetail(movie);
+        }
     }
 
 }

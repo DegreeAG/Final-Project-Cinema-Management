@@ -1,11 +1,13 @@
 package service;
 
 import constant.TransactionType;
-import entity.Transaction;
-import entity.User;
+import entity.*;
 import util.FileUtil;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -16,11 +18,14 @@ public class TransactionService {
     private final FileUtil<Transaction> fileUtil = new FileUtil<>();
     private static final String TRANSACTION_DATA_FILE = "transactions.json";
     private List<Transaction> transactionHistories;
-
+    private final MovieService movieService;
+    private final TicketService ticketService;
     private final UserService userService;
 
 
-    public TransactionService(UserService userService) {
+    public TransactionService(MovieService movieService, TicketService ticketService, UserService userService) {
+        this.movieService = movieService;
+        this.ticketService = ticketService;
         this.userService = userService;
     }
 
@@ -67,8 +72,6 @@ public class TransactionService {
         String message = switch (transactionType) {
             case DEPOSIT -> "Nạp tiền vào tài khoản";
 
-            case PUNISH -> "Tiền phạt đổi vé muộn";
-
             case WITHDRAW -> "Rút tiền khỏi tài khoản";
         };
         user.setBalance(user.getBalance() + money);
@@ -93,7 +96,8 @@ public class TransactionService {
                 System.out.println("Giá trị bạn vừa nhập không phải là một số tự nhiên . Vui lòng nhập lại.");
             }
         }
-
+        System.out.println("Bạn đã nạp tiền thành công!!");
+        System.out.println("Số dư tài khoản của bạn là: " + (user.getBalance() + money) + "VND");
         updateBalance(user, money, TransactionType.DEPOSIT);
     }
 
@@ -143,6 +147,66 @@ public class TransactionService {
                 System.out.println("Yêu cầu nhập vào 1 số tự nhiên ");
             }
         }
+        System.out.println("Bạn đã rút tiền thành công với số tiền là: " + money + "VND");
+        System.out.println("Số tiền còn lại trong tài khoản là: " + (user.getBalance() - money)  +"VND");
         updateBalance(user, -money, TransactionType.WITHDRAW);
     }
+
+    public void revenueStatisticsbyMovie() {
+        movieService.showAllMovieList();
+        Movie movie;
+        System.out.println("Mời bạn nhập id bộ phim muốn thống kê doanh thu: ");
+        int idMovie;
+        while (true) {
+            try {
+                idMovie = new Scanner(System.in).nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Giá trị bạn vừa nhập không phải là một số nguyên. Vui lòng nhập lại.");
+            }
+        }
+        movie = movieService.findMovieById(idMovie);
+        if (movie == null) {
+            System.out.println("Thông tin không chính xác , vui lòng nhập lại : ");
+        }
+        List<Ticket> soldTickets = ticketService.getTicketsByMovieId(idMovie); // Lấy danh sách vé đã bán theo ID bộ phim
+
+        if (soldTickets == null || soldTickets.isEmpty()) {
+            System.out.println("Không có vé nào được bán cho bộ phim này.");
+            return;
+        }
+        double totalRevenue = 0;
+        for (Ticket ticket : soldTickets) {
+            double ticketPrice = ticket.getPrice();
+            totalRevenue += ticketPrice;
+        }
+        System.out.println("Tổng doanh thu của bộ phim là: " + totalRevenue + " VND");
+    }
+
+    public void revenueStatisticsByDate() {
+        System.out.println("Mời bạn nhập ngày muốn thống kê doanh thu (yyyy/MM/dd): ");
+        String dateInput = new Scanner(System.in).next();
+        LocalDate date;
+        while (true) {
+            try {
+                date = LocalDate.parse(dateInput, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("Định dạng không hợp lệ, vui lòng nhập lại");
+            }
+        }
+        List<Ticket> soldTickets = ticketService.getTicketsByDate(date);
+        if (soldTickets == null || soldTickets.isEmpty()) {
+            System.out.println("Không có vé nào được bán trong ngày này.");
+            return;
+        }
+        double totalRevenue = 0;
+        for (Ticket ticket : soldTickets) {
+            totalRevenue += ticket.getPrice();
+        }
+        System.out.println("Tổng doanh thu của ngày " + dateInput + "là: " + totalRevenue + "VND" );
+
+    }
 }
+
+

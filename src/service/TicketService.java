@@ -8,15 +8,14 @@ import util.FileUtil;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class TicketService {
-    private List<User> users = new ArrayList<>();
-    private List<ShowTime> showTimes = new ArrayList<>();
+
     private List<Ticket> tickets = new ArrayList<>();
-    private List<Theater> theaters = new ArrayList<>();
-    private List<Seat> seats = new ArrayList<>();
-    private List<Movie> movies = new ArrayList<>();
+    private List<Movie> movies;
+
     private final FileUtil<Ticket> fileUtil = new FileUtil<>();
     private static final String TICKET_DATA_FILE = "tickets.json";
     private final UserService userService;
@@ -24,18 +23,16 @@ public class TicketService {
     private final SeatService seatService;
     private final MovieService movieService;
     private final TheaterService theaterService;
-    private final TransactionService transactionService;
     private static final double WEEKEND_SURCHARGE = 2.0;
     private static final double HOLIDAY_SURCHARGE = 4.0;
     private static int AUTO_ID;
 
-    public TicketService(UserService userService, ShowTimeService showTimeService, SeatService seatService, MovieService movieService, TheaterService theaterService, TransactionService transactionService) {
+    public TicketService(UserService userService, ShowTimeService showTimeService, SeatService seatService, MovieService movieService, TheaterService theaterService) {
         this.userService = userService;
         this.showTimeService = showTimeService;
         this.seatService = seatService;
         this.movieService = movieService;
         this.theaterService = theaterService;
-        this.transactionService = transactionService;
     }
 
     public void saveTicket(Ticket ticket) {
@@ -47,87 +44,6 @@ public class TicketService {
         fileUtil.writeDataToFile(tickets, TICKET_DATA_FILE);
     }
 
-
-//    public void orderedTicket(User user) {
-//        ShowTime selectedShowTime = null;
-//        movieService.showingMovieList();
-//        showTimeService.showShowTimeByMovie();
-//        System.out.println("Mời bạn nhập id của suất chiếu để đặt vé: ");
-//        int showTimeId;
-//        showTimeId = new Scanner(System.in).nextInt();
-//        for (ShowTime showTime : showTimes) {
-//            if (showTime.getShowtimeId() == showTimeId) {
-//                selectedShowTime = showTime;
-//                break;
-//            }
-//        }
-//        if (selectedShowTime == null) {
-//            System.out.println("Không tìm thấy suất chiếu với ID đã nhập. Vui lòng thử lại.");
-//            return;
-//        }
-//        showSeatsAvailable();
-//        System.out.println("Mời bạn lựa chọn ghế ngồi: ");
-//        System.out.println("Mời bạn nhập hàng ghế: ");
-//        String row = new Scanner(System.in).nextLine();
-//        System.out.println("Mời bạn nhập số ghế ngồi: ");
-//        int seatNumber = new Scanner(System.in).nextInt();
-//        Seat bookedSeat = bookSeat(row, seatNumber);
-//        SeatClass seatClass = bookedSeat.getSeatClass();
-//        double ticketPrice = calculateTicketPrice(selectedShowTime.getMovie().getMovieClass(), seatClass,
-//                selectedShowTime.getFormatMovie(), selectedShowTime.getMovieTime());
-//        Ticket ticket = new Ticket(AUTO_ID++, bookedSeat, selectedShowTime, ticketPrice, user, LocalDateTime.now());
-//        tickets.add(ticket);
-//        showTicket(ticket);
-//        saveTicketsData();
-//    }
-
-
-    private void showTicket(Ticket ticket) {
-        printHeader();
-        showTicketDetail(ticket);
-    }
-
-
-//    public void orderedTicket(User user) {
-//        int showTimeID = inputShowTimeID();
-//        ShowTime showTime = showTimeService.findShowTimeAvailableById(showTimeID);
-//        Seat seat;
-//        System.out.println("Nhập số vé bạn muốn mua: ");
-//        int ticketNumber = new Scanner(System.in).nextInt();
-//        chooseMultiOrSingleSeat(ticketNumber);
-//        for (Seat seat : seats) {
-//            SeatClass seatClass = seat.getSeatClass();
-//        double ticketPrice = calculateTicketPrice(showTime.getMovie().getMovieClass(), seatClass, showTime.getFormatMovie(), showTime.getMovieTime()  );
-//        Ticket ticket = Ticket(seat, showTime, ticketPrice, user, LocalDateTime.now(),, );
-//        tickets.add(ticket);
-//        saveTicketsData();
-//        }
-//
-//    }
-//
-//    private Seat chooseMultiOrSingleSeat (int ticketNumber) {
-//        Seat lastBookedSeat = null;
-//        List<Seat> bookedSeats = new ArrayList<>();
-//
-//        for (int i = 0; i < ticketNumber; i++) {
-//            Seat seat;
-//            do {
-//                String row = inputRow();
-//                int seatNumber = inputSeatNumber();
-//                seat = bookSeat(row, seatNumber);
-//                if (seat == null) {
-//                    System.out.println("Ghế không tồn tại hoặc đã được đặt. Vui lòng chọn ghế khác.");
-//                }
-//            } while (seat == null);
-//            bookedSeats.add(seat);
-//            lastBookedSeat = seat;
-//        }
-//
-//        // Thêm các ghế đã đặt vào danh sách chính
-//        seats.addAll(bookedSeats);
-//
-//        return lastBookedSeat;
-//    }
 
     private double calculateTicketPrice(MovieClass movieClass,
                                         SeatClass seatClass,
@@ -152,23 +68,6 @@ public class TicketService {
             dateSurcharge = HOLIDAY_SURCHARGE;
         }
         return dateSurcharge;
-    }
-
-    private int inputSeatNumber() {
-        int seatNumber = 0;
-        do {
-            try {
-                System.out.println("Mời bạn lựa chọn ghế ngồi: ");
-                seatNumber = new Scanner(System.in).nextInt();
-            } catch (InputMismatchException e) {
-                System.out.println("Lựa chọn phải là 1 số nguyên, vui lòng nhập lại");
-            }
-        } while (!isSeatNumberValid(seatNumber));
-        return seatNumber;
-    }
-
-    private boolean isSeatNumberValid(int seatNumber) {
-        return true;
     }
 
 
@@ -286,11 +185,20 @@ public class TicketService {
         }
     }
 
+    public void showTicketByMovie(Movie movie) {
+        for (Ticket ticket : tickets) {
+            if (ticket.getShowTime().getMovie() == movie) {
+                printHeader();
+                showTicketDetail(ticket);
+            }
+        }
+    }
+
 
     public void orderedTicket(User user) {
         movieService.showingMovieList();
         showTimeService.showShowTimeByMovie();
-        int userId =user.getId();
+        int userId = user.getId();
         System.out.println("Mời bạn nhập ID suất chiếu muốn chọn lựa: ");
         int showtimeId;
         while (true) {
@@ -350,9 +258,59 @@ public class TicketService {
             userBalance = user.getBalance() - ticket.getPrice();
             userService.updateUserBalance(userId, -ticketPrice);
         }
+    }
 
 
+    public List<Ticket> getTicketsByMovieId(int idMovie) {
+        List<Ticket> result = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            if (ticket.getShowTime().getMovie().getId() == idMovie) {
+                result.add(ticket);
+            }
+        }
+        return result;
+    }
+
+    public List<Ticket> getTicketsByDate(LocalDate date) {
+        List<Ticket> result = new ArrayList<>();
+        for (Ticket ticket : tickets) {
+            if (ticket.getCreatedDateTime().toLocalDate().equals(date)) {
+                result.add(ticket);
+            }
+        }
+        return result;
+    }
+
+
+    public void findNearestBuyTicketByUserId() {// tìm kiếm lượt mua gần nhất
+        List<Ticket> tickets = findByUserId(Main.LOGGED_IN_USER.getId());
+        long minDifference = Long.MAX_VALUE;
+        Ticket nearestOrder = null;
+        for (Ticket ticket : tickets) {
+            if (ticket.getCreatedDateTime() == null) {
+                continue;
+            }
+            long difference = ChronoUnit.DAYS.between(ticket.getCreatedDateTime(), LocalDate.now());
+            if (difference >= 0 && difference < minDifference) {
+                minDifference = difference;
+                nearestOrder = ticket;
+            }
+        }
+        showTicketOrderedNearest(nearestOrder);
+    }
+
+    private void showTicketOrderedNearest(Ticket nearestOrder) {
+        showTicketsDetail();
+    }
+
+    public void setTicketHistories() {
+        List<Ticket> ticketList = fileUtil.readDataFromFile(TICKET_DATA_FILE, Ticket[].class);
+        tickets = ticketList != null ? ticketList : new ArrayList<>();
     }
 
 
 }
+
+
+
+

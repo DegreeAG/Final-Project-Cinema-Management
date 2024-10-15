@@ -37,10 +37,9 @@ public class UserMenu {
             System.out.println("3. Tìm kiếm phim");
             System.out.println("4. Quản lý thông tin vé xem phim");
             System.out.println("5. Review phim");
-            System.out.println("6. Xem lịch sử đặt vé");
-            System.out.println("7. Thoát");
+            System.out.println("6. Thoát");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 7, vui lòng nhập lại: ", 1, 7);
+                    "Chức năng là số dương từ 1 tới 6, vui lòng nhập lại: ", 1, 6);
             switch (choice) {
                 case 1:
                     showAccountManagementMenu();
@@ -50,6 +49,7 @@ public class UserMenu {
                     break;
                 case 3:
                     showSearchMovieMenu();
+                    break;
                 case 4:
                     showTicketMenu();
                     break;
@@ -116,8 +116,6 @@ public class UserMenu {
         }
     }
 
-
-
     private void showMovieVotingMenu() {
         while (true) {
             System.out.println("------------ Quản lý lượt đánh giá phim ------------");
@@ -150,7 +148,7 @@ public class UserMenu {
             System.out.println("1. Tìm kiếm phim theo tên: ");
             System.out.println("2. Tìm kiếm phim theo tên thể loại: ");
             System.out.println("3. Tìm kiếm phim theo lượt vote từ 4-5 sao: ");
-            System.out.println("4 Thoát: ");
+            System.out.println("4. Thoát: ");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
                     "Chức năng là số dương từ 1 tới 4, vui lòng nhập lại: ", 1, 4);
             switch (choice) {

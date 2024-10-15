@@ -19,14 +19,16 @@ public class AdminMenu {
     private final TheaterService theaterService;
     private final ShowTimeService showTimeService;
     private final TicketService ticketService;
+    private final TransactionService transactionService;
 
-    public AdminMenu(UserService userService, MovieService movieService, MovieCategoryService movieCategoryService, TheaterService cinemaService, ShowTimeService showTimeService, TicketService ticketService) {
+    public AdminMenu(UserService userService, MovieService movieService, MovieCategoryService movieCategoryService, TheaterService cinemaService, ShowTimeService showTimeService, TicketService ticketService, TransactionService transactionService) {
         this.userService = userService;
         this.movieService = movieService;
         this.movieCategoryService = movieCategoryService;
         this.theaterService = cinemaService;
         this.showTimeService = showTimeService;
         this.ticketService = ticketService;
+        this.transactionService = transactionService;
     }
 
     public void menu() {
@@ -36,9 +38,8 @@ public class AdminMenu {
             System.out.println("2. Quản lý phim");
             System.out.println("3. Quản lý phòng chiếu");
             System.out.println("4. Quản lý lịch chiếu");
-            System.out.println("5. In thông tin vé chiếu đã đặt");
-            System.out.println("6. Thống kê doanh thu");
-            System.out.println("7. Thoát");
+            System.out.println("5. Thống kê doanh thu");
+            System.out.println("6. Thoát");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
                     "Chức năng là số dương từ 1 tới 7 vui lòng nhập lại: ", 1, 7);
             switch (choice) {
@@ -55,11 +56,31 @@ public class AdminMenu {
                     showtimeMenu();
                     break;
                 case 5:
-                    ticketService.showTicketsDetail();
+                    showProfitMenu();
                     break;
                 case 6:
+                    return;
+            }
+        }
+    }
+
+    private void showProfitMenu() {
+        while (true) {
+            System.out.println("------- PHẦN MỀM QUẢN LÝ VÀ MUA BÁN VÉ XEM PHIM CHIẾU RẠP --------");
+            System.out.println("------------------ QUẢN LÝ DOANH THU ------------------");
+            System.out.println("1. Thống kê doanh thu theo phim");
+            System.out.println("2. Thống kê doanh thu theo ngày");
+            System.out.println("3. Thoát");
+            int choice = InputUtil.chooseOption("Xin mời chọn chức năng: ",
+                    "Chức năng là số dương từ 1 tới 4, vui lòng nhập lại: ", 1, 4);
+            switch (choice) {
+                case 1:
+                    transactionService.revenueStatisticsbyMovie();
                     break;
-                case 7:
+                case 2:
+                    transactionService.revenueStatisticsByDate();
+                    break;
+                case 3:
                     return;
             }
         }
@@ -171,10 +192,11 @@ public class AdminMenu {
             System.out.println("2. Tạo mới tài khoản người dùng");
             System.out.println("3. Cập nhật thông tin người dùng");
             System.out.println("4. Quản lý hoạt động người dùng");
-            System.out.println("5. Lịch sử đặt vé của người dùng");
-            System.out.println("6. Thoát");
+            System.out.println("5. Lịch sử đặt vé gần nhất của người dùng");
+            System.out.println("6. Rút tiền từ tài khoản cho User");
+            System.out.println("7. Thoát");
             int choice = InputUtil.chooseOption("Xin mời chọn chức năng",
-                    "Chức năng là số dương từ 1 tới 6, vui lòng nhập lại: ", 1, 6);
+                    "Chức năng là số dương từ 1 tới 7, vui lòng nhập lại: ", 1, 7);
             switch (choice) {
                 case 1:
                     userService.findUserByMail();
@@ -198,12 +220,14 @@ public class AdminMenu {
                     break;
                 case 4:
                     statusUserManagementMenu();
-
                     break;
                 case 5:
-                    userService.transactionHistory();
+                    ticketService.findNearestBuyTicketByUserId();
                     break;
                 case 6:
+                    transactionService.withDraw();
+                    break;
+                case 7:
                     return;
 
             }
